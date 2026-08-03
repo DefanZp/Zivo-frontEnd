@@ -1,0 +1,106 @@
+<div>
+
+<section class="py-10">
+    <div class="container mx-auto px-0 lg:px-5">
+        <h1 class="text-5xl font-semibold mb-10">Your Cart</h1>
+        <div class="flex flex-col md:flex-row gap-8">
+            <div class="w-[65%] shadow-md p-6 rounded-xl border border-gray-200">
+                @for (item of cartItems(); track item.product.id) {
+                    <div class="flex flex-row gap-5">
+                        <div class="w-[30%] h-[120px] rounded-md overflow-hidden">
+                            <img 
+                                class="w-full h-full object-cover" 
+                                [src]="item.product.image_path" 
+                                [alt]="item.product.name">
+                        </div>
+                        <div class="w-[65%] flex flex-col">
+                            <p class="text-xl font-semibold mb-1">
+                                {{ item.product.name }}
+                            </p>
+                            <p class="mb-2">
+                                {{ item.product.category.name }}
+                            </p>
+                            <div class="flex flex-row justify-between items-center mt-auto">
+                                <div>
+                                    <div class="flex flex-row gap-2 text-xs mb-1">
+                                        <p >
+                                            Rp. {{ item.product.price }}
+                                        </p>
+                                        <p>
+                                            x
+                                        </p>
+                                        <p>
+                                            {{ item.quantity }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xl font-semibold">
+                                            Rp. {{ +item.product.price * item.quantity }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-row items-center gap-3">
+                                    <button
+                                        (click)="decreaseQuantity(item.product.id)" 
+                                        class="shadow-md rounded-full p-2">
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
+                                        </svg>
+                                    </button>
+                                    <p class="text-2xl font-semibold">
+                                        {{ item.quantity }}
+                                    </p>
+                                    <button
+                                        (click)="increaseQuantity(item.product.id)" 
+                                        class="shadow-md rounded-full p-2">
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-[5%] flex flex-row items-start justify-end">
+                            <button 
+                                (click)="removeFromCart(item.product.id)"
+                                class="shadow-md rounded-full p-2">
+                               <svg class="w-6 h-6 text-red-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="w-full border border-gray-200 my-8 block last:hidden"></div>
+                }
+
+                @empty {
+                    <p class="text-2xl font-semibold">Keranjangmu masih kosong</p>
+                }
+
+            </div>
+            <div class="w-[35%] flex flex-col shadow-md p-6 rounded-xl border border-gray-200">
+                <p class="text-xl font-semibold mb-6">
+                    Ringkasan pesanan
+                </p>
+
+                <div class="flex flex-row items-center justify-between ">
+                    <div>SubTotal</div>
+                    <div class="font-semibold">Rp. {{ cartTotal() }}</div>
+                </div>
+                
+                <div class="mt-auto">
+                    <div class="w-full h-0.5 bg-gray-200 my-6"></div>
+                    
+                    <button 
+                        (click)="navigateToCheckout()"
+                        class="w-full p-4 bg-black text-white rounded-md ">
+                        Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div>

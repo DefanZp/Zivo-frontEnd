@@ -1,0 +1,84 @@
+<div>
+    <section class="py-12">
+        <div class="container mx-auto px-5 lg:px-0">
+            <div class="flex flex-row items-center justify-between mb-10">
+                <h1 class="text-4xl font-semibold">Daftar Produk</h1>
+                <button 
+                    (click)="goToCreateProduct()"
+                    class="px-3 py-1 bg-green-500 text-white rounded-md">
+                    Tambah Produk
+                </button>
+            </div>
+            @if (loading()) {
+                <app-loading 
+                    type="spinner">
+                </app-loading>
+            } 
+
+            @else if (products().length === 0) {
+                <app-empty-state 
+                    type="empty" 
+                    title="Belum ada produk tersedia">
+                </app-empty-state>
+            }
+            
+            @else {
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="p-4 text-left">Gambar</th>
+                            <th class="p-4 text-left">Nama</th>
+                            <th class="p-4 text-left">Kategori</th>
+                            <th class="p-4 text-left">Harga</th>
+                            <th class="p-4 text-left">Stok</th>
+                            <th class="p-4 text-left">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (product of products(); track product.id) {
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="p-4">
+                                    <img 
+                                        class="w-12 h-12 object-cover rounded-md"
+                                        [src]="product.image_path"
+                                        [alt]="product.name">
+                                </td>
+                                <td class="p-4">{{ product.name }}</td>
+                                <td class="p-4">{{ product.category.name }}</td>
+                                <td class="p-4">Rp {{ product.price }}</td>
+                                <td class="p-4">{{ product.stock }}</td>
+                                <td class="p-4">
+                                    <div class="flex gap-2">
+                                        <button
+                                            (click)="goToEditProduct(product.id)" 
+                                            class="px-3 py-1 bg-black text-white rounded-md text-xs">
+                                            Edit
+                                        </button>
+                                        <button 
+                                            (click)="openDeleteModal(product.id)"
+                                            class="px-3 py-1 bg-red-500 text-white rounded-md text-xs">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </section>
+</div>
+
+<app-confirmation-modal
+    [isOpen]="showDeleteModal()"
+    [loading]="deleting()"
+    variant="danger"
+    title="Hapus produk"
+    description="Produk ini akan dihapus secara permanen."
+    warningText="Tindakan ini tidak bisa dibatalkan."
+    confirmText="Hapus"
+    loadingText="Menghapus..."
+    (confirm)="deleteProduct()"
+    (cancel)="closeDeleteModal()"
+/>

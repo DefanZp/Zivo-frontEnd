@@ -1,0 +1,41 @@
+<div class="flex flex-col items-center justify-center text-center py-20 px-5">
+
+  <div class="w-16 h-16 rounded-full bg-ink-100 flex items-center justify-center mb-5">
+
+    <!-- Empty / no product -->
+    <svg *ngIf="type() === 'empty'" class="w-7 h-7 text-ink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+    </svg>
+
+    <!-- Search -->
+    <svg *ngIf="type() === 'search'" class="w-7 h-7 text-ink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+
+    <!-- Error -->
+    <svg *ngIf="type() === 'error'" class="w-7 h-7 text-ink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        d="M12 9v3.75m0 3.75h.008v.008H12v-.008zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+
+    <!-- Cart -->
+    <svg *ngIf="type() === 'cart'" class="w-7 h-7 text-ink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 1.994-4.708 2.591-7.201.163-.677-.371-1.299-1.068-1.299H5.25M7.5 14.25L5.106 5.272M7.5 14.25L5.106 5.272m0 0L4.5 3m2.25 15.75a.75.75 0 100 1.5.75.75 0 000-1.5zm11.25 0a.75.75 0 100 1.5.75.75 0 000-1.5z" />
+    </svg>
+
+  </div>
+
+  <p class="heading-16s text-ink-900">{{ title() }}</p>
+
+  <p *ngIf="description()" class="mt-1.5 paragraph-14r text-ink-500 max-w-xs">
+    {{ description() }}
+  </p>
+
+  <div class="mt-5">
+    <ng-content></ng-content>
+  </div>
+
+</div>

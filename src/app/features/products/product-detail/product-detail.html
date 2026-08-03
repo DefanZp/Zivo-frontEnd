@@ -1,0 +1,65 @@
+<section class="py-12">
+    <div class="container mx-auto px-5 lg:px-0">
+        <div>
+            @if (loading()) {
+                <app-loading 
+                    type="spinner">
+                </app-loading>
+            } @else if (errorMessage()){
+                <app-empty-state 
+                        class="col-span-full"
+                        type="error" 
+                        title="Gagal memuat produk" 
+                        [description]="errorMessage()">
+                        <button
+                            (click)="loadProduct()"
+                            class="px-6 py-2.5 bg-ink-950 text-white paragraph-14r rounded-full hover:bg-ink-800 transition">
+                            Coba Lagi
+                        </button>
+                </app-empty-state>
+            } @else if (product(); as product) {
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <div class="w-[60%] h-[450px] rounded-md overflow-hidden">
+                        <img 
+                            class="w-full h-full object-cover"
+                            [src]="product.image_path"
+                            [alt]="product.name"
+                        />
+                    </div>
+                    <div class="w-[40%]">
+                        <div class="bg-black rounded-md px-4 py-2 justify-self-start mb-4">
+                            <p class="text-white font-semibold">{{ product.category.name }}</p>
+                        </div>
+                        <div class="text-4xl font-bold mb-4">
+                            {{ product.name }}
+                        </div>
+                        <div class="mb-8 text-xl line-clamp-3">
+                            {{ product.description }}
+                        </div>
+
+                        <div class="w-full h-0.5 bg-gray-200 my-6"></div>
+
+                        <div class="flex justify-between items-center">
+                            <div class="text-3xl font font-semibold">
+                                Rp. {{ +product.price }}
+                            </div>
+                            <div class="text-xl font font-semibold">
+                                Stock: {{ product.stock }}
+                            </div>
+                        </div>
+
+                        <div class="w-full h-0.5 bg-gray-200 my-6"></div>
+
+                        <app-cart-button
+                            [addingToCart]="addingToCart()"
+                            [isInCart]="isInCart()"
+                            [text]="'Add to Cart'"
+                            [loadingText]="'Adding...'"
+                            (click)="addToCart()">
+                        </app-cart-button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

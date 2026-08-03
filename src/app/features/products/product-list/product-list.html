@@ -1,0 +1,126 @@
+<div>
+    <section class="py-10">
+        <div class="container mx-auto px-5 lg:px-0">
+            <form [formGroup]="searchForm" class="flex flex-row gap-4 mb-12">
+
+                <!-- Input pencarian -->
+                <input
+                type="text"
+                class="w-[70%] p-4 border border-gray-200 rounded-md"
+                formControlName="search"
+                placeholder="Cari produk" />
+
+                <!-- Dropdown sort -->
+                <select
+                class="w-[15%] p-4 border border-gray-200 rounded-md"
+                formControlName="sortIndex">
+                @for (option of sortOptions; track $index) {
+                    <option [value]="$index">{{ option.label }}</option>
+                }
+                </select>
+
+                <!-- Dropdown kategori -->
+                 <select
+                class="w-[15%] p-4 border border-gray-200 rounded-md"
+                formControlName="category">
+                <option value="">Semua Kategori</option>
+                @for (category of categories(); track $index) {
+                    <option [value]="category.id">{{ category.name }}</option>
+                }
+                </select>
+
+            </form>
+            <div class="grid grid-cols-4 gap-6">
+                @if (loading()) {
+                    <app-loading 
+                        class="col-span-full" 
+                        [items]="4" 
+                        type="skeleton-grid">
+                    </app-loading>
+                } @else if (errorMessage()) {
+                    <app-empty-state 
+                        class="col-span-full"
+                        type="error" 
+                        title="Gagal memuat produk" 
+                        [description]="errorMessage()">
+                        <button
+                            (click)="loadProducts()"
+                            class="px-6 py-2.5 bg-ink-950 text-white paragraph-14r rounded-full hover:bg-ink-800 transition">
+                            Coba Lagi
+                        </button>
+                    </app-empty-state>
+                } 
+                @else if (products().length === 0) {
+                <div class="col-span-full">
+                    <app-empty-state 
+                        type="empty" 
+                        title="Belum ada produk tersedia">
+                    </app-empty-state>
+                </div>
+                }
+                @else {
+                    @for (product of products(); track product.id) {
+                        <a
+                        [routerLink]="['/product', product.id]"
+                        class="group flex flex-col rounded-2xl border border-ink-200 overflow-hidden hover:shadow-xl  transition-all duration-300">
+
+                            <div class="relative w-full aspect-square overflow-hidden bg-ink-100">
+                                <img
+                                    class="w-full h-full object-cover group-hover:scale-110 transition duration-500 ease-out"
+                                    [src]="product.image_path"
+                                    [alt]="product.name">
+                                <span class="absolute top-3 left-3 bg-white/90 backdrop-blur label-11m text-ink-900 px-3 py-1 rounded-full">
+                                    {{ product.category.name }}
+                                </span>
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition"></div>
+                            </div>
+
+                            <div class="flex flex-col flex-1 p-4">
+                                <p class="heading-16s text-ink-900 capitalize line-clamp-1">{{ product.name }}</p>
+                                <p class="mt-1 paragraph-14r text-ink-500 capitalize line-clamp-2 flex-1">{{ product.description }}</p>
+
+                                <div class="mt-4 flex items-center justify-between">
+                                    <p class="heading-20s text-ink-900">
+                                        Rp {{ +product.price  }}
+                                    </p>
+                                    <span class="w-9 h-9 flex items-center justify-center rounded-full bg-ink-100 group-hover:bg-black group-hover:text-white text-ink-700 transition">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                }
+            </div>
+            @if (products() && pages().length > 1 ) {
+                <div class="flex flex-row gap-2 mt-8 justify-self-center">
+                    <button
+                        (click)="goToPreviousPage()"
+                        [disabled]="currentPage() === 1"
+                        class="w-18 h-9 cursor-pointer rounded-md border bg-black text-white border-gray-200 text-sm
+                            disabled:opacity-50">
+                        Previous
+                    </button>
+                    @for (page of pages(); track $index) {
+                        <button
+                            (click)="goToPage(page)"
+                            [class.bg-black]="page === currentPage()"
+                            [class.text-white]="page === currentPage()"
+                            class="w-9 h-9 cursor-pointer rounded-full border border-gray-200 text-sm">
+                            {{ page }}
+                        </button>
+                    }
+                    <button
+                        (click)="goToNextPage()"
+                        [disabled]="currentPage() === lastPage()"
+                        class="w-18 h-9 cursor-pointer rounded-md border bg-black text-white border-gray-200 text-sm
+                            disabled:opacity-50">
+                        Next
+                    </button>
+                </div>
+            }
+        </div>
+    </section>
+</div>

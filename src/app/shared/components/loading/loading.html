@@ -1,0 +1,36 @@
+<!-- SPINNER MODE -->
+<div
+  *ngIf="type() === 'spinner'"
+  class="flex flex-col items-center justify-center gap-4 py-20 px-5"
+>
+  <div
+    class="w-10 h-10 rounded-full border-[3px] border-ink-200 border-t-ink-950 animate-spin"
+  ></div>
+  <p class="label-12m text-ink-500">
+    Memuat produk...
+  </p>
+</div>
+
+<!-- SKELETON GRID (product listing) -->
+<div
+  *ngIf="type() === 'skeleton-grid'"
+  class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 p-5 animate-pulse"
+>
+  <div class="flex flex-col gap-2.5" *ngFor="let i of [].constructor(items())">
+    <div class="aspect-square rounded-lg bg-ink-100"></div>
+    <div class="h-3 rounded bg-ink-100 w-[70%]"></div>
+    <div class="h-3 rounded bg-ink-100 w-[40%]"></div>
+    <div class="h-3.5 rounded bg-ink-200 w-[50%]"></div>
+  </div>
+</div>
+
+<!-- SKELETON LIST (cart / order list) -->
+<div *ngIf="type() === 'skeleton-list'" class="flex flex-col gap-4 p-5 animate-pulse">
+  <div class="flex items-center gap-3.5" *ngFor="let i of [].constructor(items())">
+    <div class="w-16 h-16 flex-shrink-0 rounded-lg bg-ink-100"></div>
+    <div class="flex flex-col gap-2 flex-1">
+      <div class="h-3 rounded bg-ink-100 w-[60%]"></div>
+      <div class="h-3 rounded bg-ink-100 w-[30%]"></div>
+    </div>
+  </div>
+</div>

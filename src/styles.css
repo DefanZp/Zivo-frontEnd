@@ -1,3 +1,136 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
 
-@import 'tailwindcss';
+/*
+  Font sources — tambahkan ini di <head> (index.html) atau via @font-face lokal:
+  - Fraunces   → display/heading (serif editorial, dipakai terbatas untuk headline & harga besar)
+  - Inter      → body/UI (paragraf, tombol, form, navigasi)
+  - IBM Plex Mono → label, kategori badge, SKU, harga kecil (aksen "receipt/tag" khas retail)
+*/
+
+@theme {
+
+    /* dynamic-theme-website (biarkan untuk theming di masa depan) */
+    --color-primary: var(--color-primary);
+    --color-primary-hover: var(--color-primary-hover);
+    --color-primary-light: var(--color-primary-light);
+    --color-primary-ultra-light: var(--color-primary-ultra-light);
+
+    /* Ink — skala monokrom hangat (bukan abu-abu generik).
+       950 = hitam pekat untuk teks/CTA utama.
+       50   = putih gading, bukan putih murni, supaya tidak terasa klinis. */
+    --color-ink-950: #0A0A0A;
+    --color-ink-900: #141414;
+    --color-ink-800: #1F1F1F;
+    --color-ink-700: #2E2E2E;
+    --color-ink-600: #4A4A4A;
+    --color-ink-500: #6B6B6B;
+    --color-ink-400: #949490;
+    --color-ink-300: #C2C1BB;
+    --color-ink-200: #E2E0D9;
+    --color-ink-100: #F0EEE7;
+    --color-ink-50: #FAFAF7;
+
+    /* Border radius scale */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-full: 999px;
+
+    /* Shadow — soft, monokrom, tanpa warna (menghindari drop shadow biru default browser) */
+    --shadow-card: 0 1px 2px rgba(10, 10, 10, 0.04), 0 8px 24px rgba(10, 10, 10, 0.06);
+    --shadow-card-hover: 0 4px 8px rgba(10, 10, 10, 0.06), 0 16px 32px rgba(10, 10, 10, 0.10);
+}
+
+/* ===================================================================
+   TYPOGRAPHY — mobile-first base, di-override di breakpoint desktop
+   =================================================================== */
+
+/* Heading — Fraunces, dipakai untuk headline & judul section saja */
+.heading-72,
+.heading-56s,
+.heading-48s,
+.heading-42s,
+.heading-40s,
+.heading-32s,
+.heading-24s,
+.heading-22s,
+.heading-20s,
+.heading-16s,
+.heading-16 {
+  font-family: "Fraunces", serif;
+  letter-spacing: -0.01em;
+}
+
+/* Paragraph / UI — Inter */
+.paragraph-12s,
+.paragraph-12r,
+.paragraph-14r,
+.paragraph-16r,
+.paragraph-16s,
+.paragraph-20r {
+  font-family: "Inter", sans-serif;
+}
+
+/* Label — IBM Plex Mono, elemen signature: dipakai untuk badge kategori,
+   harga, SKU, dan micro-copy — memberi rasa "price tag / receipt" yang
+   khas retail, bukan sekadar sans-serif uppercase biasa. */
+.label-14m,
+.label-12m,
+.label-11m {
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* mobile defaults */
+.heading-72   { font-weight: 400; font-size: 40px; line-height: 120%; }
+.heading-56s  { font-weight: 600; font-size: 32px; line-height: 120%; }
+.heading-48s  { font-weight: 600; font-size: 28px; line-height: 125%; }
+.heading-42s  { font-weight: 600; font-size: 26px; line-height: 125%; }
+.heading-40s  { font-weight: 600; font-size: 24px; line-height: 130%; }
+.heading-32s  { font-weight: 600; font-size: 22px; line-height: 130%; }
+.heading-24s  { font-weight: 600; font-size: 20px; line-height: 140%; }
+.heading-22s  { font-weight: 600; font-size: 19px; line-height: 140%; }
+.heading-20s  { font-weight: 600; font-size: 18px; line-height: 145%; }
+.heading-16s  { font-weight: 600; font-size: 16px; line-height: 150%; }
+.heading-16   { font-weight: 400; font-size: 16px; line-height: 150%; }
+
+.paragraph-12s { font-weight: 600; font-size: 12px; line-height: 165%; }
+.paragraph-12r { font-weight: 400; font-size: 12px; line-height: 165%; }
+.paragraph-14r { font-weight: 400; font-size: 14px; line-height: 165%; }
+.paragraph-16r { font-weight: 400; font-size: 15px; line-height: 165%; }
+.paragraph-16s { font-weight: 500; font-size: 15px; line-height: 165%; }
+.paragraph-20r { font-weight: 400; font-size: 17px; line-height: 160%; }
+
+.label-14m { font-weight: 500; font-size: 13px; line-height: 140%; }
+.label-12m { font-weight: 500; font-size: 12px; line-height: 140%; }
+.label-11m { font-weight: 400; font-size: 11px; line-height: 140%; }
+
+/* ===================================================================
+   Desktop overrides
+   =================================================================== */
+@media (min-width: 1200px) {
+
+  .heading-72   { font-size: 72px; line-height: 130%; }
+  .heading-56s  { font-size: 56px; line-height: 130%; }
+  .heading-48s  { font-size: 48px; line-height: 130%; }
+  .heading-42s  { font-size: 42px; line-height: 130%; }
+  .heading-40s  { font-size: 42px; line-height: 130%; }
+  .heading-32s  { font-size: 32px; line-height: 130%; }
+  .heading-24s  { font-size: 24px; line-height: 175%; }
+  .heading-22s  { font-size: 22px; line-height: 175%; }
+  .heading-20s  { font-size: 20px; line-height: 175%; }
+  .heading-16s  { font-size: 16px; line-height: 175%; }
+  .heading-16   { font-size: 16px; line-height: 175%; }
+
+  .paragraph-12s { font-size: 12px; line-height: 175%; }
+  .paragraph-12r { font-size: 12px; line-height: 175%; }
+  .paragraph-14r { font-size: 14px; line-height: 175%; }
+  .paragraph-16r { font-size: 16px; line-height: 175%; }
+  .paragraph-16s { font-size: 16px; line-height: 175%; }
+  .paragraph-20r { font-size: 20px; line-height: 175%; }
+
+  .label-14m { font-size: 14px; }
+  .label-12m { font-size: 12px; }
+  .label-11m { font-size: 11px; }
+}

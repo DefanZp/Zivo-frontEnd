@@ -1,0 +1,31 @@
+<nav>
+    <div class="container mx-auto px-5 lg:px-0 flex flex-row justify-between py-5">
+        <h2>Mini E-Commerce</h2>
+
+        <button (click)="navigateToAdminProducts()" class="p-2">
+            Admin Products
+        </button>
+
+        <button (click)="navigateToCart()" class="p-2">
+            Cart
+        </button>
+
+        <button 
+            (click)="openLogoutModal()"
+            class="p-2 bg-black text-white">Logout</button>
+    </div>
+</nav>
+
+<!-- Logout modal  -->
+
+<app-confirmation-modal
+    [isOpen]="showLogoutModal()"
+    [loading]="logouting()"
+    variant="warning"
+    title="Keluar dari akun?"
+    description="Kamu akan keluar dari akunmu dan harus masuk kembali untuk mengakses fitur ini."
+    confirmText="Keluar"
+    loadingText="Keluar..."
+    (confirm)="logout()"
+    (cancel)="closeLogoutModal()"
+/>

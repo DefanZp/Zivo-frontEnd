@@ -1,0 +1,78 @@
+
+<div>
+    <section class="py-12">
+        <div class="container mx-auto px-5 lg:px-0">
+            <div class="flex flex-row items-center justify-between mb-10">
+                <h1 class="text-4xl font-semibold">Daftar Order</h1>
+            </div>
+            @if (loading()) {
+                 <app-loading 
+                    type="spinner">
+                </app-loading>
+            } @else if (errorMessage()) {
+                <app-empty-state 
+                        type="error" 
+                        title="Gagal memuat order" 
+                        [description]="errorMessage()">
+                        <button
+                            (click)="loadOrders()"
+                            class="px-6 py-2.5 bg-ink-950 text-white paragraph-14r rounded-full hover:bg-ink-800 transition">
+                            Coba Lagi
+                        </button>
+                </app-empty-state>
+            } 
+            @else if (orders().length === 0) {
+                <app-empty-state 
+                    type="empty" 
+                    title="Belum ada order ">
+                </app-empty-state>
+            }
+            @else {
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="p-4 text-left">Customer</th>
+                            <th class="p-4 text-left">Phone</th>
+                            <th class="p-4 text-left">Total</th>
+                            <th class="p-4 text-left">Status</th>
+                            <th class="p-4 text-left">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (order of orders(); track order.id) {
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="p-4">
+                                    {{ order.customer_name }}
+                                </td>
+                                <td class="p-4">{{ order.phone }}</td>
+                                <td class="p-4">Rp {{ +order.total_price }}</td>
+                                <td class="p-4">
+                                    <select
+                                        (change)="updateStatus(order.id, $any($event.target).value)"
+                                        class="p-2 border border-gray-200 rounded-md text-sm">
+                                        @for (option of statusOptions; track option.value) {
+                                            <option 
+                                                [value]="option.value"
+                                                [selected]="option.value === order.status">  <!-- ← tambahkan ini -->
+                                                {{ option.label }}
+                                            </option>
+                                        }
+                                    </select>
+                                </td>
+                                <td class="p-4">
+                                    <div class="flex gap-2">
+                                        <button
+                                            (click)="goToDetailOrder(order.id)"
+                                            class="px-3 py-1 bg-black text-white rounded-md text-xs">
+                                            Detail
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </section>
+</div>
