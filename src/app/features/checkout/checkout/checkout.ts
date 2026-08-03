@@ -7,12 +7,14 @@ import { CheckoutRequest } from '../../../core/models/checkout-request.model';
 import { CheckoutItem } from '../../../core/models/checkout-item.model';
 import { LoadingButton } from '../../../shared/components/loading-button/loading-button';
 import { Toast } from '../../../core/services/toast';
+import { TextInput } from '../../../shared/components/text-input/text-input';
 
 @Component({
   selector: 'app-checkout',
   imports: [
     ReactiveFormsModule,
     LoadingButton,
+    TextInput,
   ],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',

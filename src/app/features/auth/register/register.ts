@@ -4,13 +4,15 @@ import { Auth } from '../../../core/services/auth';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Toast } from '../../../core/services/toast';
+import { TextInput } from '../../../shared/components/text-input/text-input';
 
 @Component({
   selector: 'app-register',
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    RouterLink
+    RouterLink,
+    TextInput,
   ],
   templateUrl: './register.html',
   styleUrl: './register.css',

@@ -4,13 +4,15 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { Auth } from '../../../core/services/auth';
 import { Router, RouterLink } from '@angular/router';
 import { Toast } from '../../../core/services/toast';
+import { TextInput } from '../../../shared/components/text-input/text-input';
 
 @Component({
   selector: 'app-login',
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    TextInput,
   ],
   templateUrl: './login.html',
   styleUrl: './login.css',

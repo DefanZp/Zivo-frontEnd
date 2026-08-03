@@ -8,7 +8,7 @@
                         [formGroup]="checkoutForm"
                         (ngSubmit)="submitCheckout()"
                         class="flex flex-col gap-4">
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-2 gap-4 md:gap-6">
                             @if (errorMessage()) {
                                 <div class="col-span-2">
                                     <p class="text-red-500">
@@ -16,33 +16,27 @@
                                     </p>
                                 </div>
                             }
-                            <div class="space-y-2">
-                                <div>Customer Name</div>
-                                <input 
-                                    class="w-full p-4 border border-gray-200 rounded-md"
-                                    type="text"
-                                    placeholder="Customer Name"
-                                    formControlName="customer_name"
-                                />
-                            </div>
-                            <div class="space-y-2">
-                                <div>Phone</div>
-                                <input 
-                                    class="w-full p-4 border border-gray-200 rounded-md"
-                                    type="tel"
-                                    placeholder="Phone"
-                                    formControlName="phone"
-                                />
-                            </div>
-                            <div class="space-y-2 col-span-2">
-                                <div>Address</div>
-                                <input 
-                                    class="w-full p-4 border border-gray-200 rounded-md"
-                                    type="text"
-                                    placeholder="Address"
-                                    formControlName="address"
-                                />
-                            </div>
+                            <app-text-input
+                                class="block"
+                                [label]="'Customer Name'"
+                                [type]="'text'"
+                                [placeholder]="'Customer name'"
+                                [control]="checkoutForm.controls.customer_name"
+                             />
+                            <app-text-input
+                                class="block"
+                                [label]="'Phone'"
+                                [type]="'tel'"
+                                [placeholder]="'Phone'"
+                                [control]="checkoutForm.controls.phone"
+                             />
+                            <app-text-input
+                                class="block"   
+                                [label]="'Address'"
+                                [type]="'text'"
+                                [placeholder]="'Address'"
+                                [control]="checkoutForm.controls.address"
+                             />
                             <app-loading-button
                                 [loading]="loading()"
                                 [text]="'Checkout'"

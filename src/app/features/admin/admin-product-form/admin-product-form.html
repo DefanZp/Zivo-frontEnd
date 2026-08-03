@@ -6,66 +6,48 @@
                 [formGroup]="createProductForm" 
                 (ngSubmit)="submitForm()"
                 class="grid grid-cols-2 gap-6 shadow-md rounded-md p-8">
-                <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Name
-                    </label>
-                    <input 
-                        type="text"  
-                        class="w-full p-4 border border-gray-200 rounded-md"
-                        placeholder="Name"
-                        formControlName="name">
-                </div>
-                <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Description
-                    </label>
-                    <input 
-                        type="text"  
-                        class="w-full p-4 border border-gray-200 rounded-md"
-                        placeholder="Description"
-                        formControlName="description">
-                </div>
-                <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Price
-                    </label>
-                    <input 
-                        type="number"  
-                        class="w-full p-4 border border-gray-200 rounded-md"
-                        placeholder="Price"
-                        formControlName="price">
-                </div>
-                <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Stock 
-                    </label>
-                    <input 
-                        type="number"  
-                        class="w-full p-4 border border-gray-200 rounded-md"
-                        placeholder="Stock"
-                        formControlName="stock">
-                </div>
-                <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Category Id 
-                    </label>
-                    <input 
-                        type="number"  
-                        class="w-full p-4 border border-gray-200 rounded-md"
-                        placeholder="Category Id"
-                        formControlName="category_id">
-                </div>
-                <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2">
-                        Image 
-                    </label>
-                    <input 
-                        type="text"  
-                        class="w-full p-4 border border-gray-200 rounded-md"
-                        placeholder="Image Path"
-                        formControlName="image_path">
-                </div>
+                <app-text-input 
+                    class="block"
+                    [label]="'Name'"
+                    [type]="'text'"
+                    [placeholder]="'Product Name'"
+                    [control]="createProductForm.controls.name"
+                />
+                <app-text-input 
+                    class="block"
+                    [label]="'Description'"
+                    [type]="'text'"
+                    [placeholder]="'Product Description'"
+                    [control]="createProductForm.controls.description"
+                />
+                <app-text-input
+                    class="block"
+                    [label]="'Price'"
+                    [type]="'number'"
+                    [placeholder]="'Product Price'"
+                    [control]="createProductForm.controls.price"
+                 />
+                <app-text-input
+                    class="block"
+                    [label]="'Stock'"
+                    [type]="'number'"
+                    [placeholder]="'Product Stock'"
+                    [control]="createProductForm.controls.stock"
+                />
+                <app-text-input
+                    class="block"
+                    [label]="'Category Id'"
+                    [type]="'number'"
+                    [placeholder]="'Product Category Id'"
+                    [control]="createProductForm.controls.category_id"
+                />
+                <app-text-input
+                    class="block"
+                    [label]="'Image URL'"
+                    [type]="'text'"
+                    [placeholder]="'Product Image URL'"
+                    [control]="createProductForm.controls.image_path"
+                />
                 <div class="col-span-2">
                     <button 
                         type="submit"

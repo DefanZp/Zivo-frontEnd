@@ -4,10 +4,14 @@ import { CreateProductRequest } from '../../../core/models/create-product-reques
 import { Product } from '../../../core/services/product';
 import { Product as ProductModel } from '../../../core/models/product.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TextInput } from '../../../shared/components/text-input/text-input';
 
 @Component({
   selector: 'app-admin-product-form',
-  imports: [ ReactiveFormsModule ],
+  imports: [ 
+    ReactiveFormsModule,
+    TextInput,
+   ],
   templateUrl: './admin-product-form.html',
   styleUrl: './admin-product-form.css',
 })
