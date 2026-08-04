@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { CheckoutRequest } from '../models/checkout-request.model';
-import { ApiResponse } from '../models/generic-interface/api-response.model';
-import { Order } from '../models/order.model';
+import { environment } from '../../../../environments/environment';
+import { CheckoutRequest } from '../../models/checkout/checkout-request.model';
+import { ApiResponse } from '../../models/generic-interface/api-response.model';
+import { Order } from '../../models/order/order.model';
 
 @Injectable({
   providedIn: 'root',

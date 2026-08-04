@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { Auth } from '../../../core/services/auth';
+import { Auth } from '../../../core/services/auth/auth';
 import { Router } from '@angular/router';
 import { Toast } from '../../../core/services/toast';
 import { ConfirmationModal } from '../confirmation-modal/confirmation-modal';

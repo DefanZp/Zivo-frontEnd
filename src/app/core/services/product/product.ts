@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { Product as ProductModel } from '../models/product.model';
-import { CreateProductRequest } from '../models/create-product-request.model';
-import { ApiResponse } from '../models/generic-interface/api-response.model';
-import { PaginatedResponse } from '../models/generic-interface/paginated-response.model';
+import { environment } from '../../../../environments/environment';
+import { Product as ProductModel } from '../../models/product/product.model';
+import { CreateProductRequest } from '../../models/product/create-product-request.model';
+import { ApiResponse } from '../../models/generic-interface/api-response.model';
+import { PaginatedResponse } from '../../models/generic-interface/paginated-response.model';
 
 @Injectable({
   providedIn: 'root',

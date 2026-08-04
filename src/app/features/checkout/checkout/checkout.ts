@@ -1,13 +1,15 @@
 import { Component, inject, signal } from '@angular/core';
-import { Cart } from '../../../core/services/cart';
+import { Cart } from '../../../core/services/cart/cart';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Checkout as CheckoutService } from '../../../core/services/checkout';
+import { Checkout as CheckoutService } from '../../../core/services/checkout/checkout';
 import { Router } from '@angular/router';
-import { CheckoutRequest } from '../../../core/models/checkout-request.model';
-import { CheckoutItem } from '../../../core/models/checkout-item.model';
+import { CheckoutRequest } from '../../../core/models/checkout/checkout-request.model';
+import { CheckoutItem } from '../../../core/models/checkout/checkout-item.model';
 import { LoadingButton } from '../../../shared/components/loading-button/loading-button';
 import { Toast } from '../../../core/services/toast';
 import { TextInput } from '../../../shared/components/text-input/text-input';
+import { ValidationMessage } from '../../../shared/components/validation-message/validation-message';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-checkout',
@@ -15,6 +17,8 @@ import { TextInput } from '../../../shared/components/text-input/text-input';
     ReactiveFormsModule,
     LoadingButton,
     TextInput,
+    ValidationMessage,
+    CurrencyPipe,
   ],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
@@ -37,11 +41,11 @@ export class Checkout {
 
   checkoutForm = this.formBuilder.group({
 
-    customer_name:['', Validators.required],
+    customer_name:['', [Validators.required, Validators.maxLength(255)]],
 
-    phone: ['', Validators.required],
+    phone: ['', [Validators.required, Validators.maxLength(20)]],
 
-    address: ['', Validators.required],
+    address: ['', [Validators.required, Validators.maxLength(500)]],
 
   });
 

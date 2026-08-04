@@ -16,27 +16,45 @@
                                     </p>
                                 </div>
                             }
-                            <app-text-input
-                                class="block"
-                                [label]="'Customer Name'"
-                                [type]="'text'"
-                                [placeholder]="'Customer name'"
-                                [control]="checkoutForm.controls.customer_name"
-                             />
-                            <app-text-input
-                                class="block"
-                                [label]="'Phone'"
-                                [type]="'tel'"
-                                [placeholder]="'Phone'"
-                                [control]="checkoutForm.controls.phone"
-                             />
-                            <app-text-input
-                                class="block"   
-                                [label]="'Address'"
-                                [type]="'text'"
-                                [placeholder]="'Address'"
-                                [control]="checkoutForm.controls.address"
-                             />
+                            <div class="relative">
+                                <app-text-input 
+                                    class="block"
+                                    [label]="'Customer Name'"
+                                    [type]="'text'"
+                                    [placeholder]="'customer name'"
+                                    [control]="checkoutForm.controls.customer_name"
+                                />
+                                <app-validation-message 
+                                    [fieldName]="'customer name'"
+                                    [control]="checkoutForm.controls.customer_name"
+                                />
+                            </div>
+                            <div class="relative">
+                                <app-text-input 
+                                    class="block"
+                                    [label]="'Phone'"
+                                    [type]="'tel'"
+                                    [placeholder]="'phone'"
+                                    [control]="checkoutForm.controls.phone"
+                                />
+                                <app-validation-message 
+                                    [fieldName]="'phone'"
+                                    [control]="checkoutForm.controls.phone"
+                                />
+                            </div>
+                            <div class="relative">
+                                <app-text-input 
+                                    class="block"
+                                    [label]="'Address'"
+                                    [type]="'text'"
+                                    [placeholder]="'address'"
+                                    [control]="checkoutForm.controls.address"
+                                />
+                                <app-validation-message 
+                                    [fieldName]="'address'"
+                                    [control]="checkoutForm.controls.address"
+                                />
+                            </div>
                             <app-loading-button
                                 [loading]="loading()"
                                 [text]="'Checkout'"
@@ -68,7 +86,7 @@
                                 </div>
                                 <div class="ml-auto">
                                     <p class="text-xl font-semibold">
-                                        Rp {{ +item.product.price * item.quantity }}
+                                        {{ (+item.product.price * item.quantity) | currency:'IDR ':'symbol':'1.0-0' }}
                                     </p>
                                 </div>
                             </div>

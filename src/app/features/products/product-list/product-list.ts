@@ -1,14 +1,14 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { Product } from '../../../core/services/product';
-import { Product as ProductModel } from '../../../core/models/product.model';
+import { Product } from '../../../core/services/product/product';
+import { Product as ProductModel } from '../../../core/models/product/product.model';
 import { RouterLink } from '@angular/router';
 import { Loading } from '../../../shared/components/loading/loading';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
-import { Category as CategoryModel } from '../../../core/models/category.model';
-import { Category } from '../../../core/services/category';
+import { Category as CategoryModel } from '../../../core/models/product/category.model';
+import { Category } from '../../../core/services/category/category';
 
 interface sortOption {
   label: string;
@@ -23,7 +23,8 @@ interface sortOption {
     Loading,
     CommonModule,
     EmptyState,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CurrencyPipe
   ],
   templateUrl: './product-list.html',
   styleUrl: './product-list.css',

@@ -1,0 +1,84 @@
+<div>
+    <section class="py-12">
+        <div class="container mx-auto px-5 lg:px-0">
+            @if (loading()) {
+                <app-loading
+                    type="spinner"
+                />
+            } @else if (errorMessage()) {
+                <app-empty-state
+                    type="error"
+                    title="Gagal memuat dashboard"
+                    [description]="errorMessage()"
+                >
+                    <button
+                        (click)="loadDashboard()"
+                        class="px-6 py-2.5 bg-ink-950 text-white paragraph-14r rounded-full hover:bg-ink-800 transition"
+                    >
+                        Coba Lagi
+                    </button>
+                </app-empty-state>
+                />
+            } @if (dashboardData()) {
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <app-stat-card 
+                        [icon]="'📦'"
+                        [title]="'Total Products'"
+                        [value]="dashboardData()!.statistic_data.total_products"
+                    />
+                    <app-stat-card 
+                        [icon]="'🛒'"
+                        [title]="'Total Orders'"
+                        [value]="dashboardData()!.statistic_data.total_orders"
+                    />
+                    <app-stat-card 
+                        [icon]="'⏳'"
+                        [title]="'Pending Orders'"
+                        [value]="dashboardData()!.statistic_data.pending_orders"
+                    />
+                    <app-stat-card 
+                        [icon]="'💰'"
+                        [title]="'Revenue'"
+                        [value]="dashboardData()!.statistic_data.total_revenue | currency:'IDR':'symbol':'1.0-0' "
+                    />
+                </div>
+
+                <div class="mt-8">
+                    <div class="heading-24s text-ink-950 mb-4">Latest Order</div>
+                    <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="p-4 text-left">Customer</th>
+                                    <th class="p-4 text-left">Status</th>
+                                    <th class="p-4 text-left">Total</th>
+                                    <th class="p-4 text-left">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (order of dashboardData()!.latest_orders_data; track order.id) {
+                                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                        <td class="p-4">
+                                            {{ order.customer_name }}
+                                        </td>
+                                        <td class="p-4">
+                                            <app-status-badge 
+                                                [status]="order.status" 
+                                            />
+                                        </td>
+                                        <td class="p-4">
+                                            {{ +order.total_price | currency:'IDR ':'symbol':'1.0-0' }}
+                                        </td>
+                                        <td class="p-4">
+                                            {{ order.created_at | date:'dd MMM yyyy' }}
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>

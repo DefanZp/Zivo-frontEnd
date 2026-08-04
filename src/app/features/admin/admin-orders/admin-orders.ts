@@ -1,15 +1,17 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Order as OrderModel } from '../../../core/models/order.model';
-import { Order } from '../../../core/services/order';
+import { Order as OrderModel } from '../../../core/models/order/order.model';
+import { Order } from '../../../core/services/order/order';
 import { Router } from '@angular/router';
 import { Loading } from '../../../shared/components/loading/loading';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-admin-orders',
   imports: [
     Loading,
     EmptyState,
+    CurrencyPipe,
   ],
   templateUrl: './admin-orders.html',
   styleUrl: './admin-orders.css',

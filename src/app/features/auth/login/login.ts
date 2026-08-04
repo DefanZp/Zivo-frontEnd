@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Auth } from '../../../core/services/auth';
+import { Auth } from '../../../core/services/auth/auth';
 import { Router, RouterLink } from '@angular/router';
 import { Toast } from '../../../core/services/toast';
 import { TextInput } from '../../../shared/components/text-input/text-input';
+import { ValidationMessage } from '../../../shared/components/validation-message/validation-message';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ import { TextInput } from '../../../shared/components/text-input/text-input';
     ReactiveFormsModule,
     RouterLink,
     TextInput,
+    ValidationMessage,
   ],
   templateUrl: './login.html',
   styleUrl: './login.css',

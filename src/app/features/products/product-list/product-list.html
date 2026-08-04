@@ -81,7 +81,7 @@
 
                                 <div class="mt-4 flex items-center justify-between">
                                     <p class="heading-20s text-ink-900">
-                                        Rp {{ +product.price  }}
+                                        {{ +product.price | currency:'IDR ':'symbol':'1.0-0' }}
                                     </p>
                                     <span class="w-9 h-9 flex items-center justify-center rounded-full bg-ink-100 group-hover:bg-black group-hover:text-white text-ink-700 transition">
                                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

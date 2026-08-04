@@ -1,0 +1,5 @@
+@if (control().invalid && control().touched) {
+    <p class="text-red-500 text-xs mt-1 absolute -bottom-4.5 left-2">
+        {{ getErrorMessage() }}
+    </p>
+}

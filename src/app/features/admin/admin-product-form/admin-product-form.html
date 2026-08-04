@@ -6,48 +6,84 @@
                 [formGroup]="createProductForm" 
                 (ngSubmit)="submitForm()"
                 class="grid grid-cols-2 gap-6 shadow-md rounded-md p-8">
-                <app-text-input 
-                    class="block"
-                    [label]="'Name'"
-                    [type]="'text'"
-                    [placeholder]="'Product Name'"
-                    [control]="createProductForm.controls.name"
-                />
-                <app-text-input 
-                    class="block"
-                    [label]="'Description'"
-                    [type]="'text'"
-                    [placeholder]="'Product Description'"
-                    [control]="createProductForm.controls.description"
-                />
-                <app-text-input
-                    class="block"
-                    [label]="'Price'"
-                    [type]="'number'"
-                    [placeholder]="'Product Price'"
-                    [control]="createProductForm.controls.price"
-                 />
-                <app-text-input
-                    class="block"
-                    [label]="'Stock'"
-                    [type]="'number'"
-                    [placeholder]="'Product Stock'"
-                    [control]="createProductForm.controls.stock"
-                />
-                <app-text-input
-                    class="block"
-                    [label]="'Category Id'"
-                    [type]="'number'"
-                    [placeholder]="'Product Category Id'"
-                    [control]="createProductForm.controls.category_id"
-                />
-                <app-text-input
-                    class="block"
-                    [label]="'Image URL'"
-                    [type]="'text'"
-                    [placeholder]="'Product Image URL'"
-                    [control]="createProductForm.controls.image_path"
-                />
+                <div class="relative">
+                    <app-text-input 
+                        class="block"
+                        [label]="'Product Name'"
+                        [type]="'text'"
+                        [placeholder]="'product name'"
+                        [control]="createProductForm.controls.name"
+                    />
+                    <app-validation-message 
+                        [fieldName]="'product name'"
+                        [control]="createProductForm.controls.name"
+                    />
+                </div>
+                <div class="relative">
+                    <app-text-input 
+                        class="block"
+                        [label]="'Product Description'"
+                        [type]="'text'"
+                        [placeholder]="'product description'"
+                        [control]="createProductForm.controls.description"
+                    />
+                    <app-validation-message 
+                        [fieldName]="'product description'"
+                        [control]="createProductForm.controls.description"
+                    />
+                </div>
+                <div class="relative">
+                    <app-text-input 
+                        class="block"
+                        [label]="'Price'"
+                        [type]="'text'"
+                        [placeholder]="'price'"
+                        [control]="createProductForm.controls.price"
+                    />
+                    <app-validation-message 
+                        [fieldName]="'price'"
+                        [control]="createProductForm.controls.price"
+                    />
+                </div>
+                <div class="relative">
+                    <app-text-input 
+                        class="block"
+                        [label]="'Stock'"
+                        [type]="'number'"
+                        [placeholder]="'stock'"
+                        [control]="createProductForm.controls.stock"
+                    />
+                    <app-validation-message 
+                        [fieldName]="'stock'"
+                        [control]="createProductForm.controls.stock"
+                    />
+                </div>
+                <div class="relative">
+                    <app-text-input 
+                        class="block"
+                        [label]="'Category Id'"
+                        [type]="'number'"
+                        [placeholder]="'category id'"
+                        [control]="createProductForm.controls.category_id"
+                    />
+                    <app-validation-message 
+                        [fieldName]="'category id'"
+                        [control]="createProductForm.controls.category_id"
+                    />
+                </div>
+                <div class="relative">
+                    <app-text-input 
+                        class="block"
+                        [label]="'Image URL'"
+                        [type]="'text'"
+                        [placeholder]="'Image URL'"
+                        [control]="createProductForm.controls.image_path"
+                    />
+                    <app-validation-message 
+                        [fieldName]="'image url'"
+                        [control]="createProductForm.controls.image_path"
+                    />
+                </div>
                 <div class="col-span-2">
                     <button 
                         type="submit"

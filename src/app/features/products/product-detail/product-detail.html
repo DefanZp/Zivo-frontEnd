@@ -41,7 +41,7 @@
 
                         <div class="flex justify-between items-center">
                             <div class="text-3xl font font-semibold">
-                                Rp. {{ +product.price }}
+                                {{ +product.price | currency:'IDR ':'symbol':'1.0-0' }}
                             </div>
                             <div class="text-xl font font-semibold">
                                 Stock: {{ product.stock }}

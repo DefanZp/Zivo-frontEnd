@@ -24,7 +24,7 @@
                                 <div>
                                     <div class="flex flex-row gap-2 text-xs mb-1">
                                         <p >
-                                            Rp. {{ item.product.price }}
+                                            {{ item.product.price | currency:'IDR ':'symbol':'1.0-0' }}
                                         </p>
                                         <p>
                                             x
@@ -35,7 +35,7 @@
                                     </div>
                                     <div>
                                         <p class="text-xl font-semibold">
-                                            Rp. {{ +item.product.price * item.quantity }}
+                                            {{ (+item.product.price * item.quantity) | currency:'IDR ':'symbol':'1.0-0' }}
                                         </p>
                                     </div>
                                 </div>
@@ -86,7 +86,9 @@
 
                 <div class="flex flex-row items-center justify-between ">
                     <div>SubTotal</div>
-                    <div class="font-semibold">Rp. {{ cartTotal() }}</div>
+                    <div class="font-semibold">
+                        {{ cartTotal() | currency:'IDR ':'symbol':'1.0-0' }}
+                    </div>
                 </div>
                 
                 <div class="mt-auto">

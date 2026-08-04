@@ -1,12 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Product } from '../../../core/services/product';
-import { Product as ProductModel } from '../../../core/models/product.model';
+import { Product } from '../../../core/services/product/product';
+import { Product as ProductModel } from '../../../core/models/product/product.model';
 import { ActivatedRoute } from '@angular/router';
-import { Cart } from '../../../core/services/cart';
+import { Cart } from '../../../core/services/cart/cart';
 import { Loading } from '../../../shared/components/loading/loading';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { CartButton } from '../../../shared/components/cart-button/cart-button';
 import { Toast } from '../../../core/services/toast';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-product-detail',
@@ -14,6 +15,7 @@ import { Toast } from '../../../core/services/toast';
     Loading,
     EmptyState,
     CartButton,
+    CurrencyPipe
   ],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.css',

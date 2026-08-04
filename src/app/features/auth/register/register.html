@@ -18,34 +18,57 @@
                             <p>{{ errorMessage() }}</p>
                         </div>
                     }
-                    <app-text-input 
-                        class="block"
-                        [label]="'Your name'"
-                        [type]="'text'"
-                        [placeholder]="'your name'"
-                        [control]="registerForm.controls.name"
-                    />
-                    <app-text-input 
-                        class="block"
-                        [label]="'Your email'"
-                        [type]="'email'"
-                        [placeholder]="'your email'"
-                        [control]="registerForm.controls.email"
-                    />
-                    <app-text-input 
-                        class="block"
-                        [label]="'Password'"
-                        [type]="'password'"
-                        [placeholder]="'••••••••'"
-                        [control]="registerForm.controls.password"
-                    />
-                    <app-text-input 
-                        class="block"
-                        [label]="'Confirm Password'"
-                        [type]="'password'"
-                        [placeholder]="'••••••••'"
-                        [control]="registerForm.controls.password_confirmation"
-                    />
+                    <div class="relative">
+                        <app-text-input 
+                            [label]="'Your name'"
+                            [type]="'text'"
+                            [placeholder]="'your name'"
+                            [control]="registerForm.controls.name"
+                        />
+                        <app-validation-message 
+                            [fieldName]="'name'"
+                            [control]="registerForm.controls.name"
+                        />
+                    </div>
+                    <div class="relative">
+                        <app-text-input 
+                            class="block"
+                            [label]="'Your email'"
+                            [type]="'email'"
+                            [placeholder]="'your email'"
+                            [control]="registerForm.controls.email"
+                        />
+                        <app-validation-message 
+                            [fieldName]="'email'"
+                            [control]="registerForm.controls.email"
+                        />
+                    </div>
+                    <div class="relative">
+                        <app-text-input 
+                            class="block"
+                            [label]="'Password'"
+                            [type]="'password'"
+                            [placeholder]="'••••••••'"
+                            [control]="registerForm.controls.password"
+                        />
+                        <app-validation-message 
+                            [fieldName]="'password'"
+                            [control]="registerForm.controls.password"
+                        />
+                    </div>
+                    <div class="relative">
+                        <app-text-input 
+                            class="block"
+                            [label]="'Confirm Password'"
+                            [type]="'password'"
+                            [placeholder]="'••••••••'"
+                            [control]="registerForm.controls.password_confirmation"
+                        />
+                        <app-validation-message 
+                            [fieldName]="'confirm password'"
+                            [control]="registerForm.controls.password_confirmation"
+                        />
+                    </div>
                     <button 
                         type="submit" 
                         [disabled]="loading()"

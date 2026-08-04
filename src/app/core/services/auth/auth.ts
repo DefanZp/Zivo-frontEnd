@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
-import { RegisterRequest } from '../models/register-request.model';
-import { AuthResponse } from '../models/auth-response.model';
-import { LoginRequest } from '../models/login-request.model';
-import { User } from '../models/user.model';
-import { environment } from '../../../environments/environment';
+import { RegisterRequest } from '../../models/auth/register-request.model';
+import { AuthResponse } from '../../models/auth/auth-response.model';
+import { LoginRequest } from '../../models/auth/login-request.model';
+import { User } from '../../models/auth/user.model';
+import { environment } from '../../../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({

@@ -45,7 +45,9 @@
                                     {{ order.customer_name }}
                                 </td>
                                 <td class="p-4">{{ order.phone }}</td>
-                                <td class="p-4">Rp {{ +order.total_price }}</td>
+                                <td class="p-4">
+                                    {{ +order.total_price | currency:'IDR ':'symbol':'1.0-0' }}
+                                </td>
                                 <td class="p-4">
                                     <select
                                         (change)="updateStatus(order.id, $any($event.target).value)"

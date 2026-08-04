@@ -1,10 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Order } from '../../../core/services/order';
-import { CommonModule } from '@angular/common';
-import { Order as OrderModel } from '../../../core/models/order.model';
+import { Order } from '../../../core/services/order/order';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { Order as OrderModel } from '../../../core/models/order/order.model';
 import { Loading } from '../../../shared/components/loading/loading';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
+import { StatusBadge } from '../../../shared/components/status-badge/status-badge';
 
 @Component({
   selector: 'app-admin-orders-detail',
@@ -12,6 +13,8 @@ import { EmptyState } from '../../../shared/components/empty-state/empty-state';
     CommonModule,
     Loading,
     EmptyState,
+    StatusBadge,
+    CurrencyPipe,
   ],
   templateUrl: './admin-orders-detail.html',
   styleUrl: './admin-orders-detail.css',

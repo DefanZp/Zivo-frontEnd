@@ -45,7 +45,9 @@
                                 </td>
                                 <td class="p-4">{{ product.name }}</td>
                                 <td class="p-4">{{ product.category.name }}</td>
-                                <td class="p-4">Rp {{ product.price }}</td>
+                                <td class="p-4">
+                                    {{ product.price | currency:'IDR ':'symbol':'1.0-0' }}
+                                </td>
                                 <td class="p-4">{{ product.stock }}</td>
                                 <td class="p-4">
                                     <div class="flex gap-2">

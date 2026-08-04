@@ -13,6 +13,7 @@ import { authGuard } from './core/guard/auth.guard';
 import { adminGuard } from './core/guard/admin.guard';
 import { AdminOrdersDetail } from './features/admin/admin-orders-detail/admin-orders-detail';
 import { BlankLayout } from './shared/layouts/blank-layout/blank-layout';
+import { AdminDashboard } from './features/admin/admin-dashboard/admin-dashboard';
 
 export const routes: Routes = [
     {
@@ -53,6 +54,13 @@ export const routes: Routes = [
                 component: Checkout,
                 canActivate: [
                     authGuard
+                ]
+            },
+            {
+                path: 'admin/dashboard',
+                component: AdminDashboard,
+                canActivate: [
+                    adminGuard
                 ]
             },
             {

@@ -1,5 +1,5 @@
 import { OrderItem } from "./order-item.model";
-import { User } from "./user.model"
+import { User } from "../auth/user.model"
 
 
 export interface Order {

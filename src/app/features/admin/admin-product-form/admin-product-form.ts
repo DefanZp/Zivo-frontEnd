@@ -1,16 +1,18 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CreateProductRequest } from '../../../core/models/create-product-request.model';
-import { Product } from '../../../core/services/product';
-import { Product as ProductModel } from '../../../core/models/product.model';
+import { CreateProductRequest } from '../../../core/models/product/create-product-request.model';
+import { Product } from '../../../core/services/product/product';
+import { Product as ProductModel } from '../../../core/models/product/product.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TextInput } from '../../../shared/components/text-input/text-input';
+import { ValidationMessage } from '../../../shared/components/validation-message/validation-message';
 
 @Component({
   selector: 'app-admin-product-form',
   imports: [ 
     ReactiveFormsModule,
     TextInput,
+    ValidationMessage,
    ],
   templateUrl: './admin-product-form.html',
   styleUrl: './admin-product-form.css',
@@ -29,10 +31,10 @@ export class AdminProductForm implements OnInit{
 
   createProductForm = this.formBuilder.group({
 
-    name: ['', Validators.required],
+    name: ['', [Validators.required, Validators.maxLength(255)]],
     description: ['', Validators.required],
-    price: [0, Validators.required],
-    stock: [0, Validators.required],
+    price: [1, [Validators.required, Validators.minLength(0)]],
+    stock: [1, [Validators.required, Validators.minLength(0)]],
     category_id: [1, Validators.required],
     image_path: ['', Validators.required],
 

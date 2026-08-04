@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { ApiResponse } from '../models/generic-interface/api-response.model';
-import { Category as CategoryModel } from '../models/category.model';
+import { environment } from '../../../../environments/environment';
+import { ApiResponse } from '../../models/generic-interface/api-response.model';
+import { Category as CategoryModel } from '../../models/product/category.model';
 
 @Injectable({
   providedIn: 'root',

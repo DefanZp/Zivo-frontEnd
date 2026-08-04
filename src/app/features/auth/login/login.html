@@ -18,20 +18,32 @@
                             <p>{{ errorMessage() }}</p>
                         </div>
                     }
-                    <app-text-input 
-                        class="block"
-                        [label]="'Your email'"
-                        [type]="'email'"
-                        [placeholder]="'your email'"
-                        [control]="loginForm.controls.email"
-                    />
-                    <app-text-input 
-                        class="block"
-                        [label]="'Password'"
-                        [type]="'password'"
-                        [placeholder]="'your password'"
-                        [control]="loginForm.controls.password"
-                    />
+                    <div class="relative">
+                        <app-text-input 
+                            class="block"
+                            [label]="'Your email'"
+                            [type]="'email'"
+                            [placeholder]="'your email'"
+                            [control]="loginForm.controls.email"
+                        />
+                        <app-validation-message 
+                            [fieldName]="'email'"
+                            [control]="loginForm.controls.email"
+                        />
+                    </div>
+                    <div class="relative">
+                        <app-text-input 
+                            class="block"
+                            [label]="'Password'"
+                            [type]="'password'"
+                            [placeholder]="'your password'"
+                            [control]="loginForm.controls.password"
+                        />
+                        <app-validation-message 
+                            [fieldName]="'password'"
+                            [control]="loginForm.controls.password"
+                        />
+                    </div>
                     <div class="flex items-center justify-between">
                         <div class="flex items-start">
                             <div class="flex items-center h-5">

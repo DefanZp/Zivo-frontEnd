@@ -1,11 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Product } from '../../../core/services/product';
-import { Product as ProductModel } from '../../../core/models/product.model';
+import { Product } from '../../../core/services/product/product';
+import { Product as ProductModel } from '../../../core/models/product/product.model';
 import { Router } from '@angular/router';
 import { Loading } from '../../../shared/components/loading/loading';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { ConfirmationModal } from '../../../shared/components/confirmation-modal/confirmation-modal';
 import { Toast } from '../../../core/services/toast';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-admin-products',
@@ -13,6 +14,7 @@ import { Toast } from '../../../core/services/toast';
     Loading,
     EmptyState,
     ConfirmationModal,
+    CurrencyPipe,
   ],
   templateUrl: './admin-products.html',
   styleUrl: './admin-products.css',
