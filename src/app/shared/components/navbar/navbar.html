@@ -1,31 +1,124 @@
-<nav>
-    <div class="container mx-auto px-5 lg:px-0 flex flex-row justify-between py-5">
-        <h2>Mini E-Commerce</h2>
+<nav class="border-b border-zinc-100 bg-white sticky top-0 z-40">
+  <div class="container mx-auto px-5 lg:px-0 h-[80px] flex items-center justify-between">
 
-        <button (click)="navigateToAdminProducts()" class="p-2">
-            Admin Products
+    <!-- Logo -->
+    <a routerLink="/" class="flex items-center gap-2 no-underline">
+      <a routerLink="/" class="flex items-center gap-2.5 no-underline">
+            <div class="w-18">
+                <img src="logo.png" alt="Logo" class="w-full h-full object-contain" >
+            </div>
+        </a>
+
+      <!-- Badge admin — hanya muncul kalau role admin -->
+      @if (isAdmin()) {
+        <span class="text-[10px] font-medium bg-zinc-900 text-white px-1.5 py-0.5 rounded">
+          Admin
+        </span>
+      }
+    </a>
+
+    <!-- Nav links -->
+    <div class="flex items-center gap-1">
+
+      @if (isAdmin()) {
+
+        <!-- Menu admin -->
+        <a routerLink="/admin/dashboard"
+          routerLinkActive="bg-zinc-100 text-zinc-900"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+          </svg>
+          Dashboard
+        </a>
+
+        <a routerLink="/admin/products"
+          routerLinkActive="bg-zinc-100 text-zinc-900"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
+          </svg>
+          Produk
+        </a>
+
+        <a routerLink="/admin/orders"
+          routerLinkActive="bg-zinc-100 text-zinc-900"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+          Pesanan
+        </a>
+
+        <div class="w-px h-5 bg-zinc-200 mx-1"></div>
+
+        <!-- Admin bisa lihat toko juga -->
+        <a routerLink="/"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
+          Toko
+        </a>
+
+      } @else {
+
+        <!-- Menu user biasa -->
+        <a routerLink="/"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="bg-zinc-100 text-zinc-900"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
+          Katalog
+        </a>
+
+        @if (isLoggedIn()) {
+          <a routerLink="/cart"
+            routerLinkActive="bg-zinc-100 text-zinc-900"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            Keranjang
+          </a>
+        }
+
+      }
+
+      <div class="w-px h-5 bg-zinc-200 mx-1"></div>
+
+      @if (isLoggedIn()) {
+        <!-- Tombol logout -->
+        <button
+          (click)="openLogoutModal()"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 border border-zinc-200 hover:bg-red-50 hover:text-red-700 hover:border-red-200 transition">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+          </svg>
+          Keluar
         </button>
+      } @else {
+        <!-- Tombol login kalau belum login -->
+        <a routerLink="/auth/login"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm bg-zinc-900 text-white hover:bg-zinc-700 transition">
+          Masuk
+        </a>
+      }
 
-        <button (click)="navigateToCart()" class="p-2">
-            Cart
-        </button>
-
-        <button 
-            (click)="openLogoutModal()"
-            class="p-2 bg-black text-white">Logout</button>
     </div>
+  </div>
 </nav>
 
-<!-- Logout modal  -->
-
 <app-confirmation-modal
-    [isOpen]="showLogoutModal()"
-    [loading]="logouting()"
-    variant="warning"
-    title="Keluar dari akun?"
-    description="Kamu akan keluar dari akunmu dan harus masuk kembali untuk mengakses fitur ini."
-    confirmText="Keluar"
-    loadingText="Keluar..."
-    (confirm)="logout()"
-    (cancel)="closeLogoutModal()"
+  [isOpen]="showLogoutModal()"
+  [loading]="logouting()"
+  variant="warning"
+  title="Keluar dari akun?"
+  description="Kamu akan keluar dari akunmu dan harus masuk kembali untuk mengakses fitur ini."
+  confirmText="Keluar"
+  loadingText="Keluar..."
+  (confirm)="logout()"
+  (cancel)="closeLogoutModal()"
 />

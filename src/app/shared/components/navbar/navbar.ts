@@ -1,64 +1,43 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { Auth } from '../../../core/services/auth/auth';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Toast } from '../../../core/services/toast';
 import { ConfirmationModal } from '../confirmation-modal/confirmation-modal';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  imports: [
-    ConfirmationModal,
-  ],
+  imports: [ConfirmationModal, RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
 export class Navbar {
 
-  // state services
-  authService = inject(Auth);
+  authService  = inject(Auth);
   toastService = inject(Toast);
+  router       = inject(Router);
 
-  // state router
-  router = inject(Router);
-
-  // state loading
-  logouting = signal(false);
-
-  // state modal
+  logouting       = signal(false);
   showLogoutModal = signal(false);
 
-  logout():void {
-    
-    this.logouting.set(true);
+  // Computed — cek apakah user adalah admin
+  isAdmin = computed(() => this.authService.currentUser()?.role === 'admin');
+  isLoggedIn = computed(() => !!this.authService.currentUser());
 
-    this.authService
-    .logout()
-    .subscribe({
+  logout(): void {
+    this.logouting.set(true);
+    this.authService.logout().subscribe({
       next: () => {
         this.logouting.set(false);
         this.authService.clearAuth();
-        this.router.navigate(['/auth/login'])
+        this.router.navigate(['/auth/login']);
       },
-      error: (error) => {
+      error: () => {
         this.logouting.set(false);
-        console.log(error);
       }
-    })
+    });
   }
 
-  openLogoutModal () {
-    this.showLogoutModal.set(true);
-  }
-
-  closeLogoutModal () {
-    this.showLogoutModal.set(false);
-  }
-
-  navigateToAdminProducts():void {
-    this.router.navigate(['/admin/products']);
-  } 
-  
-  navigateToCart():void {
-    this.router.navigate(['/cart']);
-  }
+  openLogoutModal()  { this.showLogoutModal.set(true); }
+  closeLogoutModal() { this.showLogoutModal.set(false); }
 }
