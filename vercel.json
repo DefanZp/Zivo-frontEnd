@@ -1,0 +1,10 @@
+{
+  "buildCommand": "ng build --configuration=vercel",
+  "outputDirectory": "dist/frontEnd/browser",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
