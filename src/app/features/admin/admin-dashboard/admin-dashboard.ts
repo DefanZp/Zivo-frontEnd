@@ -40,7 +40,6 @@ export class AdminDashboard implements OnInit{
     .subscribe({
       next: (response) => {
         this.dashboardData.set(response.data);
-        console.log(this.dashboardData());
         this.loading.set(false);
       },
       error: () => {

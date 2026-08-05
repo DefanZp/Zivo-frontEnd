@@ -11,10 +11,6 @@ export const adminGuard: CanActivateFn = () => {
   // Mengambil Router
   const router = inject(Router);
 
-  console.log(authService.currentToken());
-    console.log(authService.isLoggedIn());
-    console.log(authService.currentUser());
-    console.log(authService.isAdmin());
 
   // Jika belum login,
   // arahkan ke halaman login.
