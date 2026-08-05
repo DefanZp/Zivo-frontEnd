@@ -2,7 +2,7 @@
     <section class="py-12">
         <div class="container mx-auto px-5 lg:px-0">
             <h1 class="text-4xl font-semibold mb-12" >
-                Add Product
+                {{ isEditMode() ? 'Edit Product' : 'Add Product' }}
             </h1>
             <form
                 [formGroup]="createProductForm" 
