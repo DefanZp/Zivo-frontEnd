@@ -65,6 +65,7 @@
 .paragraph-12s,
 .paragraph-12r,
 .paragraph-14r,
+.paragraph-14s,
 .paragraph-16r,
 .paragraph-16s,
 .paragraph-20r {
@@ -98,6 +99,7 @@
 .paragraph-12s { font-weight: 600; font-size: 12px; line-height: 165%; }
 .paragraph-12r { font-weight: 400; font-size: 12px; line-height: 165%; }
 .paragraph-14r { font-weight: 400; font-size: 14px; line-height: 165%; }
+.paragraph-14s { font-weight: 600; font-size: 14px; line-height: 165%; }
 .paragraph-16r { font-weight: 400; font-size: 15px; line-height: 165%; }
 .paragraph-16s { font-weight: 500; font-size: 15px; line-height: 165%; }
 .paragraph-20r { font-weight: 400; font-size: 17px; line-height: 160%; }
@@ -126,6 +128,7 @@
   .paragraph-12s { font-size: 12px; line-height: 175%; }
   .paragraph-12r { font-size: 12px; line-height: 175%; }
   .paragraph-14r { font-size: 14px; line-height: 175%; }
+  .paragraph-14s { font-size: 14px; line-height: 175%; }
   .paragraph-16r { font-size: 16px; line-height: 175%; }
   .paragraph-16s { font-size: 16px; line-height: 175%; }
   .paragraph-20r { font-size: 20px; line-height: 175%; }

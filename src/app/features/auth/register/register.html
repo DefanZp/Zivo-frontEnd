@@ -1,17 +1,40 @@
 <section class="py-12">
     <div class="container flex items-center justify-center mx-auto px-5 lg:px-0 ">
-        <div class="w-full h-[85vh] flex flex-row bg-white rounded-xl shadow-md">
+        <div class="w-full min-h-[85vh] flex flex-col md:flex-row bg-white rounded-xl shadow-md overflow-hidden">
             <div 
-                style="background-image: url(/background/shopping.jpg);"
-                class="w-[30%] h-full bg-cover bg-center rounded-l-xl relative">
-                <div class="absolute inset-0 bg-linear-to-b from-black/10 to-black/60 rounded-l-xl">
+                style="background-image: url(/background/registerbg.jpg);"
+                class="hidden md:block md:w-[40%] bg-cover bg center relative">
+                <div class="absolute z-10 inset-0 bg-linear-to-b from-black/10 to-black/60 rounded-l-xl">
+                </div>
+                <div class="absolute z-20 inset-0 p-8 flex flex-col justify-between h-full">
+        
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-8">
+                            <img src="zivo-logo-z-only-reverse.png" alt="Logo" class="w-full h-full object-contain">
+                        </div>
+                        <div class="heading-24s text-white">Zivo</div>
+                    </div>
+
+                    <div class="w-full ">
+                        <h2 class="heading-32s text-white mb-3">Elevate your everyday style.</h2>
+                        <p class="paragraph-14r text-ink-200">
+                            Join our community to discover thoughtfully curated collections and gain early access to exclusive drops.
+                        </p>
+                    </div>
+
                 </div>
             </div>
-            <div class="w-[70%] flex flex-col justify-center items-center">
+            <div class="w-full md:w-[60%] flex flex-col justify-center items-center py-6 px-4">
+                <div class="w-full max-w-md text-left mb-6">
+                    <h1 class="heading-24s md:heading-32s text-ink-950">Start making your account</h1>
+                    <p class="text-ink-500 mt-2 paragraph-14r">
+                        Join us today to get the best shopping experience.
+                    </p>
+                </div>
                 <form 
                     [formGroup]="registerForm"
                     (ngSubmit)="submitRegister()"
-                    class="space-y-4 md:space-y-6  w-[400px]">
+                    class="space-y-4 md:space-y-6 w-full max-w-md">
                     @if (errorMessage()) {
                         <div class="flex items-start sm:items-center p-4 mb-4 text-sm text-red-700 rounded-md bg-red-100" role="alert">
                             <svg class="w-4 h-4 me-2 shrink-0 mt-0.5 sm:mt-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
@@ -22,7 +45,7 @@
                         <app-text-input 
                             [label]="'Your name'"
                             [type]="'text'"
-                            [placeholder]="'your name'"
+                            [placeholder]="'John'"
                             [control]="registerForm.controls.name"
                         />
                         <app-validation-message 
@@ -33,9 +56,9 @@
                     <div class="relative">
                         <app-text-input 
                             class="block"
-                            [label]="'Your email'"
+                            [label]="'Email'"
                             [type]="'email'"
-                            [placeholder]="'your email'"
+                            [placeholder]="'name@example.com'"
                             [control]="registerForm.controls.email"
                         />
                         <app-validation-message 
@@ -43,36 +66,38 @@
                             [control]="registerForm.controls.email"
                         />
                     </div>
-                    <div class="relative">
-                        <app-text-input 
-                            class="block"
-                            [label]="'Password'"
-                            [type]="'password'"
-                            [placeholder]="'••••••••'"
-                            [control]="registerForm.controls.password"
-                        />
-                        <app-validation-message 
-                            [fieldName]="'password'"
-                            [control]="registerForm.controls.password"
-                        />
-                    </div>
-                    <div class="relative">
-                        <app-text-input 
-                            class="block"
-                            [label]="'Confirm Password'"
-                            [type]="'password'"
-                            [placeholder]="'••••••••'"
-                            [control]="registerForm.controls.password_confirmation"
-                        />
-                        <app-validation-message 
-                            [fieldName]="'confirm password'"
-                            [control]="registerForm.controls.password_confirmation"
-                        />
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                        <div class="relative">
+                            <app-text-input 
+                                class="block"
+                                [label]="'Password'"
+                                [type]="'password'"
+                                [placeholder]="'••••••••'"
+                                [control]="registerForm.controls.password"
+                            />
+                            <app-validation-message 
+                                [fieldName]="'password'"
+                                [control]="registerForm.controls.password"
+                            />
+                        </div>
+                        <div class="relative">
+                            <app-text-input 
+                                class="block"
+                                [label]="'Confirm Password'"
+                                [type]="'password'"
+                                [placeholder]="'••••••••'"
+                                [control]="registerForm.controls.password_confirmation"
+                            />
+                            <app-validation-message 
+                                [fieldName]="'confirm password'"
+                                [control]="registerForm.controls.password_confirmation"
+                            />
+                        </div>
                     </div>
                     <button 
                         type="submit" 
                         [disabled]="loading()"
-                        class="w-full text-white bg-black rounded-lg text-sm px-5 py-2.5 disabled:opacity-50 flex items-center justify-center gap-2">
+                        class="w-full text-white bg-ink-950 hover:bg-ink-800 rounded-lg paragraph-14r px-5 py-2.5 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer">
                         @if (loading()) {
                         <svg 
                             class="animate-spin h-4 w-4 text-white" 
@@ -96,8 +121,8 @@
                         Sign up
                     }
                     </button>
-                    <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                        Already have an account? <a routerLink="/auth/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign in</a>
+                    <p class="text-center paragraph-14r text-ink-500 dark:text-gray-400">
+                        Already have an account? <a routerLink="/auth/login" class="paragraph-14s text-ink-900 hover:underline dark:text-primary-500">Sign in</a>
                     </p>
                 </form>
             </div>
