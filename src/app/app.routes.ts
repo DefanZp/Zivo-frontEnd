@@ -14,6 +14,7 @@ import { adminGuard } from './core/guard/admin.guard';
 import { AdminOrdersDetail } from './features/admin/admin-orders-detail/admin-orders-detail';
 import { BlankLayout } from './shared/layouts/blank-layout/blank-layout';
 import { AdminDashboard } from './features/admin/admin-dashboard/admin-dashboard';
+import { Homepage } from './features/homepage/homepage';
 
 export const routes: Routes = [
     {
@@ -36,6 +37,10 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
+                component: Homepage
+            },
+            {
+                path: 'products',
                 component: ProductList
             },
             {

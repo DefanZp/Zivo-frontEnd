@@ -52,7 +52,9 @@
 .heading-42s,
 .heading-40s,
 .heading-32s,
+.heading-32,
 .heading-24s,
+.heading-24,
 .heading-22s,
 .heading-20s,
 .heading-16s,
@@ -90,7 +92,9 @@
 .heading-42s  { font-weight: 600; font-size: 26px; line-height: 125%; }
 .heading-40s  { font-weight: 600; font-size: 24px; line-height: 130%; }
 .heading-32s  { font-weight: 600; font-size: 22px; line-height: 130%; }
+.heading-32   { font-weight: 400; font-size: 22px; line-height: 130%; }
 .heading-24s  { font-weight: 600; font-size: 20px; line-height: 140%; }
+.heading-24   { font-weight: 400; font-size: 20px; line-height: 140%; }
 .heading-22s  { font-weight: 600; font-size: 19px; line-height: 140%; }
 .heading-20s  { font-weight: 600; font-size: 18px; line-height: 145%; }
 .heading-16s  { font-weight: 600; font-size: 16px; line-height: 150%; }
@@ -119,7 +123,9 @@
   .heading-42s  { font-size: 42px; line-height: 130%; }
   .heading-40s  { font-size: 42px; line-height: 130%; }
   .heading-32s  { font-size: 32px; line-height: 130%; }
+  .heading-32   { font-size: 32px; line-height: 130%; }
   .heading-24s  { font-size: 24px; line-height: 175%; }
+  .heading-24   { font-size: 24px; line-height: 175%; }
   .heading-22s  { font-size: 22px; line-height: 175%; }
   .heading-20s  { font-size: 20px; line-height: 175%; }
   .heading-16s  { font-size: 16px; line-height: 175%; }
