@@ -24,6 +24,8 @@ export class Navbar {
   isAdmin = computed(() => this.authService.currentUser()?.role === 'admin');
   isLoggedIn = computed(() => !!this.authService.currentUser());
 
+  currentUser = computed(() => this.authService.currentUser());
+
   logout(): void {
     this.logouting.set(true);
     this.authService.logout().subscribe({

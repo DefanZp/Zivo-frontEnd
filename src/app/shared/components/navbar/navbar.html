@@ -1,7 +1,7 @@
 <!-- Announcement Bar -->
 <div class="bg-ink-950 text-ink-50 py-2.5 px-4 text-center">
   <div class="container mx-auto flex items-center justify-center gap-3">
-    <p class="label-12m tracking-wider">
+    <p class="label-12m">
       Discover our latest arrivals - <a 
         routerLink="/products"
         class="underline underline-offset-4 hover:text-ink-300 transition">
@@ -11,20 +11,18 @@
   </div>
 </div>
 
-<nav class="border-b border-zinc-100 bg-white/80 backdrop-blur-md sticky top-0 z-40">
+<nav class="border-b border-ink-100 bg-white/80 backdrop-blur-md sticky top-0 z-40">
   <div class="container mx-auto px-5 lg:px-0 h-[80px] flex items-center justify-between">
 
     <!-- Logo -->
     <a routerLink="/" class="flex items-center gap-2 no-underline">
-      <a routerLink="/" class="flex items-center gap-2.5 no-underline">
-            <div class="w-18">
-                <img src="logo.png" alt="Logo" class="w-full h-full object-contain" >
-            </div>
-        </a>
+        <div class="w-18">
+            <img src="logo.png" alt="Logo" class="w-full h-full object-contain" >
+        </div>
 
       <!-- Badge admin — hanya muncul kalau role admin -->
       @if (isAdmin()) {
-        <span class="text-[10px] font-medium bg-zinc-900 text-white px-1.5 py-0.5 rounded">
+        <span class="text-[10px] font-medium bg-ink-900 text-ink-50 px-1.5 py-0.5 rounded">
           Admin
         </span>
       }
@@ -37,8 +35,8 @@
 
         <!-- Menu admin -->
         <a routerLink="/admin/dashboard"
-          routerLinkActive="bg-zinc-100 text-zinc-900"
-          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition">
+          routerLinkActive="bg-ink-100 text-zinc-900"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg paragraph-14r text-zinc-500 hover:bg-ink-100 hover:text-zinc-900 transition">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
           </svg>
@@ -46,8 +44,8 @@
         </a>
 
         <a routerLink="/admin/products"
-          routerLinkActive="bg-zinc-100 text-zinc-900"
-          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition">
+          routerLinkActive="bg-ink-100 text-zinc-900"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg paragraph-14r text-zinc-500 hover:bg-ink-100 hover:text-zinc-900 transition">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
           </svg>
@@ -55,8 +53,8 @@
         </a>
 
         <a routerLink="/admin/orders"
-          routerLinkActive="bg-zinc-100 text-zinc-900"
-          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition">
+          routerLinkActive="bg-ink-100 text-zinc-900"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg paragraph-14r text-ink-500 hover:bg-ink-100 hover:text-zinc-900 transition">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
           </svg>
@@ -65,9 +63,8 @@
 
         <div class="w-px h-5 bg-zinc-200 mx-1"></div>
 
-        <!-- Admin bisa lihat toko juga -->
         <a routerLink="/"
-          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition">
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg paragraph-14r text-zinc-500 hover:bg-ink-100 hover:text-zinc-900 transition">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
           </svg>
@@ -77,10 +74,10 @@
       } @else {
 
         <!-- Menu user biasa -->
-        <a routerLink="/"
+        <a routerLink="/products"
           [routerLinkActiveOptions]="{ exact: true }"
-          routerLinkActive="bg-zinc-100 text-zinc-900"
-          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition">
+          routerLinkActive="bg-ink-100 text-zinc-900"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg paragraph-14r text-ink-500 hover:bg-ink-100 hover:text-zinc-900 transition">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
           </svg>
@@ -89,8 +86,8 @@
 
         @if (isLoggedIn()) {
           <a routerLink="/cart"
-            routerLinkActive="bg-zinc-100 text-zinc-900"
-            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition">
+            routerLinkActive="bg-ink-100 text-zinc-900"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg paragraph-14r text-zinc-500 hover:bg-ink-100 hover:text-zinc-900 transition">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
             </svg>
@@ -103,10 +100,9 @@
       <div class="w-px h-5 bg-zinc-200 mx-1"></div>
 
       @if (isLoggedIn()) {
-        <!-- Tombol logout -->
         <button
           (click)="openLogoutModal()"
-          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-500 border border-zinc-200 hover:bg-red-50 hover:text-red-700 hover:border-red-200 transition">
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg paragraph-14r text-ink-500 border border-zinc-200 hover:bg-red-50 hover:text-red-700 hover:border-red-200 transition cursor-pointer">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
           </svg>
@@ -115,11 +111,30 @@
       } @else {
         <!-- Tombol login kalau belum login -->
         <a routerLink="/auth/login"
-          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm bg-zinc-900 text-white hover:bg-zinc-700 transition">
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg paragraph-14r bg-ink-900 text-white hover:bg-ink-700 transition">
           Masuk
         </a>
       }
 
+      @if (isLoggedIn()) {
+        <button class="flex items-center gap-3 p-1.5 pr-2.5 rounded-xl hover:bg-zinc-100 border border-zinc-200/80 transition cursor-pointer bg-white">
+            
+            <div class="relative w-9 h-9 rounded-full bg-zinc-900 text-white flex items-center justify-center font-semibold text-sm tracking-wide shadow-inner overflow-hidden shrink-0">
+              <span>{{ currentUser()?.name?.charAt(0)?.toUpperCase() || 'U' }}</span>
+              <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+            </div>
+            
+            <div class="hidden md:flex flex-col text-left leading-tight">
+              <span class="text-sm font-semibold text-zinc-900 max-w-[110px] truncate">
+                {{ currentUser()?.name }}
+              </span>
+              <span class="text-[11px] text-zinc-500 font-medium tracking-wide uppercase mt-0.5">
+                {{ currentUser()?.role }}
+              </span>
+            </div>
+
+          </button>
+    }
     </div>
   </div>
 </nav>

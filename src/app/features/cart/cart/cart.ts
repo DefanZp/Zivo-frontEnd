@@ -1,12 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { Cart as cartService } from '../../../core/services/cart/cart';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
+import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 
 @Component({
   selector: 'app-cart',
   imports: [
     CurrencyPipe,
+    EmptyState,
+    RouterLink,
   ],
   templateUrl: './cart.html',
   styleUrl: './cart.css',
