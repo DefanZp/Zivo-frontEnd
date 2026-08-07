@@ -1,10 +1,8 @@
-<footer class="border-t border-zinc-100">
+<footer class="border-t border-zinc-100 bg-white">
   <div class="container mx-auto px-5 lg:px-0 py-10">
 
-    <!-- Top section -->
     <div class="grid grid-cols-3 gap-8 mb-8">
 
-      <!-- Brand -->
       <div>
         <div class="flex items-center gap-2 mb-4">
             <a routerLink="/" class="flex items-center gap-2.5 no-underline">
@@ -14,16 +12,15 @@
             </a>
         </div>
         <p class="paragraph-14r text-ink-500 max-w-[220px]">
-          Belanja produk berkualitas dengan harga terbaik. Pengiriman cepat ke seluruh Indonesia.
+          Shop quality products at the best prices. Fast shipping all across Indonesia.
         </p>
       </div>
 
-      <!-- Belanja -->
       <div>
-        <p class="paragraph-14s text-ink-900 mb-3 ">Belanja</p>
+        <p class="paragraph-14s text-ink-900 mb-3">Shop</p>
         <div class="flex flex-col gap-2">
           <a routerLink="/" class="paragraph-14r text-ink-500 hover:text-ink-900 transition no-underline">
-            Semua produk
+            All products
           </a>
           <a routerLink="/" [queryParams]="{ category: 'clothing' }"
             class="paragraph-14r text-ink-500 hover:text-ink-900 transition no-underline">
@@ -40,28 +37,26 @@
         </div>
       </div>
 
-      <!-- Akun -->
       <div>
-        <p class="paragraph-14s text-ink-900 mb-3 ">Akun</p>
+        <p class="paragraph-14s text-ink-900 mb-3">Account</p>
         <div class="flex flex-col gap-2">
           <a routerLink="/auth/login"
             class="paragraph-14r text-ink-500 hover:text-ink-900 transition no-underline">
-            Masuk
+            Sign in
           </a>
           <a routerLink="/auth/register"
             class="paragraph-14r text-ink-500 hover:text-ink-900 transition no-underline">
-            Daftar
+            Sign up
           </a>
           <a routerLink="/cart"
             class="paragraph-14r text-ink-500 hover:text-ink-900 transition no-underline">
-            Keranjang
+            Cart
           </a>
         </div>
       </div>
 
     </div>
 
-    <!-- Bottom section -->
     <div class="border-t border-ink-100 pt-4 flex items-center justify-center">
       <p class="paragraph-12r text-zinc-400">© 2026 Zivo. All rights reserved.</p>
     </div>

@@ -45,11 +45,11 @@ export class ProductList implements OnInit {
 
   // daftar pilihan sort
   sortOptions: sortOption[] = [
-    { label: 'Terbaru', sort: 'created_at', direction: 'desc'},
-    { label: 'Harga Terendah' , sort: 'price', direction: 'asc'},
-    { label: 'Harga Tertinggi', sort: 'price', direction: 'desc'},
-    { label: 'Nama A-Z', sort: 'name', direction: 'asc'},
-    { label: 'Nama Z-A', sort: 'name', direction: 'desc'},
+    { label: 'Latest', sort: 'created_at', direction: 'desc'},
+    { label: 'Lowest Price' , sort: 'price', direction: 'asc'},
+    { label: 'Highest Price', sort: 'price', direction: 'desc'},
+    { label: 'Name A-Z', sort: 'name', direction: 'asc'},
+    { label: 'Name Z-A', sort: 'name', direction: 'desc'},
   ]
 
   searchForm = this.formBuilder.group({
@@ -75,7 +75,7 @@ export class ProductList implements OnInit {
           this.loadProducts();
         },
         error: (error) => {
-          this.errorMessage.set('Gagal memuat produk. Silakan coba lagi.');
+          this.errorMessage.set('Failed to load products. Please try again.');
         }
       })
   }
@@ -115,7 +115,7 @@ export class ProductList implements OnInit {
         this.loading.set(false);
       },
       error: (error) => {
-        this.errorMessage.set('Gagal memuat produk. Silakan coba lagi.');
+        this.errorMessage.set('Failed to load products. Please try again.');
 
         this.loading.set(false);
       }

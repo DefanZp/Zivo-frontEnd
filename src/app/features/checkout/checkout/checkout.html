@@ -1,53 +1,75 @@
 <div>
-    <section class="py-12">
-        <div class="container mx-auto px-5 lg:px-0">
-            <div class="flex flex-col md:flex-row gap-8">
-                <div class="w-[65%]">
-                    <h1 class="text-3xl font-semibold mb-10">Checkout</h1>
+    <section class="py-12 bg-ink-50 ">
+        <div class="container mx-auto px-5 lg:px-0 ">
+            
+            <div class="flex flex-col lg:flex-row gap-8 items-start">
+                
+                <div class="w-full lg:w-[62%] bg-white shadow-xs border border-ink-200 rounded-2xl p-6 lg:p-8">
+                    
+                    <h1 class="heading-20s text-ink-900 mb-6">
+                        Shipping Information
+                    </h1>
+                    
                     <form 
                         [formGroup]="checkoutForm"
                         (ngSubmit)="submitCheckout()"
-                        class="flex flex-col gap-4">
-                        <div class="grid grid-cols-2 gap-4 md:gap-6">
-                            @if (errorMessage()) {
-                                <div class="col-span-2">
-                                    <p class="text-red-500">
-                                        {{ errorMessage() }}
-                                    </p>
+                        class="flex flex-col gap-6">
+                        
+                        <!-- Error Alert -->
+                        @if (errorMessage()) {
+                            <div class="p-4 bg-rose-50/80 border border-rose-200/80 rounded-xl flex items-start gap-3">
+                                <svg class="w-5 h-5 text-rose-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <p class="text-sm font-medium text-rose-700 leading-snug">
+                                    {{ errorMessage() }}
+                                </p>
+                            </div>
+                        }
+
+                        <div class="space-y-4">
+                            <h2 class="paragraph-12s uppercase text-ink-400">Contact Details</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="relative">
+                                    <app-text-input 
+                                        class="block"
+                                        [label]="'Full Name'"
+                                        [type]="'text'"
+                                        [placeholder]="'Enter full name'"
+                                        [control]="checkoutForm.controls.customer_name"
+                                    />
+                                    <app-validation-message 
+                                        [fieldName]="'customer name'"
+                                        [control]="checkoutForm.controls.customer_name"
+                                    />
                                 </div>
-                            }
-                            <div class="relative">
-                                <app-text-input 
-                                    class="block"
-                                    [label]="'Customer Name'"
-                                    [type]="'text'"
-                                    [placeholder]="'customer name'"
-                                    [control]="checkoutForm.controls.customer_name"
-                                />
-                                <app-validation-message 
-                                    [fieldName]="'customer name'"
-                                    [control]="checkoutForm.controls.customer_name"
-                                />
+
+                                <div class="relative">
+                                    <app-text-input 
+                                        class="block"
+                                        [label]="'Phone / WhatsApp Number'"
+                                        [type]="'tel'"
+                                        [placeholder]="'e.g. 08123456789'"
+                                        [control]="checkoutForm.controls.phone"
+                                    />
+                                    <app-validation-message 
+                                        [fieldName]="'phone'"
+                                        [control]="checkoutForm.controls.phone"
+                                    />
+                                </div>
                             </div>
+                        </div>
+
+                        <div class="space-y-4 pt-2">
+                            <h2 class="paragraph-12s uppercase text-ink-400">
+                                Shipping Address
+                            </h2>
                             <div class="relative">
                                 <app-text-input 
                                     class="block"
-                                    [label]="'Phone'"
-                                    [type]="'tel'"
-                                    [placeholder]="'phone'"
-                                    [control]="checkoutForm.controls.phone"
-                                />
-                                <app-validation-message 
-                                    [fieldName]="'phone'"
-                                    [control]="checkoutForm.controls.phone"
-                                />
-                            </div>
-                            <div class="relative">
-                                <app-text-input 
-                                    class="block"
-                                    [label]="'Address'"
+                                    [label]="'Full Address'"
                                     [type]="'text'"
-                                    [placeholder]="'address'"
+                                    [placeholder]="'Street name, house number, district, city, postal code...'"
                                     [control]="checkoutForm.controls.address"
                                 />
                                 <app-validation-message 
@@ -55,37 +77,57 @@
                                     [control]="checkoutForm.controls.address"
                                 />
                             </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-zinc-100">
                             <app-loading-button
                                 [loading]="loading()"
-                                [text]="'Checkout'"
-                                [loadingText]="'Processing...'"
-                                class="col-span-2"
+                                [text]="'Place Order Now'"
+                                [loadingText]="'Processing Order...'"
+                                class="w-full"
                                 [type]="'submit'">
                             </app-loading-button>
                         </div>
                     </form>
                 </div>
-                <div class="w-[35%]">
-                    <p class="text-3xl font-semibold mb-10">Your Cart</p>
-                    <div class="space-y-4">
+
+                <div class="w-full lg:w-[38%] bg-white shadow-xs border border-zinc-200/80 rounded-2xl p-6 lg:p-8 lg:sticky lg:top-24">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-zinc-100">
+                        <h2 class="heading-20s text-ink-900">
+                            Order Summary
+                        </h2>
+                        <span class="label-12m text-ink-500 bg-ink-100 px-2.5 py-1 rounded-full">
+                            {{ cartItems().length }} Items
+                        </span>
+                    </div>
+
+                    <div class="space-y-4 max-h-[360px] overflow-y-auto">
                         @for (item of cartItems(); track item.product.id) {
-                            <div class="flex flex-row items-center gap-4">
-                                <div class="relative w-[60px] h-[60px] ">
+                            <div class="flex items-center gap-3.5 ">
+                                <div class="relative w-16 h-16 rounded-xl shrink-0 overflow-hidden">
                                     <img 
-                                        class="w-full h-full rounded-sm object-cover"
+                                        class="w-full h-full object-cover object-center"
                                         [src]="item.product.image_path"
                                         [alt]="item.product.name" />
-                                    <div 
-                                        class="absolute -top-2 -right-2 text-xs text-white bg-black rounded-full w-6 h-6 flex justify-center items-center">
-                                        {{ item.quantity }}
+                                    <div class="absolute top-1 right-1 text-[10px] font-bold text-white bg-ink-900 rounded-md px-1.5 py-0.5 ">
+                                        x{{ item.quantity }}
                                     </div>
                                 </div>
-                                <div class="space-y-2 text-xs">
-                                    <div class="line-clamp-1">{{ item.product.category.name }}</div>
-                                    <div>{{ item.product.name }}</div>
+
+                                <div class="flex-1">
+                                    <span class="inline-block text-[10px] font-semibold text-zinc-400 uppercase mb-0.5">
+                                        {{ item.product.category.name }}
+                                    </span>
+                                    <p class="paragraph-14s text-zinc-900 truncate">
+                                        {{ item.product.name }}
+                                    </p>
+                                    <p class="paragraph-12r text-ink-500 mt-0.5">
+                                        {{ item.quantity }} x {{ +item.product.price | currency:'IDR ':'symbol':'1.0-0' }}
+                                    </p>
                                 </div>
-                                <div class="ml-auto">
-                                    <p class="text-xl font-semibold">
+
+                                <div class="text-right ">
+                                    <p class="text-sm font-semibold text-zinc-900">
                                         {{ (+item.product.price * item.quantity) | currency:'IDR ':'symbol':'1.0-0' }}
                                     </p>
                                 </div>
@@ -93,17 +135,41 @@
                         }
 
                         @empty {
-                            <div>
-                                <p class="text-2xl font-semibold">Keranjangmu masih kosong</p>
+                            <div class="text-center py-10 px-4 rounded-xl border border-dashed border-zinc-200 bg-zinc-50/50">
+                                <svg class="w-10 h-10 text-zinc-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                                </svg>
+                                <p class="text-sm font-semibold text-zinc-800">Your cart is empty</p>
+                                <p class="text-xs text-zinc-500 mt-0.5">Please add products to your cart first.</p>
                             </div>
                         }
-
-                        <div class="flex flex-row items-center justify-between mt-12">
-                            <div>SubTotal</div>
-                            <div class="text-xl font-semibold">Rp. {{ cartTotal() }}</div>
-                        </div>
                     </div>
+
+                    @if (cartItems().length > 0) {
+                        <div class="w-full h-px bg-ink-100 my-6"></div>
+
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-center justify-between paragraph-12r text-ink-600">
+                                <span>Subtotal</span>
+                                <span class="font-medium text-zinc-900">{{ cartTotal() | currency:'IDR ':'symbol':'1.0-0' }}</span>
+                            </div>
+                            <div class="flex items-center justify-between paragraph-12r text-ink-600">
+                                <span>Shipping Fee</span>
+                                <span>-</span>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-px bg-ink-100 my-5"></div>
+
+                        <div class="p-4 rounded-xl bg-ink-50 border border-ink-100 flex items-center justify-between">
+                            <span class="paragraph-12r text-ink-500 ">Total Payment</span>
+                            <span class="paragraph-20s text-ink-900">
+                                {{ cartTotal() | currency:'IDR ':'symbol':'1.0-0' }}
+                            </span>
+                        </div>
+                    }
                 </div>
+
             </div>
         </div>  
     </section>

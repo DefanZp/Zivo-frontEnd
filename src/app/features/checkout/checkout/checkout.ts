@@ -94,12 +94,12 @@ export class Checkout {
       .subscribe({
         next: () => {
           this.loading.set(false);
-          this.toastService.success('Checkout berhasil!');
+          this.toastService.success('Checkout successful!');
           this.cartService.clearCart();
           this.router.navigate(['/']);
         }, 
         error: () => {
-          this.errorMessage.set('Terjadi kesalahan saat melakukan checkout');
+          this.errorMessage.set('An error occurred during checkout.');
           this.loading.set(false);
         }
       });

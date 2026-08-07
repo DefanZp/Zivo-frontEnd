@@ -45,7 +45,7 @@ export class AdminOrders implements OnInit {
           this.errorMessage.set('');
         },
         error: (error) => {
-          this.errorMessage.set('Gagal memuat Order. Silakan coba lagi.');
+          this.errorMessage.set('Failed to load the order. Please try again.');
 
           this.loading.set(false);
         }
@@ -67,7 +67,7 @@ export class AdminOrders implements OnInit {
           this.errorMessage.set('');
         },
         error: (error) => {
-          this.errorMessage.set('Gagal memperbarui status Order. Silakan coba lagi.');
+          this.errorMessage.set('Failed to update the order status. Please try again.');
         }
       })
   }

@@ -55,7 +55,7 @@ export class ProductDetail implements OnInit{
       },
       error: (error) => {
 
-        this.errorMessage.set('Gagal memuat produk. Silakan coba lagi.');
+        this.errorMessage.set('Failed to load products. Please try again.');
         this.loading.set(false);
       }
     })
@@ -74,7 +74,7 @@ export class ProductDetail implements OnInit{
     this.cartService.addToCart(product);  
 
     setTimeout(() => {
-      this.toastService.success('Produk ditambahkan ke keranjang');
+      this.toastService.success('Product added to cart');
       this.addingToCart.set(false);
     }, 1000);
   }

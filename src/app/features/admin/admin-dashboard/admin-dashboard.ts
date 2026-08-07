@@ -43,7 +43,7 @@ export class AdminDashboard implements OnInit{
         this.loading.set(false);
       },
       error: () => {
-        this.errorMessage.set('Gagal memuat Dashboard. Silakan coba lagi.');
+        this.errorMessage.set('Failed to load the dashboard. Please try again.');
         this.loading.set(false);
       }
     });

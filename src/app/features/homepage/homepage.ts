@@ -37,7 +37,7 @@ export class Homepage implements OnInit {
         this.loading.set(false);
       },
       error: () => {
-        this.errorMessage.set('Gagal memuat produk. Silakan coba lagi.');
+        this.errorMessage.set('Failed to load products. Please try again.');
       }
     });
   }

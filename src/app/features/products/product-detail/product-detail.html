@@ -9,12 +9,12 @@
                 <app-empty-state 
                         class="col-span-full"
                         type="error" 
-                        title="Gagal memuat produk" 
+                        title="Failed to load products" 
                         [description]="errorMessage()">
                         <button
                             (click)="loadProduct()"
                             class="px-6 py-2.5 bg-ink-950 text-white paragraph-14r rounded-full hover:bg-ink-800 transition">
-                            Coba Lagi
+                            Try again
                         </button>
                 </app-empty-state>
             } @else if (product(); as product) {

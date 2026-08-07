@@ -13,10 +13,10 @@ export class ConfirmationModal {
   isOpen      = input(false);
   title       = input('');
   description = input('');
-  confirmText = input('Konfirmasi');
-  cancelText  = input('Batal');
+  confirmText = input('Confirm');
+  cancelText  = input('Cancel');
   warningText = input('');         
-  loadingText = input('Memproses...');
+  loadingText = input('Processing...');
 
   // Input state
   loading = input(false);

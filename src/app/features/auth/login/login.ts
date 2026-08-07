@@ -54,7 +54,7 @@ export class Login {
         this.authService.saveToken(response.token);
         this.authService.saveUser(response.user);
 
-        this.toastService.success('Login berhasil!');
+        this.toastService.success('Login successful.!');
 
         this.loading.set(false);
         // Redirect ke halaman utama
@@ -63,7 +63,7 @@ export class Login {
 
       error: (response) => {
         this.errorMessage.set(response.error.message);
-        this.toastService.error('Login gagal!');
+        this.toastService.error('Login failed!');
         this.loading.set(false);
       }
     })

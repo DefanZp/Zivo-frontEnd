@@ -12,19 +12,19 @@
             } @else if (errorMessage()) {
                 <app-empty-state 
                         type="error" 
-                        title="Gagal memuat order" 
+                        title="Failed to load orders" 
                         [description]="errorMessage()">
                         <button
                             (click)="loadOrders()"
                             class="px-6 py-2.5 bg-ink-950 text-white paragraph-14r rounded-full hover:bg-ink-800 transition">
-                            Coba Lagi
+                            Try again
                         </button>
                 </app-empty-state>
             } 
             @else if (orders().length === 0) {
                 <app-empty-state 
                     type="empty" 
-                    title="Belum ada order ">
+                    title="No orders found">
                 </app-empty-state>
             }
             @else {

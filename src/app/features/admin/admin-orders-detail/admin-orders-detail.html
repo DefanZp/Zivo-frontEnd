@@ -9,12 +9,12 @@
             @else if (errorMessage()) {
                 <app-empty-state 
                     type="error" 
-                    title="Gagal memuat Detail Order" 
+                    title="Failed to load order details" 
                     [description]="errorMessage()">
                     <button
                         (click)="loadOrders()"
                         class="px-6 py-2.5 bg-ink-950 text-white paragraph-14r rounded-full hover:bg-ink-800 transition">
-                        Coba Lagi
+                        Try again
                     </button>
                 </app-empty-state>
             }

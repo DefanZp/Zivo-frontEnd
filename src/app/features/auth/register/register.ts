@@ -51,7 +51,7 @@ export class Register {
       next: () => {
         this.errorMessage.set('');
         this.loading.set(false);
-        this.toastService.success('Register berhasil, silahkan login');
+        this.toastService.success('Registration successful, please log in.');
         this.router.navigate(['/auth/login']);
       },
       error: (response) => {

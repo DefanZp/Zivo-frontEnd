@@ -70,6 +70,7 @@
 .paragraph-14s,
 .paragraph-16r,
 .paragraph-16s,
+.paragraph-20s
 .paragraph-20r {
   font-family: "Inter", sans-serif;
 }
@@ -107,6 +108,7 @@
 .paragraph-16r { font-weight: 400; font-size: 15px; line-height: 165%; }
 .paragraph-16s { font-weight: 500; font-size: 15px; line-height: 165%; }
 .paragraph-20r { font-weight: 400; font-size: 17px; line-height: 160%; }
+.paragraph-20s { font-weight: 600; font-size: 17px; line-height: 160%; }
 
 .label-14m { font-weight: 500; font-size: 13px; line-height: 140%; }
 .label-12m { font-weight: 500; font-size: 12px; line-height: 140%; }
@@ -138,6 +140,7 @@
   .paragraph-16r { font-size: 16px; line-height: 175%; }
   .paragraph-16s { font-size: 16px; line-height: 175%; }
   .paragraph-20r { font-size: 20px; line-height: 175%; }
+  .paragraph-20s { font-size: 20px; line-height: 175%; }
 
   .label-14m { font-size: 14px; }
   .label-12m { font-size: 12px; }

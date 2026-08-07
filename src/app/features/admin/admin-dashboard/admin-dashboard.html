@@ -8,14 +8,14 @@
             } @else if (errorMessage()) {
                 <app-empty-state
                     type="error"
-                    title="Gagal memuat dashboard"
+                    title="Failed to load dashboard"
                     [description]="errorMessage()"
                 >
                     <button
                         (click)="loadDashboard()"
                         class="px-6 py-2.5 bg-ink-950 text-white paragraph-14r rounded-full hover:bg-ink-800 transition"
                     >
-                        Coba Lagi
+                        Try again
                     </button>
                 </app-empty-state>
                 />

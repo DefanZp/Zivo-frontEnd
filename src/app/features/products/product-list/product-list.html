@@ -8,7 +8,7 @@
                 type="text"
                 class="w-[70%] p-4 border border-gray-200 rounded-md"
                 formControlName="search"
-                placeholder="Cari produk" />
+                placeholder="Search product" />
 
                 <!-- Dropdown sort -->
                 <select
@@ -23,7 +23,7 @@
                  <select
                 class="w-[15%] p-4 border border-gray-200 rounded-md"
                 formControlName="category">
-                <option value="">Semua Kategori</option>
+                <option value="">All Categories</option>
                 @for (category of categories(); track $index) {
                     <option [value]="category.id">{{ category.name }}</option>
                 }
@@ -42,12 +42,12 @@
                         <app-empty-state 
                             class="col-span-full"
                             type="error" 
-                            title="Gagal memuat produk" 
+                            title="Failed to load products" 
                             [description]="errorMessage()">
                             <button
                                 (click)="loadProducts()"
                                 class="px-6 py-2.5 bg-ink-950 text-white paragraph-14r rounded-full hover:bg-ink-800 transition">
-                                Coba Lagi
+                                Try again
                             </button>
                         </app-empty-state>
                     } 
@@ -55,7 +55,7 @@
                     <div class="col-span-full">
                         <app-empty-state 
                             type="empty" 
-                            title="Belum ada produk tersedia">
+                            title="No products available yet.">
                         </app-empty-state>
                     </div>
                     }
