@@ -26,6 +26,7 @@ export class Login {
   private toastService = inject(Toast);
   private router = inject(Router);
 
+
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
@@ -57,6 +58,13 @@ export class Login {
         this.toastService.success('Login successful.!');
 
         this.loading.set(false);
+
+        const isAdmin = response.user.role === 'admin';
+
+        if (isAdmin) {
+          this.router.navigate(['/admin/dashboard']);
+          return;
+        }
         // Redirect ke halaman utama
         this.router.navigate(['/']);
       },

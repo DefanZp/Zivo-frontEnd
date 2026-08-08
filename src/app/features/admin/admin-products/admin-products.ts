@@ -7,6 +7,7 @@ import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { ConfirmationModal } from '../../../shared/components/confirmation-modal/confirmation-modal';
 import { Toast } from '../../../core/services/toast';
 import { CurrencyPipe } from '@angular/common';
+import { Pagination } from '../../../shared/components/pagination/pagination';
 
 @Component({
   selector: 'app-admin-products',
@@ -15,6 +16,7 @@ import { CurrencyPipe } from '@angular/common';
     EmptyState,
     ConfirmationModal,
     CurrencyPipe,
+    Pagination,
   ],
   templateUrl: './admin-products.html',
   styleUrl: './admin-products.css',
@@ -35,6 +37,10 @@ export class AdminProducts implements OnInit {
   loading = signal(false);
   deleting = signal(false);
 
+  // state pagination
+  currentPage = signal(1);
+  lastPage = signal(1);
+
   // state delete modal
   showDeleteModal = signal(false);
   productIdToDelete = signal<number | null>(null);
@@ -44,11 +50,14 @@ export class AdminProducts implements OnInit {
     this.loading.set(true);
     
     this.productService
-    .getProducts()
+    .getProducts({
+      page: this.currentPage(),
+    })
     .subscribe({
       next: (response) => {
         this.products.set(response.data.data);
-
+        this.currentPage.set(response.data.current_page);
+        this.lastPage.set(response.data.last_page);
         this.loading.set(false);
       },
       error: (error) => {
@@ -112,6 +121,13 @@ export class AdminProducts implements OnInit {
   closeDeleteModal(): void {
     this.productIdToDelete.set(null);
     this.showDeleteModal.set(false);
+  }
+
+  // For pagination
+
+  goToPage(page: number): void {
+    this.currentPage.set(page);
+    this.loadProducts();
   }
 
   ngOnInit(): void {

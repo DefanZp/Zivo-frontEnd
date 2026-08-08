@@ -29,7 +29,7 @@ export class Homepage implements OnInit {
 
   loadProducts() {
     this.loading.set(true);
-    this.productService.getProducts()
+    this.productService.getProducts({})
     .subscribe({
       next: (response) => {
         this.products.set(response.data.data);

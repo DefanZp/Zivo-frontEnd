@@ -1,0 +1,37 @@
+@if (lastPage() > 1) {
+    <div class="flex items-center gap-2 mt-10 justify-center">
+        <button
+            (click)="goToPreviousPage()"
+            [disabled]="loading() || currentPage() === 1"
+            class="flex items-center gap-1.5 h-9 px-4 border border-ink-200 rounded-lg paragraph-14r text-ink-600 hover:bg-ink-50 disabled:opacity-40 transition cursor-pointer">
+            ← Previous
+        </button>
+
+        @for (page of visiblePage(); track page) {
+
+            @if (page === '...') {
+                <span class="w-9 h-9 flex items-center justify-center text-zinc-400">
+                    ...
+                </span>
+            } @else {
+                <button
+                    (click)="goToPage(page)"
+                    [disabled]="loading()"
+                    class="w-9 h-9 rounded-lg border paragraph-14r transition cursor-pointer disabled:opacit"
+                    [class]="page === currentPage()
+                    ? 'bg-ink-950 text-white border-ink-950'
+                    : 'border-ink-200 text-ink-600 hover:bg-ink-50'">
+                    {{ page }}  
+                </button>
+            }
+        }
+
+        <button
+            (click)="goToNextPage()"
+            [disabled]="loading() || currentPage() === lastPage()"
+            class="flex items-center gap-1.5 h-9 px-4 bg-ink-950 text-white rounded-lg paragraph-14r hover:bg-ink-800 disabled:opacity-40 transition" cursor-pointer
+            >
+            Next →
+        </button>
+    </div>
+}

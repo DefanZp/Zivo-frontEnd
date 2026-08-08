@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Loading } from '../../../shared/components/loading/loading';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { CurrencyPipe } from '@angular/common';
+import { Pagination } from '../../../shared/components/pagination/pagination';
 
 @Component({
   selector: 'app-admin-orders',
@@ -12,6 +13,7 @@ import { CurrencyPipe } from '@angular/common';
     Loading,
     EmptyState,
     CurrencyPipe,
+    Pagination,
   ],
   templateUrl: './admin-orders.html',
   styleUrl: './admin-orders.css',
@@ -25,6 +27,11 @@ export class AdminOrders implements OnInit {
   loading = signal(false);
   errorMessage = signal('');
 
+  // state pagination
+  currentPage = signal(1);
+  lastPage = signal(1);
+
+
   statusOptions = [
     { value: 'pending',    label: 'Pending'    },
     { value: 'processing', label: 'Processing' },
@@ -37,10 +44,14 @@ export class AdminOrders implements OnInit {
     this.loading.set(true);
 
     this.orderService
-      .getOrders()
+      .getOrders({
+        page: this.currentPage(),
+      })
       .subscribe({
         next: (response) => {
-          this.orders.set(response.data);
+          this.orders.set(response.data.data);
+          this.currentPage.set(response.data.current_page);
+          this.lastPage.set(response.data.last_page);
           this.loading.set(false);
           this.errorMessage.set('');
         },
@@ -76,6 +87,13 @@ export class AdminOrders implements OnInit {
     this.router.navigate(
       [`/admin/orders/${orderId}`]
     );
+  }
+
+  // untuk pagination
+  goToPage(page: number): void {
+    this.currentPage.set(page);
+
+    this.loadOrders();
   }
 
   ngOnInit(): void {

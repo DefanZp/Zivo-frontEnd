@@ -6,9 +6,11 @@ import { Loading } from '../../../shared/components/loading/loading';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Category as CategoryModel } from '../../../core/models/product/category.model';
 import { Category } from '../../../core/services/category/category';
+import { Pagination } from '../../../shared/components/pagination/pagination';
+
 
 interface sortOption {
   label: string;
@@ -24,7 +26,8 @@ interface sortOption {
     CommonModule,
     EmptyState,
     ReactiveFormsModule,
-    CurrencyPipe
+    CurrencyPipe,
+    Pagination,
   ],
   templateUrl: './product-list.html',
   styleUrl: './product-list.css',
@@ -38,10 +41,12 @@ export class ProductList implements OnInit {
   products = signal<ProductModel[]>([]);
   loading = signal(false);
   errorMessage = signal('');
-  currentPage = signal(1);
-  lastPage = signal(1);
   totalProduct = signal(0);
   categories = signal<CategoryModel[]>([]);
+
+  // state pagination
+  currentPage = signal(1);
+  lastPage = signal(1);
 
   // daftar pilihan sort
   sortOptions: sortOption[] = [
@@ -97,13 +102,13 @@ export class ProductList implements OnInit {
     const selectedCategory = formValue.category ? Number(formValue.category) : undefined;
 
     this.productService
-    .getProducts(
-      search = formValue.search, 
-      category = selectedCategory,
-      sort = selectedSort.sort, 
-      direction = selectedSort.direction, 
-      this.currentPage()
-    )
+    .getProducts({
+      search: formValue.search, 
+      category: selectedCategory,
+      sort:  selectedSort.sort, 
+      direction: selectedSort.direction, 
+      page: this.currentPage()
+    })
     .subscribe({
       next: (response) => {
         this.products.set(response.data.data);
@@ -129,38 +134,6 @@ export class ProductList implements OnInit {
     this.loadProducts();
   }
 
-  goToPreviousPage(): void {
-
-    if (this.currentPage() === 1) {
-      return;
-    }
-
-    this.currentPage.update(page => page -1);
-
-    this.loadProducts();
-  }
-
-  goToNextPage(): void {
-
-    if (this.currentPage() === this.lastPage()) {
-      return;
-    }
-
-    this.currentPage.update(page => page +1);
-
-    this.loadProducts();
-  }
-
-  // Pagination
-  pages = computed(() => {
-     return Array.from({
-        length: this.lastPage(),
-     },
-
-     (_, index) => index + 1
-
-    );
-  })
 
   loadCategory(): void {
 

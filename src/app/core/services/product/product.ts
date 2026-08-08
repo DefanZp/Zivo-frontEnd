@@ -5,6 +5,7 @@ import { CreateProductRequest } from '../../models/product/create-product-reques
 import { ApiResponse } from '../../models/generic-interface/api-response.model';
 import { PaginatedResponse } from '../../models/generic-interface/paginated-response.model';
 import { environment } from '../../../../environments/environment';
+import { GetProductsParams } from '../../models/product/get-products-params.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,30 +16,25 @@ export class Product {
 
   private apiUrl = environment.apiUrl;
 
-  getProducts(
-    search: string = '', 
-    category?: number, 
-    sort: string = '', 
-    direction: string = '', 
-    page: number = 1
-  ) {
+  getProducts(params: GetProductsParams) {
 
-    const params: Record<string, string | number> = {
-      search,
-      sort,
-      direction,
-      page
+    const queryParams: Record<string, string | number> = {
+      search: params.search ?? '',
+      category: params.category ?? '',
+      sort: params.sort ?? '',
+      direction: params.direction ?? '',
+      page: params.page ?? ''
     }
     
-    if (category !== undefined) {
-      params['category'] = category;
+    if (params.category !== undefined) {
+        queryParams['category'] = params.category;
     }
 
     return this.http.get<ApiResponse<PaginatedResponse<ProductModel>>>
       (
         `${this.apiUrl}/products`,
         {
-          params
+          params: queryParams
         }
       );
   }

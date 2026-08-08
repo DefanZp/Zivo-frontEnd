@@ -75,6 +75,15 @@
                     </tbody>
                 </table>
             }
+
+            <!-- Pagination -->
+            <app-pagination
+                [currentPage]="currentPage()"
+                [lastPage]="lastPage()"
+                (pageChange)="goToPage($event)"
+                [loading]="loading()">
+
+            </app-pagination>
         </div>
     </section>
 </div>
