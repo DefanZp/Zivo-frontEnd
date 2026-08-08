@@ -1,62 +1,91 @@
 <section class="py-12">
-    <div class="container mx-auto px-5 lg:px-0">
+    <div class="container mx-auto px-5 lg:px-0 ">
+        
         <div>
             @if (loading()) {
-                <app-loading 
-                    type="spinner">
-                </app-loading>
-            } @else if (errorMessage()){
-                <app-empty-state 
-                        class="col-span-full"
+                <div class="py-20 flex justify-center items-center">
+                    <app-loading type="spinner"></app-loading>
+                </div>
+            } 
+            @else if (errorMessage()) {
+                <div class="bg-white rounded-2xl p-8 border border-ink-200 shadow-xs max-w-xl mx-auto">
+                    <app-empty-state 
                         type="error" 
-                        title="Failed to load products" 
+                        title="Failed to load product details" 
                         [description]="errorMessage()">
                         <button
                             (click)="loadProduct()"
-                            class="px-6 py-2.5 bg-ink-950 text-white paragraph-14r rounded-full hover:bg-ink-800 transition">
+                            class="mt-4 px-6 py-2.5 bg-zinc-900 text-white text-xs font-semibold rounded-xl hover:bg-zinc-800 transition active:scale-95 shadow-xs">
                             Try again
                         </button>
-                </app-empty-state>
-            } @else if (product(); as product) {
-                <div class="flex flex-col lg:flex-row gap-8">
-                    <div class="w-[60%] h-[450px] rounded-md overflow-hidden">
-                        <img 
-                            class="w-full h-full object-cover"
-                            [src]="product.image_path"
-                            [alt]="product.name"
-                        />
+                    </app-empty-state>
+                </div>
+            } 
+            @else if (product(); as product) {
+                <div class="flex flex-col lg:flex-row gap-8 items-start">
+                    
+                    <!-- Kiri -->
+                    <div class="w-full lg:w-[62%] bg-white rounded-2xl border border-ink-200 overflow-hidden shadow-xs p-3">
+                        <div class="relative w-full h-[250px] md:h-[300px] lg:h-[400px]  rounded-xl overflow-hidde">
+                            <img 
+                                class="w-full h-full object-cover object-center rounded-2xl"
+                                [src]="product.image_path"  
+                                [alt]="product.name"
+                            />
+                            
+                            <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-md label-12m text-ink-900 px-3.5 py-1.5 rounded-full shadow-xs border border-ink-200">
+                                {{ product.category.name }}
+                            </span>
+                        </div>
                     </div>
-                    <div class="w-[40%]">
-                        <div class="bg-black rounded-md px-4 py-2 justify-self-start mb-4">
-                            <p class="text-white font-semibold">{{ product.category.name }}</p>
-                        </div>
-                        <div class="text-4xl font-bold mb-4">
+
+                    <!-- Kanan -->
+                    <div class="w-full lg:w-[38%] flex flex-col bg-white rounded-2xl border border-ink-200 p-6 shadow-xs">
+                        
+                        <h1 class="heading-32s font-extrabold text-ink-900 ">
                             {{ product.name }}
-                        </div>
-                        <div class="mb-8 text-xl line-clamp-3">
-                            {{ product.description }}
-                        </div>
+                        </h1>
 
-                        <div class="w-full h-0.5 bg-gray-200 my-6"></div>
-
-                        <div class="flex justify-between items-center">
-                            <div class="text-3xl font font-semibold">
+                        <div class="mt-4 flex justify-between gap-4 pb-6 border-b border-ink-100">
+                            <p class="heading-24s font-black text-ink-900">
                                 {{ +product.price | currency:'IDR ':'symbol':'1.0-0' }}
-                            </div>
-                            <div class="text-xl font font-semibold">
-                                Stock: {{ product.stock }}
+                            </p>
+                            
+                            <div class="flex items-center gap-2">
+                                <span class="relative flex h-2.5 w-2.5">
+                                    <span 
+                                        [class.bg-emerald-500]="product.stock > 0" 
+                                        [class.bg-amber-500]="product.stock === 0"
+                                        class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75">
+                                    </span>
+                                    <span [class.bg-emerald-500]="product.stock > 0" 
+                                          [class.bg-amber-500]="product.stock === 0"
+                                          class="relative inline-flex rounded-full h-2.5 w-2.5"></span>
+                                </span>
+                                <span class="paragraph-12s text-ink-600">
+                                    {{ product.stock > 0 ? 'In Stock (' + product.stock + ')' : 'Out of Stock' }}
+                                </span>
                             </div>
                         </div>
 
-                        <div class="w-full h-0.5 bg-gray-200 my-6"></div>
+                        <div class="py-6 border-b border-ink-100">
+                            <h2 class="text-xs uppercase font-bold text-zinc-400 tracking-wider mb-2">Description</h2>
+                            <p class="paragraph-14r text-ink-600 whitespace-pre-line">
+                                {{ product.description }}
+                            </p>
+                        </div>
 
-                        <app-cart-button
-                            [addingToCart]="addingToCart()"
-                            [isInCart]="isInCart()"
-                            [text]="'Add to Cart'"
-                            [loadingText]="'Adding...'"
-                            (click)="addToCart()">
-                        </app-cart-button>
+                        <div class=" mt-auto">
+                            <app-cart-button
+                                class="w-full block"
+                                [addingToCart]="addingToCart()"
+                                [isInCart]="isInCart()"
+                                [text]="product.stock > 0 ? 'Add to Cart' : 'Out of Stock'"
+                                [loadingText]="'Adding...'"
+                                (click)="addToCart()">
+                            </app-cart-button>
+                        </div>
+
                     </div>
                 </div>
             }
