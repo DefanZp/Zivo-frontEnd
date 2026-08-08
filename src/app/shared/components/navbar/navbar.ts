@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, ElementRef, HostListener } from '@angular/core';
 import { Auth } from '../../../core/services/auth/auth';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Toast } from '../../../core/services/toast';
@@ -16,6 +16,7 @@ export class Navbar {
   authService  = inject(Auth);
   toastService = inject(Toast);
   router       = inject(Router);
+  elementRef   = inject(ElementRef);
 
   logouting       = signal(false);
   showLogoutModal = signal(false);
@@ -28,6 +29,20 @@ export class Navbar {
   isLoggedIn = computed(() => !!this.authService.currentUser());
 
   currentUser = computed(() => this.authService.currentUser());
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    // Cek apakah klik ada di dalam navbar atau tidak
+    const clickedInsideNavbar = this.elementRef.nativeElement.contains(
+      event.target as Node
+    );
+
+    // Kalau klik di luar navbar → tutup semua dropdown
+    if (!clickedInsideNavbar) {
+      this.isProfileMenuOpen.set(false);
+      this.isMobileMenuOpen.set(false);
+    }
+  }
   
 
   logout(): void {
