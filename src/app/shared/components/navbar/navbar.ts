@@ -20,11 +20,15 @@ export class Navbar {
   logouting       = signal(false);
   showLogoutModal = signal(false);
 
+  isProfileMenuOpen = signal(false);
+  isMobileMenuOpen = signal(false);
+
   // Computed — cek apakah user adalah admin
   isAdmin = computed(() => this.authService.currentUser()?.role === 'admin');
   isLoggedIn = computed(() => !!this.authService.currentUser());
 
   currentUser = computed(() => this.authService.currentUser());
+  
 
   logout(): void {
     this.logouting.set(true);
@@ -40,6 +44,33 @@ export class Navbar {
     });
   }
 
-  openLogoutModal()  { this.showLogoutModal.set(true); }
-  closeLogoutModal() { this.showLogoutModal.set(false); }
+  openLogoutModal()  { 
+    this.showLogoutModal.set(true); 
+  }
+  closeLogoutModal() { 
+    this.showLogoutModal.set(false); 
+  }
+
+  toggleProfileMenu(): void {
+  this.isProfileMenuOpen.update(prev => !prev);
+  }
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen.update(prev => !prev);
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen.set(false);
+  }
+
+  openLogoutModalFromDropdown(): void {
+    this.isProfileMenuOpen.set(false);
+    this.openLogoutModal();
+  }
+
+  openLogoutModalFromMobile(): void {
+    this.isMobileMenuOpen.set(false);
+    this.openLogoutModal();
+  }
+  
 }

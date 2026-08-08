@@ -1,9 +1,10 @@
 <!-- Announcement Bar -->
- @if (!isAdmin()) {
+@if (!isAdmin()) {
   <div class="bg-ink-950 text-ink-50 py-2.5 px-4 text-center">
     <div class="container mx-auto flex items-center justify-center gap-3">
       <p class="label-12m">
-        Discover our latest arrivals - <a 
+        Discover our latest arrivals - 
+        <a 
           routerLink="/products"
           class="underline underline-offset-4 hover:text-ink-300 transition">
           Check out new products
@@ -16,13 +17,11 @@
 <nav class="border-b border-ink-100 bg-white/80 backdrop-blur-md sticky top-0 z-40">
   <div class="container mx-auto px-5 lg:px-0 h-[80px] flex items-center justify-between">
 
-    <!-- Logo -->
-    <a routerLink="/" class="flex items-center gap-2 no-underline">
-        <div class="w-18">
-            <img src="logo.png" alt="Logo" class="w-full h-full object-contain" >
-        </div>
+    <a routerLink="/" (click)="closeMobileMenu()" class="flex items-center gap-2 no-underline">
+      <div class="w-18">
+        <img src="logo.png" alt="Logo" class="w-full h-full object-contain">
+      </div>
 
-      <!-- Badge admin — hanya muncul kalau role admin -->
       @if (isAdmin()) {
         <span class="text-[10px] font-medium bg-ink-900 text-ink-50 px-1.5 py-0.5 rounded">
           Admin
@@ -30,12 +29,12 @@
       }
     </a>
 
-    <!-- Nav links -->
-    <div class="flex items-center gap-1">
+    <!-- Dekstop Navbar -->
+    <div class="hidden md:flex items-center gap-1">
 
+      <!-- Menu admin -->
       @if (isAdmin()) {
 
-        <!-- Menu admin -->
         <a routerLink="/admin/dashboard"
           routerLinkActive="bg-ink-100 text-zinc-900"
           class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg paragraph-14r text-zinc-500 hover:bg-ink-100 hover:text-zinc-900 transition">
@@ -101,44 +100,184 @@
 
       <div class="w-px h-5 bg-zinc-200 mx-1"></div>
 
-      @if (isLoggedIn()) {
-        <button
-          (click)="openLogoutModal()"
-          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg paragraph-14r text-ink-500 border border-zinc-200 hover:bg-red-50 hover:text-red-700 hover:border-red-200 transition cursor-pointer">
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-          </svg>
-          Logout
-        </button>
-      } @else {
-        <!-- Tombol login kalau belum login -->
-        <a routerLink="/auth/login"
-          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg paragraph-14r bg-ink-900 text-white hover:bg-ink-700 transition">
-          Login
-        </a>
-      }
-
-      @if (isLoggedIn()) {
-        <button class="flex items-center gap-3 p-1.5 pr-2.5 rounded-xl hover:bg-zinc-100 border border-zinc-200/80 transition cursor-pointer bg-white">
+      <!-- User dropdown -->
+      <div class="relative">
+        @if (isLoggedIn()) {
+          <button 
+            (click)="toggleProfileMenu()"
+            class="flex items-center gap-3 p-1.5 pr-2.5 rounded-xl hover:bg-ink-100 border border-zinc-200/80 transition cursor-pointer bg-white">
             
-            <div class="relative w-9 h-9 rounded-full bg-zinc-900 text-white flex items-center justify-center font-semibold text-sm tracking-wide shadow-inner overflow-hidden shrink-0">
+            <div class="relative w-9 h-9 rounded-full bg-ink-900 text-white flex items-center justify-center paragraph-14s overflow-hidden shrink-0">
               <span>{{ currentUser()?.name?.charAt(0)?.toUpperCase() || 'U' }}</span>
-              <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
             </div>
             
-            <div class="hidden md:flex flex-col text-left leading-tight">
-              <span class="text-sm font-semibold text-zinc-900 max-w-[110px] truncate">
+            <div class="flex flex-col text-left ">
+              <span class="paragraph-14r text-ink-900 truncate">
                 {{ currentUser()?.name }}
               </span>
-              <span class="text-[11px] text-zinc-500 font-medium tracking-wide uppercase mt-0.5">
+              <span class="text-[11px] text-ink-500 font-medium uppercase mt-0.5">
                 {{ currentUser()?.role }}
               </span>
             </div>
 
+            <svg 
+              class="w-4 h-4 text-ink-400 transition-transform duration-200" 
+              [class]="isProfileMenuOpen() ? 'rotate-180' : ''"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
           </button>
-    }
+
+          <!-- Dropdown Menu Desktop -->
+          @if (isProfileMenuOpen()) {
+            <div class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-ink-100 py-2 z-50">
+              <div class="px-4 py-2 border-b border-ink-100">
+                <p class="paragraph-14r font-semibold text-zinc-900 truncate">{{ currentUser()?.name }}</p>
+                <p class="paragraph-12r text-zinc-500 truncate">{{ currentUser()?.email }}</p>
+              </div>
+
+              <div class="pt-1">
+                <button
+                  (click)="openLogoutModalFromDropdown()"
+                  class="w-full flex items-center gap-2 px-4 py-2 paragraph-14r text-red-600 hover:bg-red-50 transition text-left cursor-pointer">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                  </svg>
+                  Logout
+                </button>
+              </div>
+            </div>
+          }
+        } @else {
+          <!-- Tombol login -->
+          <a routerLink="/auth/login"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg paragraph-14r bg-ink-900 text-white hover:bg-ink-700 transition">
+            Login
+          </a>
+        }
+      </div>
+
     </div>
+
+    <!-- Button Hamburger untuk mobile -->
+    <div class="flex items-center md:hidden">
+      <button 
+        (click)="toggleMobileMenu()"
+        class="p-2 rounded-lg text-zinc-600 hover:text-zinc-900 hover:bg-ink-100 transition ">
+        @if (isMobileMenuOpen()) {
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        } @else {
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        }
+      </button>
+    </div> 
+    
   </div>
+
+  <!-- Navbar Mobile view -->
+  @if (isMobileMenuOpen()) {
+    <div class="md:hidden border-t border-ink-100 bg-white px-5 py-4 space-y-3 shadow-lg">
+      
+      @if (isLoggedIn()) {
+        <div class="flex items-center gap-3 p-2.5 rounded-xl bg-ink-100/50 border border-ink-100 mb-2">
+          <div class="w-9 h-9 rounded-full bg-ink-900 text-white flex items-center justify-center paragraph-14s">
+            {{ currentUser()?.name?.charAt(0)?.toUpperCase() || 'U' }}
+          </div>
+          <div class="flex flex-col">
+            <span class="paragraph-14r text-ink-900">{{ currentUser()?.name }}</span>
+            <span class="text-[11px] text-zinc-500 uppercase font-medium">{{ currentUser()?.role }}</span>
+          </div>
+        </div>
+      }
+
+      <div class="flex flex-col gap-1">
+        @if (isAdmin()) {
+          <a 
+            routerLink="/admin/dashboard" 
+            (click)="closeMobileMenu()"
+            routerLinkActive="bg-ink-100 text-zinc-900"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg paragraph-14r text-zinc-500 hover:bg-ink-100 hover:text-zinc-900 transition">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+            </svg>
+            Dashboard
+          </a>
+
+          <a routerLink="/admin/products" (click)="closeMobileMenu()"
+            routerLinkActive="bg-ink-100 text-zinc-900"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg paragraph-14r text-zinc-500 hover:bg-ink-100 hover:text-zinc-900 transition">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
+            </svg>
+            Products
+          </a>
+
+          <a routerLink="/admin/orders" (click)="closeMobileMenu()"
+            routerLinkActive="bg-ink-100 text-zinc-900"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg paragraph-14r text-ink-500 hover:bg-ink-100 hover:text-zinc-900 transition">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            Orders
+          </a>
+
+          <div class="my-1 border-t border-ink-100"></div>
+
+          <a routerLink="/products" (click)="closeMobileMenu()"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg paragraph-14r text-zinc-500 hover:bg-ink-100 hover:text-zinc-900 transition">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            Shop
+          </a>
+        } @else {
+          <a routerLink="/products" (click)="closeMobileMenu()"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="bg-ink-100 text-zinc-900"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg paragraph-14r text-ink-500 hover:bg-ink-100 hover:text-zinc-900 transition">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            Shop
+          </a>
+
+          @if (isLoggedIn()) {
+            <a routerLink="/cart" (click)="closeMobileMenu()"
+              routerLinkActive="bg-ink-100 text-zinc-900"
+              class="flex items-center gap-2 px-3 py-2 rounded-lg paragraph-14r text-zinc-500 hover:bg-ink-100 hover:text-zinc-900 transition">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+              Cart
+            </a>
+          }
+        }
+      </div>
+
+      <div class="pt-2 border-t border-ink-100">
+        @if (isLoggedIn()) {
+          <button
+            (click)="openLogoutModalFromMobile()"
+            class="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg paragraph-14r text-ink-500 border border-zinc-200 hover:bg-red-50 hover:text-red-700 hover:border-red-200 transition cursor-pointer">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            Logout
+          </button>
+        } @else {
+          <a routerLink="/auth/login" (click)="closeMobileMenu()"
+            class="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg paragraph-14r bg-ink-900 text-white hover:bg-ink-700 transition">
+            Login
+          </a>
+        }
+      </div>
+
+    </div>
+  }
 </nav>
 
 <app-confirmation-modal
