@@ -154,4 +154,8 @@ export class Auth {
     this.clearToken();
     this.clearUser();
   }
+
+  updateUser(user: User): void {
+    this.saveUser(user);
+  }
 }

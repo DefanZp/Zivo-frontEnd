@@ -1,0 +1,160 @@
+<div class="bg-white border border-ink-200 rounded-2xl overflow-hidden shadow-sm">
+
+  @if (isEditing()) {
+    <!-- Mode Edit -->
+    <div class="p-6 md:p-8">
+
+      <div class="mb-6 pb-4 border-b border-ink-100">
+        <h2 class="heading-20s text-ink-950">Edit Profile</h2>
+        <p class="mt-1 paragraph-14r text-ink-500">
+          Update your personal account information and email address.
+        </p>
+      </div>
+
+      <!-- Form Edit -->
+      <form 
+        [formGroup]="profileForm" 
+        (ngSubmit)="saveProfile()" 
+        class="space-y-5">
+
+        <div class="relative">
+            <app-text-input 
+                class="block"
+                [label]="'Full Name'"
+                [type]="'text'"
+                [placeholder]="'full name'"
+                [control]="profileForm.controls.name"
+            />
+            <app-validation-message 
+                [fieldName]="'full name'"
+                [control]="profileForm.controls.name"
+            />
+        </div>
+
+        <div class="relative">
+            <app-text-input 
+                class="block"
+                [label]="'Email Address'"
+                [type]="'email'"
+                [placeholder]="'email address'"
+                [control]="profileForm.controls.email"
+            />
+            <app-validation-message 
+                [fieldName]="'email address'"
+                [control]="profileForm.controls.email"
+            />
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-ink-100">
+          <button
+            type="button"
+            (click)="cancelEditing()"
+            [disabled]="loading()"
+            class="px-4 py-2.5 border border-ink-200 rounded-lg paragraph-14r text-ink-700 hover:bg-ink-50 hover:text-ink-950 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
+            Cancel
+          </button>
+
+          <app-loading-button
+                [loading]="loading()"
+                [text]="'Save Changes'"
+                [loadingText]="'Saving...'"
+                [type]="'submit'">
+            </app-loading-button>
+        </div>
+
+      </form>
+    </div>
+
+  } @else {
+
+    <!-- Mode View -->
+    <div 
+        class="px-6 py-5 border-b border-ink-100 flex items-center justify-between gap-4 bg-ink-50/50">
+      <div>
+        <h2 class="heading-20s text-ink-950 ">Profile Information</h2>
+        <p class="mt-0.5 paragraph-14r text-ink-500 ">
+          Your personal account information and system role.
+        </p>
+      </div>
+
+      <button
+        (click)="startEditing()"
+        type="button"
+        class="flex items-center gap-2 px-4 py-2 border border-ink-200 bg-white rounded-lg paragraph-14r text-ink-700 hover:bg-ink-50 hover:text-ink-950 transition shadow-sm cursor-pointer shrink-0">
+            <svg class="w-4 h-4 text-ink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+            <span>Edit Profile</span>
+      </button>
+    </div>
+
+    <!-- Mode View (Body) -->
+    @if (currentUser(); as user) {
+
+      <div class="p-6  space-y-8">
+
+        <div class="flex items-center gap-5 pb-6 border-b border-ink-100">
+          <div class="w-16 h-16 rounded-full bg-ink-950 text-white flex items-center justify-center text-xl font-bold uppercase shadow-sm shrink-0">
+            {{ user.name ? user.name.charAt(0) : 'U' }}
+          </div>
+
+          <div>
+            <p class="heading-16s text-ink-950 truncate">
+              {{ user.name }}
+            </p>
+            <p class="paragraph-14r text-ink-500 truncate">
+              {{ user.email }}
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="heading-16s text-ink-950 mb-4 ">
+            Account Details
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-ink-50/40 p-5 rounded-xl border border-ink-100">
+
+            <div>
+              <p class="label-12m text-ink-400 uppercase ">Full Name</p>
+              <p class="mt-1 paragraph-14r text-ink-900 ">{{ user.name }}</p>
+            </div>
+
+            <div>
+              <p class="label-12m text-ink-400 uppercase">Email Address</p>
+              <p class="mt-1 paragraph-14r text-ink-900">{{ user.email }}</p>
+            </div>
+
+            <div>
+              <p class="label-12m text-ink-400 uppercase">Role</p>
+              <div class="mt-1">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full label-12m bg-ink-100 text-ink-800 capitalize">
+                  {{ user.role }}
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    } @else {
+
+      <!-- State Jika Data User Kosong / Loading -->
+      <div class="p-8 text-center">
+        <div class="inline-flex p-3 rounded-full bg-ink-50 mb-3 text-ink-400">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+        </div>
+        <p class="paragraph-14r text-ink-600 font-medium">Unable to load profile information.</p>
+        <p class="text-xs text-ink-400 mt-1">Please refresh the page or try again later.</p>
+      </div>
+
+    }
+
+  }
+
+</div>

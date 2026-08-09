@@ -1,0 +1,47 @@
+<section class="min-h-screen bg-ink-50 py-12">
+  <div class="container mx-auto px-5 lg:px-0">
+
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="heading-32s text-ink-950">
+        Account Settings
+      </h1>
+      <p class="mt-1 paragraph-14r text-ink-500">
+        Manage your account and preferences.
+      </p>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex gap-8 border-b border-ink-200">
+
+      <a
+        routerLink="/user/settings"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="text-ink-950 border-b-2 border-ink-950 font-semibold"
+        class="pb-3 paragraph-14r text-ink-500 hover:text-ink-950 transition">
+        Profile
+      </a>  
+
+      <a
+        routerLink="/user/settings/addresses"
+        routerLinkActive="text-ink-950 border-b-2 border-ink-950 font-semibold"
+        class="pb-3 paragraph-14r text-ink-500 hover:text-ink-950 transition">
+        Addresses
+      </a>
+
+      <a
+        routerLink="/user/settings/payment"
+        routerLinkActive="text-ink-950 border-b-2 border-ink-950 font-semibold"
+        class="pb-3 paragraph-14r text-ink-500 hover:text-ink-950 transition">
+        Payment Methods
+      </a>
+
+    </nav>
+
+    <!-- Child component akan dirender di sini -->
+    <div class="mt-8">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</section>

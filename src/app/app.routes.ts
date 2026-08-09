@@ -15,6 +15,11 @@ import { AdminOrdersDetail } from './features/admin/admin-orders-detail/admin-or
 import { BlankLayout } from './shared/layouts/blank-layout/blank-layout';
 import { AdminDashboard } from './features/admin/admin-dashboard/admin-dashboard';
 import { Homepage } from './features/homepage/homepage';
+import { NotFound } from './features/not-found/not-found/not-found';
+import { UserSettings } from './features/user-settings/user-settings';
+import { Profile } from './features/user-settings/profile/profile';
+import { Addresses } from './features/user-settings/addresses/addresses';
+import { PaymentMethods } from './features/user-settings/payment-methods/payment-methods';
 
 export const routes: Routes = [
     {
@@ -62,6 +67,27 @@ export const routes: Routes = [
                 ]
             },
             {
+                path: 'user/settings',
+                component: UserSettings,
+                canActivate: [
+                    authGuard
+                ],
+                children: [
+                    {
+                        path: '',
+                        component: Profile
+                    },
+                    {
+                        path: 'addresses',
+                        component: Addresses
+                    },
+                    {
+                        path: 'payment',
+                        component: PaymentMethods
+                    }
+                ]
+            },
+            {
                 path: 'admin/dashboard',
                 component: AdminDashboard,
                 canActivate: [
@@ -105,4 +131,9 @@ export const routes: Routes = [
             },
         ]
     },
+    // Not found Page
+    {
+        path: '**',
+        component: NotFound,
+    }
 ];

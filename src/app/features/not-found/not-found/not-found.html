@@ -1,0 +1,39 @@
+<section class="min-h-screen bg-ink-50 flex items-center justify-center py-12">
+    <div class="container mx-auto px-5 lg:px-0">
+        <div class="mx-auto text-center space-y-8">
+            
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ink-100 text-ink-600 label-12m">
+                <span class="w-2 h-2 rounded-full bg-ink-900"></span>
+                Error 404
+            </div>
+
+            <div class="space-y-3">
+                <h1 class="heading-56s text-ink-950">
+                    Page not found
+                </h1>
+                <p class="paragraph-16r text-ink-500 max-w-md mx-auto">
+                    Sorry, the page you are looking for cannot be found or may have been moved to another link.
+                </p>
+            </div>
+
+            <!-- Tombol Navigasi Aksi -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                <a 
+                    routerLink="/"
+                    class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-xl paragraph-14s bg-ink-950 text-white hover:bg-ink-800 transition cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    Back to Home
+                </a>
+
+                <a 
+                    routerLink="/products"
+                    class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-xl paragraph-14s text-ink-800 bg-white border border-ink-200 hover:bg-ink-100 transition cursor-pointer">
+                    Browse Products
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
