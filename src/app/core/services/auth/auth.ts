@@ -155,7 +155,7 @@ export class Auth {
     this.clearUser();
   }
 
-  updateUser(user: User): void {
+  updateCurrentUser(user: User): void {
     this.saveUser(user);
   }
 }

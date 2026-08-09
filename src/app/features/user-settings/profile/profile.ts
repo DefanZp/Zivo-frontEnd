@@ -70,7 +70,7 @@ export class Profile {
       .updateProfile(formData)
       .subscribe({
         next: (response) => {
-          this.authService.updateUser(response.data);
+          this.authService.updateCurrentUser(response.data);
           this.loading.set(false);
           this.isEditing.set(false);
         },
