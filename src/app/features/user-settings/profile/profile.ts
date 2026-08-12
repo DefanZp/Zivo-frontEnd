@@ -5,6 +5,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { TextInput } from '../../../shared/components/text-input/text-input';
 import { ValidationMessage } from '../../../shared/components/validation-message/validation-message';
 import { LoadingButton } from '../../../shared/components/loading-button/loading-button';
+import { Toast } from '../../../core/services/toast';
 
 @Component({
   selector: 'app-profile',
@@ -22,6 +23,7 @@ export class Profile {
   private authService = inject(Auth);
   private userSettingsService = inject(User);
   private formBuilder = inject(NonNullableFormBuilder);
+  private toastService = inject(Toast);
 
   // state User
   currentUser = computed(() => {
@@ -73,9 +75,11 @@ export class Profile {
           this.authService.updateCurrentUser(response.data);
           this.loading.set(false);
           this.isEditing.set(false);
+          this.toastService.success('Profile updated successfully.');
         },
         error: () => {
           this.loading.set(false);
+          this.toastService.error('Failed to update profile.');
         }
       })
   }

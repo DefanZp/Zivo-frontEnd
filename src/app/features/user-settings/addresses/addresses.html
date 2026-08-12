@@ -1,1 +1,431 @@
-<p>addresses works!</p>
+<div class="bg-white border border-ink-200 rounded-2xl overflow-hidden shadow-sm">
+
+    @if (showAddressForm()) {
+
+    <!-- Mode Form (Add / Edit Address) -->
+    <div class="px-6 py-5 border-b border-ink-100 flex items-center justify-between gap-4 bg-ink-50/50">
+        <div>
+            <h2 class="heading-20s text-ink-950">
+                @if (editingAddressId()) {
+                    Edit Address
+                } @else {
+                    Add New Address
+                }
+            </h2>
+            <p class="mt-0.5 paragraph-14r text-ink-500">
+                Ensure your shipping address is accurate for seamless delivery.
+            </p>
+        </div>
+
+        <button
+            type="button"
+            (click)="closeAddressForm()"
+            class="px-4 py-2 border border-ink-200 bg-white rounded-lg paragraph-14r text-ink-700 hover:bg-ink-50 hover:text-ink-950 transition shadow-sm cursor-pointer shrink-0">
+            Cancel
+        </button>
+    </div>
+
+    <div class="p-8">
+        @if (loadingForm()) {
+            <div class="py-20 flex justify-center items-center">
+                <app-loading type="spinner"></app-loading>
+            </div>
+        } @else {
+            <form
+                [formGroup]="addressForm"
+                (ngSubmit)="saveAddress()"
+                class="space-y-5">
+
+                <!-- Grid untuk Informasi Utama -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                    <!-- Recipient -->
+                    <div class="relative">
+                        <app-text-input 
+                            class="block"
+                            [label]="'Recipient Name'"
+                            [type]="'text'"
+                            [placeholder]="'Example: Defan Zain'"
+                            [control]="addressForm.controls.recipient_name"
+                        />
+                        <app-validation-message 
+                            [fieldName]="'recipient name'"
+                            [control]="addressForm.controls.recipient_name"
+                        />
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="relative">
+                        <app-text-input 
+                            class="block"
+                            [label]="'Phone / WhatsApp'"
+                            [type]="'text'"
+                            [placeholder]="'081234567890'"
+                            [control]="addressForm.controls.phone"
+                        />
+                        <app-validation-message 
+                            [fieldName]="'phone'"
+                            [control]="addressForm.controls.phone"
+                        />
+                    </div>
+                </div>
+
+                <!-- Label -->
+                <div class="relative">
+                    <app-text-input 
+                        class="block"
+                        [label]="'Address Label'"
+                        [type]="'text'"
+                        [placeholder]="'Example: Rumah / Kantor'"
+                        [control]="addressForm.controls.label"
+                    />
+                    <app-validation-message 
+                        [fieldName]="'address label'"
+                        [control]="addressForm.controls.label"
+                    />
+                </div>
+
+                <!-- Full Address -->
+                <div class="relative">
+                    <app-text-area
+                        class="block"
+                        [label]="'Full Address'"
+                        [rows]="3"
+                        [placeholder]="'Street, house number, RT/RW, landmark...'"
+                        [control]="addressForm.controls.full_address"
+                    />
+                    <app-validation-message 
+                        [fieldName]="'full address'"
+                        [control]="addressForm.controls.full_address"
+                    />
+                </div>
+
+                <!-- Grid untuk Wilayah (Provinsi & Kota) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <!-- Province -->
+                    <div class="relative">
+                        <label class="block mb-2 paragraph-14s text-ink-900">
+                            Province
+                        </label>
+                        <div class="relative w-full">
+                            <select
+                                class="h-12 px-4 pr-10 border border-ink-200 rounded-lg paragraph-14r text-ink-600 bg-white focus:border-ink-400 transition outline-none appearance-none w-full disabled:bg-ink-50 disabled:cursor-not-allowed"
+                                formControlName="province_id"
+                                (change)="onProvinceChange($event)"
+                            >
+                                <option value="">Select Province</option>
+                                @for (province of provinces(); track province.id) {
+                                    <option [value]="province.id">
+                                        {{ province.name }}
+                                    </option>
+                                }
+                            </select>
+
+                            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                                <svg class="w-4 h-4 text-ink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- City -->
+                    <div class="relative">
+                        <label class="block mb-2 paragraph-14s text-ink-900">
+                            City / Regency
+                        </label>
+                        <div class="relative w-full">
+                            <select
+                                class="h-12 px-4 pr-10 border border-ink-200 rounded-lg paragraph-14r text-ink-600 bg-white focus:border-ink-400 transition outline-none appearance-none w-full disabled:bg-ink-50 disabled:cursor-not-allowed"
+                                formControlName="city_id"
+                                (change)="onCityChange($event)"
+                            >
+                                @if (loadingCities()) {
+                                    <option value="">Loading cities...</option>
+                                } @else {
+                                    <option value="">Select City</option>
+                                    @for (city of cities(); track city.id) {
+                                        <option [value]="city.id">
+                                            {{ city.name }}
+                                        </option>
+                                    }
+                                }
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                                <svg class="w-4 h-4 text-ink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid untuk Wilayah (Kecamatan & Kelurahan) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <!-- District -->
+                    <div class="relative">
+                        <label class="block mb-2 paragraph-14s text-ink-900">
+                            District
+                        </label>
+                        <div class="relative w-full">
+                            <select
+                                class="h-12 px-4 pr-10 border border-ink-200 rounded-lg paragraph-14r text-ink-600 bg-white focus:border-ink-400 transition outline-none appearance-none w-full disabled:bg-ink-50 disabled:cursor-not-allowed"
+                                formControlName="district_id"
+                                (change)="onDistrictChange($event)"
+                            >
+                                @if (loadingDistricts()) {
+                                    <option value="">Loading Districts...</option>
+                                } @else {
+                                    <option value="">Select District</option>
+                                    @for (district of districts(); track district.id) {
+                                        <option [value]="district.id">
+                                            {{ district.name }}
+                                        </option>
+                                    }
+                                }
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                                <svg class="w-4 h-4 text-ink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subdistrict -->
+                    <div class="relative">
+                        <label class="block mb-2 paragraph-14s text-ink-900">
+                            Subdistrict
+                        </label>
+                        <div class="relative w-full">
+                            <select
+                                class="h-12 px-4 pr-10 border border-ink-200 rounded-lg paragraph-14r text-ink-600 bg-white focus:border-ink-400 transition outline-none appearance-none w-full disabled:bg-ink-50 disabled:cursor-not-allowed"
+                                formControlName="subdistrict_id"
+                                (change)="onSubdistrictChange($event)"
+                            >
+                                <option value="">Select Subdistrict</option>
+                                @if (loadingSubdistricts()) {
+                                    <option value="">Loading Subdistricts...</option>
+                                } @else {
+                                    @for (subdistrict of subdistricts(); track subdistrict.id) {
+                                        <option [value]="subdistrict.id">
+                                            {{ subdistrict.name }}
+                                        </option>
+                                    }
+                                }
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                                <svg class="w-4 h-4 text-ink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Postal Code -->
+                <div class="relative md:w-1/2">
+                    <app-text-input 
+                        class="block"
+                        [label]="'Postal Code'"
+                        [type]="'text'"
+                        [placeholder]="'65145'"
+                        [control]="addressForm.controls.postal_code"
+                    />
+                    <app-validation-message 
+                        [fieldName]="'postal code'"
+                        [control]="addressForm.controls.postal_code"
+                    />
+                </div>
+
+                <!-- Default Checkbox -->
+                <div class="pt-2">
+                    <label class="flex items-center gap-3 cursor-pointer select-none">
+                        <input
+                            type="checkbox"
+                            formControlName="is_default"
+                            class="w-4 h-4 accent-ink-950 rounded cursor-pointer">
+                        <span class="paragraph-14r text-ink-700">
+                            Set as default shipping address
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-end gap-3 pt-4 border-t border-ink-100">
+                    <button
+                        type="button"
+                        (click)="closeAddressForm()"
+                        [disabled]="saving()"
+                        class="px-4 py-2.5 border border-ink-200 rounded-lg paragraph-14r text-ink-700 hover:bg-ink-50 hover:text-ink-950 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
+                        Cancel
+                    </button>
+
+                    <app-loading-button
+                        [loading]="saving()"
+                        [text]="editingAddressId() ? 'Update Address' : 'Save Address'"
+                        [loadingText]="'Saving...'"
+                        [type]="'submit'">
+                    </app-loading-button>
+                </div>
+
+            </form>
+        }
+    </div>
+
+    } @else {
+
+    <!-- Mode View Header -->
+    <div class="px-6 py-5 border-b border-ink-100 flex items-center justify-between gap-4 bg-ink-50/50">
+        <div>
+            <h2 class="heading-20s text-ink-950">Your Addresses</h2>
+            <p class="mt-0.5 paragraph-14r text-ink-500">
+                Manage your saved shipping addresses for faster checkout.
+            </p>
+        </div>
+
+        <button
+            type="button"
+            (click)="openAddressForm()"
+            class="flex items-center gap-2 px-4 py-2 border border-ink-200 bg-white rounded-lg paragraph-14r text-ink-700 hover:bg-ink-50 hover:text-ink-950 transition shadow-sm cursor-pointer shrink-0">
+            <svg class="w-4 h-4 text-ink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span>Add Address</span>
+        </button>
+    </div>
+
+    <!-- Mode View Body -->
+    <div class="p-6">
+        @if (loading()) {
+            <div class="py-20 flex justify-center items-center">
+                <app-loading type="spinner"></app-loading>
+            </div>
+        } @else if (errorMessage()) {
+            <app-empty-state 
+                type="error" 
+                title="Failed to load address" 
+                [description]="errorMessage()">
+                <button
+                    (click)="loadAddress()"
+                    class="px-6 py-2.5 bg-ink-950 text-white paragraph-14r rounded-full hover:bg-ink-800 transition">
+                    Try again
+                </button>
+            </app-empty-state>
+        } @else if (addresses().length === 0) {
+            <div class="py-12 text-center">
+                <div class="inline-flex p-3 rounded-full bg-ink-50 mb-3 text-ink-400">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </div>
+                <p class="paragraph-14r text-ink-600 font-medium">No addresses yet.</p>
+                <p class="text-xs text-ink-400 mt-1">Add a shipping address to make checkout faster.</p>
+            </div>
+        } @else {
+            <div class="grid grid-cols-1 gap-4">
+                @for (address of addresses(); track address.id) {
+                    <div class="p-5 rounded-xl border border-ink-100 bg-ink-50/40 hover:bg-ink-50/80 hover:border-ink-200 transition-all duration-200 shadow-xs">
+    
+                        <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                            
+                            <!-- Info Alamat -->
+                            <div class="space-y-2 flex-1">
+                                
+                                <!-- Label & Badge Default -->
+                                <div class="flex items-center gap-2.5">
+                                    <h3 class="heading-16s text-ink-950 capitalize">
+                                        {{ address.label }}
+                                    </h3>
+                                    @if (address.is_default) {
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full label-12m bg-ink-950 text-white uppercase">
+                                            Default
+                                        </span>
+                                    }
+                                </div>
+
+                                <!-- Nama Penerima & Telepon -->
+                                <div class="flex  items-center gap-x-3 gap-y-1 paragraph-14s text-ink-900">
+                                    <span class="font-semibold">{{ address.recipient_name }}</span>
+                                    <span class="text-ink-300">•</span>
+                                    <span class="text-ink-600 font-normal flex items-center gap-1.5">
+                                        <!-- Phone Icon -->
+                                        <svg class="w-3.5 h-3.5 text-ink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                        </svg>
+                                        {{ address.phone }}
+                                    </span>
+                                </div>
+
+                                <!-- Alamat Lengkap -->
+                                <p class="paragraph-14r text-ink-600 ">
+                                    {{ address.full_address }}
+                                </p>
+
+                                <!-- Kode Pos -->
+                                @if (address.postal_code) {
+                                    <p class="paragraph-14r text-ink-500 flex items-center gap-1.5 pt-0.5">
+                                        <span>Postal Code:</span> 
+                                        <span class="text-ink-900 font-medium">{{ address.postal_code }}</span>
+                                    </p>
+                                }
+                            </div>
+
+                            <!-- Aksi Tombol -->
+                            <div class="flex items-center md:items-end justify-between md:justify-end gap-6 pt-3 md:pt-0 border-t md:border-t-0 border-ink-100">
+                                
+                                @if (!address.is_default) {
+                                    <button
+                                        type="button"
+                                        (click)="setDefaultAddress(address.id)"
+                                        [disabled]="settingDefault()"
+                                        class="paragraph-14s text-ink-600 hover:text-ink-950 disabled:opacity-50 transition cursor-pointer flex items-center gap-1">
+                                        @if (settingDefault()) {
+                                            <span>Setting...</span>
+                                        } @else {
+                                            <span>Set Default</span>
+                                        }
+                                    </button>
+                                }
+
+                                <button
+                                    type="button"
+                                    (click)="openEditForm(address)"
+                                    class="paragraph-14s text-ink-600 hover:text-ink-950 transition cursor-pointer">
+                                    Edit
+                                </button>
+
+                                <button
+                                    type="button"
+                                    (click)="openDeleteModal(address.id)"
+                                    class="paragraph-14s text-red-600 hover:text-red-700 transition cursor-pointer">
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    }
+
+</div>
+
+<!-- Delete modal -->
+<app-confirmation-modal
+    [isOpen]="showDeleteModal()"
+    [loading]="deleting()"
+    variant="warning"
+    title="Delete this address?"
+    description="This address will be permanently removed from your saved addresses."
+    confirmText="Delete"
+    loadingText="Deleting..."
+    (confirm)="deleteAddress()"
+    (cancel)="closeDeleteModal()"
+/>
