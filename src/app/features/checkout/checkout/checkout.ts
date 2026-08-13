@@ -1,53 +1,46 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Cart } from '../../../core/services/cart/cart';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Checkout as CheckoutService } from '../../../core/services/checkout/checkout';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CheckoutRequest } from '../../../core/models/checkout/checkout-request.model';
 import { CheckoutItem } from '../../../core/models/checkout/checkout-item.model';
-import { LoadingButton } from '../../../shared/components/loading-button/loading-button';
 import { Toast } from '../../../core/services/toast';
-import { TextInput } from '../../../shared/components/text-input/text-input';
-import { ValidationMessage } from '../../../shared/components/validation-message/validation-message';
 import { CurrencyPipe } from '@angular/common';
+import { Address as AddressModel } from '../../../core/models/user-settings/address/address.model';
+import { Address } from '../../../core/services/address/address';
+import { LoadingButton } from '../../../shared/components/loading-button/loading-button';
+import { Loading } from '../../../shared/components/loading/loading';
 
 @Component({
   selector: 'app-checkout',
-  imports: [
-    ReactiveFormsModule,
-    LoadingButton,
-    TextInput,
-    ValidationMessage,
+  imports: [  
     CurrencyPipe,
+    RouterLink,
+    LoadingButton,
+    Loading
   ],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
 })
-export class Checkout {
+export class Checkout implements OnInit{
 
   private cartService = inject(Cart);
   private checkoutService = inject(CheckoutService);
   private toastService = inject(Toast);
-  private formBuilder = inject(NonNullableFormBuilder);
   private router = inject(Router);
 
   // error and loading state
   loading = signal(false);
   errorMessage = signal('');
 
+  // section address
+  addressService = inject(Address);
+  addresses = signal<AddressModel[]>([]);
+  selectedAddressId = signal<number | null>(null);
+  loadingAddresses = signal(false);
+
   cartItems = this.cartService.cartItems();
-
   cartTotal = this.cartService.cartTotal;
-
-  checkoutForm = this.formBuilder.group({
-
-    customer_name:['', [Validators.required, Validators.maxLength(255)]],
-
-    phone: ['', [Validators.required, Validators.maxLength(20)]],
-
-    address: ['', [Validators.required, Validators.maxLength(500)]],
-
-  });
 
   private buildCheckoutItems (): CheckoutItem[] {
 
@@ -63,29 +56,61 @@ export class Checkout {
     })
   }
 
-  private buildCheckoutRequest (): CheckoutRequest {
-    
-    const formData = this.checkoutForm.getRawValue();
+  private buildCheckoutRequest (addressId: number): CheckoutRequest {
 
     return {
-
-      customer_name: formData.customer_name,
-
-      phone: formData.phone,
-
-      address: formData.address,
+      
+      address_id: addressId,
 
       items: this.buildCheckoutItems()
+
     }
+  }
+
+  loadAddresses(): void {
+
+    this.loadingAddresses.set(true);
+
+    this.addressService
+      .getAddresses()
+      .subscribe({
+        next: (response) => {
+          
+          const address = response.data;
+          this.addresses.set(address);
+
+          // cari alamat utama
+          const defaultAddress = address.find(
+            address => address.is_default
+          );
+
+          if (defaultAddress) {
+            this.selectedAddressId.set(defaultAddress.id);
+          }
+
+          this.loadingAddresses.set(false);
+        },
+        error: () => {
+          this.errorMessage.set('Failed to load the address. Please try again.');
+          this.loadingAddresses.set(false);
+        }
+      })
+  }
+
+  selectAddress(addressId: number): void {
+    this.selectedAddressId.set(addressId);
   }
 
   submitCheckout(): void {
 
-    if (this.checkoutForm.invalid) {
-    return;
+    const addressId = this.selectedAddressId();
+
+    if (!addressId) {
+      this.toastService.error('Please select a shipping address');
+      return;
     }
 
-    const request = this.buildCheckoutRequest();
+    const request = this.buildCheckoutRequest(addressId);
 
     this.loading.set(true);
     
@@ -105,4 +130,7 @@ export class Checkout {
       });
   }
 
+  ngOnInit(): void {
+    this.loadAddresses();
+  }
 }

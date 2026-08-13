@@ -5,90 +5,132 @@
             <div class="flex flex-col lg:flex-row gap-8 items-start">
                 
                 <div class="w-full lg:w-[62%] bg-white shadow-xs border border-ink-200 rounded-2xl p-6 lg:p-8">
-                    
-                    <h1 class="heading-20s text-ink-900 mb-6">
-                        Shipping Information
-                    </h1>
-                    
-                    <form 
-                        [formGroup]="checkoutForm"
-                        (ngSubmit)="submitCheckout()"
-                        class="flex flex-col gap-6">
-                        
-                        <!-- Error Alert -->
-                        @if (errorMessage()) {
-                            <div class="p-4 bg-rose-50/80 border border-rose-200/80 rounded-xl flex items-start gap-3">
-                                <svg class="w-5 h-5 text-rose-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                                <p class="text-sm font-medium text-rose-700 leading-snug">
-                                    {{ errorMessage() }}
-                                </p>
+                    <div class="space-y-8">
+                        <div>
+                            <h2 class="heading-20s text-ink-950">Shipping Address</h2>
+                            <p class="mt-0.5 paragraph-14r text-ink-500">Choose an address for your order.</p>
+                        </div>
+
+                        @if (loadingAddresses()) {
+
+                            <div class="py-20 flex justify-center items-center">
+                                <app-loading type="spinner"></app-loading>
                             </div>
+
+                        } @else if (addresses().length === 0) {
+
+                            <div class="border border-dashed border-ink-300 rounded-xl p-6 text-center">
+
+                                <p class="paragraph-14r text-ink-600">
+                                    You don't have a shipping address yet.
+                                </p>
+
+                                <a
+                                    routerLink="/user/settings/addresses"
+                                    class="inline-block mt-4 px-5 py-2.5 bg-ink-950 text-white rounded-lg">
+                                    Add Address
+                                </a>
+
+                            </div>
+
+                        } @else {
+
+                            <div class="space-y-3">
+
+                                    @for (address of addresses(); track address.id) {
+
+                                        <button
+                                            type="button"
+                                            (click)="selectAddress(address.id)"
+                                            class="w-full text-left p-5 rounded-xl border transition-all duration-200 cursor-pointer shadow-xs"
+                                            [class.border-ink-950]="selectedAddressId() === address.id"
+                                            [class.bg-ink-50]="selectedAddressId() === address.id"
+                                            [class.border-ink-100]="selectedAddressId() !== address.id"
+                                            [class.bg-ink-50/40]="selectedAddressId() !== address.id"
+                                            [class.hover:bg-ink-50/80]="selectedAddressId() !== address.id"
+                                            [class.hover:border-ink-200]="selectedAddressId() !== address.id">
+
+                                            <div class="flex items-start justify-between gap-4">
+
+                                                <!-- Info Alamat -->
+                                                <div class="space-y-2 flex-1">
+
+                                                    <!-- Label & Badge Default -->
+                                                    <div class="flex items-center gap-2.5">
+                                                        <h3 class="heading-16s text-ink-950 capitalize">
+                                                            {{ address.label }}
+                                                        </h3>
+
+                                                        @if (address.is_default) {
+                                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full label-12m bg-ink-950 text-white uppercase">
+                                                                Default
+                                                            </span>
+                                                        }
+                                                    </div>
+
+                                                    <!-- Nama Penerima & Telepon -->
+                                                    <div class="flex items-center gap-x-3 gap-y-1 paragraph-14s text-ink-900">
+                                                        <span class="font-semibold">{{ address.recipient_name }}</span>
+                                                        <span class="text-ink-300">•</span>
+                                                        <span class="text-ink-600 font-normal flex items-center gap-1.5">
+                                                            <!-- Phone Icon -->
+                                                            <svg class="w-3.5 h-3.5 text-ink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                                            </svg>
+                                                            {{ address.phone }}
+                                                        </span>
+                                                    </div>
+
+                                                    <!-- Alamat Lengkap -->
+                                                    <p class="paragraph-14r text-ink-600">
+                                                        {{ address.full_address }}
+                                                    </p>
+
+                                                    <!-- Wilayah / Kota / Kode Pos -->
+                                                    <p class="paragraph-14r text-ink-500">
+                                                        {{ address.district_name }}, {{ address.city_name }}, {{ address.province_name }} {{ address.postal_code }}
+                                                    </p>
+
+                                                </div>
+
+                                                <!-- Radio Button Indicator -->
+                                                <div class="w-5 h-5 rounded-full border shrink-0 flex items-center justify-center transition-colors"
+                                                    [class.border-ink-950]="selectedAddressId() === address.id"
+                                                    [class.border-ink-300]="selectedAddressId() !== address.id">
+
+                                                    @if (selectedAddressId() === address.id) {
+                                                        <div class="w-2.5 h-2.5 rounded-full bg-ink-950"></div>
+                                                    }
+
+                                                </div>
+
+                                            </div>
+
+                                        </button>
+
+                                    }
+
+                                </div>
+
+                            <a
+                                routerLink="/user/settings/addresses"
+                                class="inline-block text-sm underline text-ink-600 hover:text-ink-950">
+                                Manage addresses
+                            </a>
+
+                            <div class="pt-4 border-t border-zinc-100">
+                                <app-loading-button
+                                    [loading]="loading()"
+                                    [text]="'Place Order Now'"
+                                    [loadingText]="'Processing Order...'"
+                                    class="w-full"
+                                    (click)="submitCheckout()">
+                                </app-loading-button>
+                            </div>
+
                         }
 
-                        <div class="space-y-4">
-                            <h2 class="paragraph-12s uppercase text-ink-400">Contact Details</h2>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="relative">
-                                    <app-text-input 
-                                        class="block"
-                                        [label]="'Full Name'"
-                                        [type]="'text'"
-                                        [placeholder]="'Enter full name'"
-                                        [control]="checkoutForm.controls.customer_name"
-                                    />
-                                    <app-validation-message 
-                                        [fieldName]="'customer name'"
-                                        [control]="checkoutForm.controls.customer_name"
-                                    />
-                                </div>
-
-                                <div class="relative">
-                                    <app-text-input 
-                                        class="block"
-                                        [label]="'Phone / WhatsApp Number'"
-                                        [type]="'tel'"
-                                        [placeholder]="'e.g. 08123456789'"
-                                        [control]="checkoutForm.controls.phone"
-                                    />
-                                    <app-validation-message 
-                                        [fieldName]="'phone'"
-                                        [control]="checkoutForm.controls.phone"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-4 pt-2">
-                            <h2 class="paragraph-12s uppercase text-ink-400">
-                                Shipping Address
-                            </h2>
-                            <div class="relative">
-                                <app-text-input 
-                                    class="block"
-                                    [label]="'Full Address'"
-                                    [type]="'text'"
-                                    [placeholder]="'Street name, house number, district, city, postal code...'"
-                                    [control]="checkoutForm.controls.address"
-                                />
-                                <app-validation-message 
-                                    [fieldName]="'address'"
-                                    [control]="checkoutForm.controls.address"
-                                />
-                            </div>
-                        </div>
-
-                        <div class="pt-4 border-t border-zinc-100">
-                            <app-loading-button
-                                [loading]="loading()"
-                                [text]="'Place Order Now'"
-                                [loadingText]="'Processing Order...'"
-                                class="w-full"
-                                [type]="'submit'">
-                            </app-loading-button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
 
                 <div class="w-full lg:w-[38%] bg-white shadow-xs border border-zinc-200/80 rounded-2xl p-6 lg:p-8 lg:sticky lg:top-24">
