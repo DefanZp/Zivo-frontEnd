@@ -15,6 +15,28 @@ export class Order {
 
   private apiUrl = environment.apiUrl;
 
+  // User section
+  getUserOrders(params: GetOrdersParams) {
+
+    const queryParams: Record<string, string | number> = {
+      page: params.page ?? 1,
+    };
+
+    return this.http.get<ApiResponse<PaginatedResponse<OrderModel>>>
+    (
+      `${this.apiUrl}/orders`,
+      {
+        params: queryParams
+      }
+    );
+  }
+
+  getUserOrderById(id: number) {
+    return this.http.get<ApiResponse<OrderModel>>
+    (`${this.apiUrl}/orders/${id}`);
+  }
+  
+  // Admin section
   getOrders(params: GetOrdersParams) {
 
     const queryParams: Record<string, string | number> = {

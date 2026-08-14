@@ -1,66 +1,69 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Order } from '../../../core/services/order/order';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { Order as OrderService } from '../../../core/services/order/order';
 import { Order as OrderModel } from '../../../core/models/order/order.model';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Loading } from '../../../shared/components/loading/loading';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { StatusBadge } from '../../../shared/components/status-badge/status-badge';
 
 @Component({
-  selector: 'app-admin-orders-detail',
+  selector: 'app-order-detail',
   imports: [
-    CommonModule,
     Loading,
-    EmptyState,
-    StatusBadge,
     CurrencyPipe,
+    EmptyState,
+    DatePipe,
+    StatusBadge,
+    RouterLink,
   ],
-  templateUrl: './admin-orders-detail.html',
-  styleUrl: './admin-orders-detail.css',
+  templateUrl: './order-detail.html',
+  styleUrl: './order-detail.css',
 })
-export class AdminOrdersDetail implements OnInit {
+export class OrderDetail implements OnInit{
 
-  private orderService = inject(Order);
-
+  private orderService = inject(OrderService);
   private route = inject(ActivatedRoute);
 
+  // order data
   order = signal<OrderModel | null>(null);
+
+  // loading & error state
   loading = signal(false);
   errorMessage = signal('');
-  
+
+  // dapatkan order id 
+  orderId = this.getOrderId();
 
   private getOrderId(): number {
     return Number(
       this.route.snapshot.paramMap.get('id')
-    )
+    );
   }
 
-  orderId = this.getOrderId();
-
-  loadOrders(): void {
+  loadOrder(): void {
 
     this.loading.set(true);
+    this.errorMessage.set('');
 
     this.orderService
-      .getOrderById(this.orderId)
+      .getUserOrderById(this.orderId)
       .subscribe({
-
         next: (response) => {
           this.order.set(response.data);
-
+          console.log(this.order());
           this.loading.set(false);
         },
-
         error: (error) => {
           this.errorMessage.set('Failed to load order details. Please try again.');
 
           this.loading.set(false);
         }
-      });
+      })
   }
 
   ngOnInit(): void {
-    this.loadOrders();
+    this.loadOrder();
   }
+
 }

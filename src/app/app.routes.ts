@@ -20,6 +20,8 @@ import { UserSettings } from './features/user-settings/user-settings';
 import { Profile } from './features/user-settings/profile/profile';
 import { Addresses } from './features/user-settings/addresses/addresses';
 import { PaymentMethods } from './features/user-settings/payment-methods/payment-methods';
+import { OrderList } from './features/order/order-list/order-list';
+import { OrderDetail } from './features/order/order-detail/order-detail';
 
 export const routes: Routes = [
     {
@@ -85,6 +87,20 @@ export const routes: Routes = [
                         path: 'payment',
                         component: PaymentMethods
                     }
+                ]
+            },
+            {
+                path: 'user/orders',
+                component: OrderList,
+                canActivate: [
+                    authGuard
+                ]
+            },
+            {
+                path: 'user/orders/:id',
+                component: OrderDetail,
+                canActivate: [
+                    authGuard
                 ]
             },
             {
