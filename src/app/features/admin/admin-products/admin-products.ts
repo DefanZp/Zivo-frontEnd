@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import { Product } from '../../../core/services/product/product';
 import { Product as ProductModel } from '../../../core/models/product/product.model';
 import { Router } from '@angular/router';
@@ -128,9 +128,23 @@ export class AdminProducts implements OnInit {
   goToPage(page: number): void {
     this.currentPage.set(page);
     this.loadProducts();
+    this.scrollToProducts();
   }
 
   ngOnInit(): void {
     this.loadProducts();
+  }
+
+  // section untuk scroll ketika ubah pagination
+  productSection = viewChild<ElementRef>('productSection');
+
+  private scrollToProducts(): void {
+    const element = this.productSection()?.nativeElement;
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
 }

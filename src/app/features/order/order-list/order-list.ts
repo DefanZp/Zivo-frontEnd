@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import { Order as OrderService } from '../../../core/services/order/order';
 import { Order as OrderModel } from '../../../core/models/order/order.model';
 import { CurrencyPipe, DatePipe } from '@angular/common';
@@ -80,9 +80,23 @@ export class OrderList implements OnInit{
     this.currentPage.set(page);
 
     this.loadOrders();
+    this.scrollToOrders();
   }
 
   ngOnInit(): void {
     this.loadOrders();
+  }
+
+  // section untuk scroll ketika ubah pagination
+  orderSection = viewChild<ElementRef>('orderSection');
+
+  private scrollToOrders(): void {
+    const element = this.orderSection()?.nativeElement;
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
 }
