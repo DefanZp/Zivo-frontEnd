@@ -76,18 +76,23 @@
                                 </div>
 
                                 <div class="py-4 px-6 flex items-center justify-between bg-ink-50/40 rounded-b-2xl border-t border-ink-100">
-                                    <span class="paragraph-14r text-ink-500 font-medium">Total Amount</span>
+                                <div>
+                                    <span class="paragraph-12r text-ink-500 block">Total Amount</span>
                                     <span class="heading-16s text-ink-950">
                                         {{ +order.total_price | currency:'IDR ':'symbol':'1.0-0' }}
                                     </span>
                                 </div>
 
-                                 <button
+                                <a
                                     [routerLink]="['/user/orders', order.id]"
-                                    class="mx-6 my-4 px-4 py-2 bg-ink-950 text-white rounded-lg paragraph-12s cursor-pointer"
+                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-ink-950 text-white rounded-xl paragraph-12s font-medium hover:bg-ink-800 transition cursor-pointer"
                                 >
-                                    View Details
-                                </button>
+                                    <span>View Details</span>
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </a>
+                            </div>
 
                         </div>
                     }
