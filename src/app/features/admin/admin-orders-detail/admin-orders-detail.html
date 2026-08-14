@@ -27,9 +27,9 @@
                 </div>
 
                 <div class="space-y-2">
-                    <p>Customer: {{ order()?.customer_name }}</p>
+                    <p>Customer: {{ order()?.recipient_name }}</p>
                     <p>Phone: {{ order()?.phone }}</p>
-                    <p>Address: {{ order()?.address }}</p>
+                    <p>Address: {{ order()?.full_address }}</p>
                     <p>Total: {{ order()!.total_price | currency:'IDR ':'symbol':'1.0-0'  }}</p>
                 </div>
 

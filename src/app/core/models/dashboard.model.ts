@@ -8,7 +8,7 @@ export interface DashboardStatistic {
 export interface DashboardLatestOrder {
     id: number;
     user_id: number;
-    customer_name: string;
+    recipient_name: string;
     total_price: string;
     status: string;
     created_at: string;

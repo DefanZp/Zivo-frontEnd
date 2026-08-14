@@ -59,7 +59,7 @@
                                 @for (order of dashboardData()!.latest_orders_data; track order.id) {
                                     <tr class="border-b border-gray-200 hover:bg-gray-50">
                                         <td class="p-4">
-                                            {{ order.customer_name }}
+                                            {{ order.recipient_name }}
                                         </td>
                                         <td class="p-4">
                                             <app-status-badge 
