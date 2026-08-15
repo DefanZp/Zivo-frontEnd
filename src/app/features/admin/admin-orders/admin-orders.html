@@ -31,7 +31,9 @@
                 <table class="w-full text-sm">
                     <thead class="bg-gray-100">
                         <tr>
-                            <th class="p-4 text-left">Customer</th>
+                            <th class="p-4 text-left">Id</th>
+                            <th class="p-4 text-left">Order Date</th>
+                            <th class="p-4 text-left">Recipient Name</th>
                             <th class="p-4 text-left">Phone</th>
                             <th class="p-4 text-left">Total</th>
                             <th class="p-4 text-left">Status</th>
@@ -42,6 +44,12 @@
                         @for (order of orders(); track order.id) {
                             <tr class="border-b border-gray-200 hover:bg-gray-50">
                                 <td class="p-4">
+                                    #{{ order.id }}
+                                </td>
+                                <td class="p-4">
+                                    {{ order.created_at | date:'dd MMM yyyy, HH:mm' }}
+                                </td>
+                                <td class="p-4">
                                     {{ order.recipient_name }}
                                 </td>
                                 <td class="p-4">{{ order.phone }}</td>
@@ -50,8 +58,9 @@
                                 </td>
                                 <td class="p-4">
                                     <select
+                                        [disabled]="updatingStatus()"
                                         (change)="updateStatus(order.id, $any($event.target).value)"
-                                        class="p-2 border border-gray-200 rounded-md text-sm">
+                                        class="p-2 border border-gray-200 rounded-md text-sm disabled:opacity-50">
                                         @for (option of statusOptions; track option.value) {
                                             <option 
                                                 [value]="option.value"

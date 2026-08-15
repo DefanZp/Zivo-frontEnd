@@ -7,6 +7,8 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { StatusBadge } from '../../../shared/components/status-badge/status-badge';
 
+type OrderStatus = | 'pending' | 'processing' | 'shipped' | 'completed' | 'cancelled';
+
 @Component({
   selector: 'app-order-detail',
   imports: [
@@ -14,7 +16,6 @@ import { StatusBadge } from '../../../shared/components/status-badge/status-badg
     CurrencyPipe,
     EmptyState,
     DatePipe,
-    StatusBadge,
     RouterLink,
   ],
   templateUrl: './order-detail.html',
@@ -39,6 +40,59 @@ export class OrderDetail implements OnInit{
     return Number(
       this.route.snapshot.paramMap.get('id')
     );
+  }
+
+  // Order status section 
+  statuses: OrderStatus[] = [
+    'pending',
+    'processing',
+    'shipped',
+    'completed',
+  ];
+
+  isStatusCompleted(status: OrderStatus): boolean {
+
+    const currentStatus = this.order()?.status;
+
+    if (!currentStatus) {
+      return false;
+    }
+
+    const currentIndex = this.statuses.indexOf(
+      currentStatus as OrderStatus
+    );
+
+    const statusIndex = this.statuses.indexOf(status);
+
+    return statusIndex <= currentIndex;
+  }
+
+  isCancelled(): boolean {
+    return this.order()?.status === 'cancelled';
+  }
+
+  isCurrentStatus(status: OrderStatus): boolean {
+    return this.order()?.status === status;
+  }
+
+  getStatusLabel(status: OrderStatus): string {
+    switch (status) {
+
+      case 'pending':
+        return 'Order Placed';
+
+      case 'processing':
+        return 'Processing';
+
+      case 'shipped':
+        return 'Shipped';
+
+      case 'completed':
+        return 'Completed';
+
+      default:
+        return status;
+    }
   }
 
   loadOrder(): void {

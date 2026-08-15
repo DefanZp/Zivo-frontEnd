@@ -6,6 +6,7 @@ import { Order as OrderModel } from '../../../core/models/order/order.model';
 import { Loading } from '../../../shared/components/loading/loading';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { StatusBadge } from '../../../shared/components/status-badge/status-badge';
+import { Toast } from '../../../core/services/toast';
 
 @Component({
   selector: 'app-admin-orders-detail',
@@ -22,12 +23,15 @@ import { StatusBadge } from '../../../shared/components/status-badge/status-badg
 export class AdminOrdersDetail implements OnInit {
 
   private orderService = inject(Order);
+  private toastService = inject(Toast);
 
   private route = inject(ActivatedRoute);
 
   order = signal<OrderModel | null>(null);
   loading = signal(false);
   errorMessage = signal('');
+
+  updatingStatus = signal(false);
   
 
   private getOrderId(): number {
@@ -59,6 +63,36 @@ export class AdminOrdersDetail implements OnInit {
         }
       });
   }
+
+  updateStatus(status: string): void {
+
+  this.updatingStatus.set(true);
+
+  this.orderService
+    .updateStatus(this.orderId, { status })
+    .subscribe({
+      next: (response) => {
+        this.order.update(order  => {
+
+          if (!order) return null;
+          
+          return {
+            ...order,
+            status: response.data.status,
+          };
+        })
+        this.toastService.success('Order status updated successfully.');
+        this.updatingStatus.set(false);
+      },
+      error: () => {  
+        this.errorMessage.set(
+          'Failed to update the order status. Please try again.'
+        );
+        this.toastService.error('Failed to update the order status. Please try again.');
+        this.updatingStatus.set(false);
+      }
+    });
+}
 
   ngOnInit(): void {
     this.loadOrders();

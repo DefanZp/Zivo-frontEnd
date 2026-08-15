@@ -26,12 +26,67 @@
                     </app-status-badge>
                 </div>
 
-                <div class="space-y-2">
-                    <p>Customer: {{ order()?.recipient_name }}</p>
-                    <p>Phone: {{ order()?.phone }}</p>
-                    <p>Address: {{ order()?.full_address }}</p>
-                    <p>Total: {{ order()!.total_price | currency:'IDR ':'symbol':'1.0-0'  }}</p>
+                <div class="mt-8">
+                    <h2 class="text-2xl font-semibold mb-4">
+                        Shipping Information
+                    </h2>
+
+                    <div class="space-y-2">
+                        <p>
+                            <span class="font-medium">Recipient:</span>
+                            {{ order()?.recipient_name }}
+                        </p>
+
+                        <p>
+                            <span class="font-medium">Phone:</span>
+                            {{ order()?.phone }}
+                        </p>
+
+                        <p>
+                            <span class="font-medium">Address:</span>
+                            {{ order()?.full_address }}
+                        </p>
+
+                        <p>
+                            <span class="font-medium">Province:</span>
+                            {{ order()?.province_name }}
+                        </p>
+
+                        <p>
+                            <span class="font-medium">City:</span>
+                            {{ order()?.city_name }}
+                        </p>
+
+                        <p>
+                            <span class="font-medium">District:</span>
+                            {{ order()?.district_name }}
+                        </p>
+
+                        @if (order()?.subdistrict_name) {
+                            <p>
+                                <span class="font-medium">Subdistrict:</span>
+                                {{ order()?.subdistrict_name }}
+                            </p>
+                        }
+
+                        <p>
+                            <span class="font-medium">Postal Code:</span>
+                            {{ order()?.postal_code }}
+                        </p>
+                    </div>
                 </div>
+
+                <select
+                    [value]="order()!.status"
+                    [disabled]="updatingStatus()"
+                    (change)="updateStatus($any($event.target).value)"
+                    class="p-2 border border-ink-200 rounded-md mt-6 disabled:opacity-50"
+                >
+                    <option value="pending">Pending</option>
+                    <option value="processing">Processing</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
 
                 <div class="mt-8">
                     <h2 class="text-2xl font-semibold mb-4">Items</h2>

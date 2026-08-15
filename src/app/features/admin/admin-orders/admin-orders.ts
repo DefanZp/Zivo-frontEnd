@@ -4,8 +4,9 @@ import { Order } from '../../../core/services/order/order';
 import { Router } from '@angular/router';
 import { Loading } from '../../../shared/components/loading/loading';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Pagination } from '../../../shared/components/pagination/pagination';
+import { Toast } from '../../../core/services/toast';
 
 @Component({
   selector: 'app-admin-orders',
@@ -14,6 +15,7 @@ import { Pagination } from '../../../shared/components/pagination/pagination';
     EmptyState,
     CurrencyPipe,
     Pagination,
+    DatePipe,
   ],
   templateUrl: './admin-orders.html',
   styleUrl: './admin-orders.css',
@@ -22,10 +24,14 @@ export class AdminOrders implements OnInit {
 
   private orderService = inject(Order);
   private router = inject(Router);
+  private toastService = inject(Toast);
 
   orders = signal<OrderModel[]>([]);
   loading = signal(false);
   errorMessage = signal('');
+
+  // loading update status
+  updatingStatus = signal(false);
 
   // state pagination
   currentPage = signal(1);
@@ -35,6 +41,7 @@ export class AdminOrders implements OnInit {
   statusOptions = [
     { value: 'pending',    label: 'Pending'    },
     { value: 'processing', label: 'Processing' },
+    { value: 'shipped',    label: 'Shipped'    },
     { value: 'completed',  label: 'Completed'  },
     { value: 'cancelled',  label: 'Cancelled'  },
   ];
@@ -64,6 +71,9 @@ export class AdminOrders implements OnInit {
   }
 
   updateStatus(orderId: number, status: string): void {
+
+    this.updatingStatus.set(true);
+
     this.orderService
       .updateStatus( orderId, { status } )
       .subscribe({
@@ -75,10 +85,15 @@ export class AdminOrders implements OnInit {
               : order
             )
           )
+          this.toastService.success('Order status updated successfully.');
+          this.updatingStatus.set(false);
           this.errorMessage.set('');
         },
         error: (error) => {
           this.errorMessage.set('Failed to update the order status. Please try again.');
+
+          this.toastService.error('Failed to update the order status. Please try again.');
+          this.updatingStatus.set(false);
         }
       })
   }
