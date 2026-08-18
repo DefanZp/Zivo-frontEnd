@@ -197,6 +197,65 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Payment detail -->
+                        
+                        <div class="bg-white border border-ink-200 rounded-2xl overflow-hidden mt-8">
+
+                            <div class="px-6 py-5 border-b border-ink-100">
+                                <h2 class="heading-20s text-ink-950">
+                                    Payment Information
+                                </h2>
+
+                                <p class="paragraph-12r text-ink-500 mt-1">
+                                    Details of your payment method and status
+                                </p>
+                            </div>
+
+                            <div class="p-6">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-ink-100 flex items-center justify-center shrink-0">
+                                        <svg
+                                            class="w-5 h-5 text-ink-600"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="1.8"
+                                                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="paragraph-12r text-ink-500">
+                                            Payment Method
+                                        </p>
+                                        <p class="paragraph-14s text-ink-950 capitalize mt-0.5">
+                                            {{ order()?.payment?.payment_method }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5 pt-5 border-t border-ink-100 space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="paragraph-14r text-ink-500">Payment Status</span>
+                                        <span class="label-12m uppercase px-2.5 py-1 rounded-full bg-ink-100 text-ink-900">
+                                            {{ order()?.payment?.payment_status }}
+                                        </span>
+                                    </div>
+
+                                    <div class="flex justify-between items-center pt-2 border-t border-ink-100">
+                                        <span class="paragraph-14r text-ink-700 font-medium">Total Amount</span>
+                                        <span class="heading-20s text-ink-950">
+                                            {{ order()?.payment?.amount ? (+order()!.payment.amount | currency:'IDR ':'symbol':'1.0-0') : 'Rp 0' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 

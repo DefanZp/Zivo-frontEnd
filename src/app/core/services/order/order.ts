@@ -35,6 +35,12 @@ export class Order {
     return this.http.get<ApiResponse<OrderModel>>
     (`${this.apiUrl}/orders/${id}`);
   }
+
+  // Admin dan user bisa akses
+  cancelOrder(id: number) {
+    return this.http.patch<ApiResponse<OrderModel>>
+    (`${this.apiUrl}/admin/orders/${id}`, {status: 'cancelled'});
+  }
   
   // Admin section
   getOrders(params: GetOrdersParams) {

@@ -1,5 +1,6 @@
 import { OrderItem } from "./order-item.model";
 import { User } from "../auth/user.model"
+import { Payment } from "../payment/payment.model";
 
 
 export interface Order {
@@ -38,5 +39,7 @@ export interface Order {
     user: User;
 
     items: OrderItem[];
+
+    payment: Payment;
 }
 

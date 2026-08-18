@@ -76,6 +76,40 @@
                     </div>
                 </div>
 
+                <div class="mt-8">
+                    <h2 class="text-2xl font-semibold mb-4">
+                        Payment Information
+                    </h2>
+
+                    <div class="space-y-2">
+
+                        <p>
+                            <span class="font-medium">
+                                Payment Method:
+                            </span>
+
+                            {{ order()?.payment?.payment_method }}
+                        </p>
+
+                        <p>
+                            <span class="font-medium">
+                                Payment Status:
+                            </span>
+
+                            {{ order()?.payment?.payment_status }}
+                        </p>
+
+                        <p>
+                            <span class="font-medium">
+                                Payment Amount:
+                            </span>
+
+                            {{ +order()!.payment.amount | currency:'IDR ':'symbol':'1.0-0' }}
+                        </p>
+
+                    </div>
+                </div>
+
                 <select
                     [value]="order()!.status"
                     [disabled]="updatingStatus()"
