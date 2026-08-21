@@ -10,6 +10,8 @@ import { Address as AddressModel } from '../../../core/models/user-settings/addr
 import { Address } from '../../../core/services/address/address';
 import { LoadingButton } from '../../../shared/components/loading-button/loading-button';
 import { Loading } from '../../../shared/components/loading/loading';
+import { Payment as PaymentService } from '../../../core/services/payment/payment';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-checkout',
@@ -41,6 +43,9 @@ export class Checkout implements OnInit{
 
   cartItems = this.cartService.cartItems();
   cartTotal = this.cartService.cartTotal;
+
+  // section payment
+  paymentService = inject(PaymentService);
 
   private buildCheckoutItems (): CheckoutItem[] {
 
@@ -101,10 +106,11 @@ export class Checkout implements OnInit{
     this.selectedAddressId.set(addressId);
   }
 
-  submitCheckout(): void {
+  async submitCheckout(): Promise<void> {
 
     const addressId = this.selectedAddressId();
 
+    // Pastikan alamat sudah dipilih.
     if (!addressId) {
       this.toastService.error('Please select a shipping address');
       return;
@@ -113,21 +119,72 @@ export class Checkout implements OnInit{
     const request = this.buildCheckoutRequest(addressId);
 
     this.loading.set(true);
-    
-    this.checkoutService
-      .checkout(request)
-      .subscribe({
-        next: () => {
-          this.loading.set(false);
-          this.toastService.success('Checkout successful!');
-          this.cartService.clearCart();
-          this.router.navigate(['/']);
-        }, 
-        error: () => {
-          this.errorMessage.set('An error occurred during checkout.');
-          this.loading.set(false);
-        }
-      });
+    this.errorMessage.set('');
+
+    try {
+
+      // Buat order melalui backend.
+      const response = await firstValueFrom(
+        this.checkoutService.checkout(request)
+      );
+
+      // Ambil payment ID dari order yang baru dibuat.
+      const paymentId = response.data.payment.id;
+
+      // Buka pembayaran Midtrans.
+      await this.openPayment(paymentId);
+      
+
+    } catch (error) {
+
+      console.error(error);
+
+      this.errorMessage.set(
+        'An error occurred during checkout.'
+      );
+
+      this.loading.set(false);
+    }
+}
+
+  // open midtrans snap
+  async openPayment(paymentId: number): Promise<void> {
+
+    // ambil snap token dari backend
+    const response = await firstValueFrom(
+      this.paymentService.getSnapToken(paymentId)
+    );
+
+    // pastikan snap js sudah dimuat
+    await this.paymentService.loadSnapScript();
+
+    // open snap midtrans transaction
+    this.paymentService.openPayment(
+      response.data.snap_token,
+
+      // success
+      () => {
+        this.loading.set(false);
+        this.toastService.success('Payment submitted successfully');
+      },
+
+      // pending
+      () => {
+        this.loading.set(false);
+        this.toastService.success('Payment is still pending.');
+      },
+
+      // error
+      () => {
+        this.loading.set(false);
+        this.toastService.error('Payment failed. Please try again.');
+      },
+
+      // close
+      () => {
+        this.loading.set(false);
+      }
+    );
   }
 
   ngOnInit(): void {
