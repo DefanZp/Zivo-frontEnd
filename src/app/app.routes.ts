@@ -22,6 +22,7 @@ import { Addresses } from './features/user-settings/addresses/addresses';
 import { PaymentMethods } from './features/user-settings/payment-methods/payment-methods';
 import { OrderList } from './features/order/order-list/order-list';
 import { OrderDetail } from './features/order/order-detail/order-detail';
+import { PaymentResult } from './features/payment/payment-result/payment-result';
 
 export const routes: Routes = [
     {
@@ -144,6 +145,10 @@ export const routes: Routes = [
                 canActivate: [
                     adminGuard
                 ]
+            },
+            {
+                path: 'payment/result',
+                component: PaymentResult,
             },
         ]
     },
