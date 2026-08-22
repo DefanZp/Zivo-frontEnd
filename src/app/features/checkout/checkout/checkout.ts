@@ -150,41 +150,54 @@ export class Checkout implements OnInit{
   // open midtrans snap
   async openPayment(paymentId: number): Promise<void> {
 
-    // ambil snap token dari backend
-    const response = await firstValueFrom(
-      this.paymentService.getSnapToken(paymentId)
-    );
+    try {
+      // ambil snap token dari backend
+      const response = await firstValueFrom(
+        this.paymentService.getSnapToken(paymentId)
+      );
 
-    // pastikan snap js sudah dimuat
-    await this.paymentService.loadSnapScript();
+      // pastikan snap js sudah dimuat
+      await this.paymentService.loadSnapScript();
 
-    // open snap midtrans transaction
-    this.paymentService.openPayment(
-      response.data.snap_token,
+      // open snap midtrans transaction
+      this.paymentService.openPayment(
+        response.data.snap_token,
 
-      // success
-      () => {
-        this.loading.set(false);
-        this.toastService.success('Payment submitted successfully');
-      },
+        // success
+        () => {
+          this.loading.set(false);
+          this.toastService.success('Payment submitted. Your order is being processed.');
+          this.cartService.clearCart();
+          this.router.navigate([
+            'user/orders'
+          ]);
+        },
 
-      // pending
-      () => {
-        this.loading.set(false);
-        this.toastService.success('Payment is still pending.');
-      },
+        // pending
+        () => {
+          this.loading.set(false);
+          this.toastService.success('Payment is still pending.');
+          this.cartService.clearCart();
+          this.router.navigate([
+            'user/orders'
+          ])
+        },
 
-      // error
-      () => {
-        this.loading.set(false);
-        this.toastService.error('Payment failed. Please try again.');
-      },
+        // error
+        () => {
+          this.loading.set(false);
+          this.toastService.error('Payment failed. Please try again.');
+        },
 
-      // close
-      () => {
-        this.loading.set(false);
-      }
-    );
+        // close popup
+        () => {
+          this.loading.set(false);
+        }
+      );
+    }
+    catch (error) {
+      throw error;
+    }
   }
 
   ngOnInit(): void {
