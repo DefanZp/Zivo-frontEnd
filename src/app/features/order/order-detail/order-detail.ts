@@ -8,6 +8,7 @@ import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { Payment as PaymentService } from '../../../core/services/payment/payment';
 import { firstValueFrom } from 'rxjs';
 import { LoadingButton } from '../../../shared/components/loading-button/loading-button';
+import { HttpErrorResponse } from '@angular/common/http';
 
 type OrderStatus = | 'pending' | 'processing'  | 'completed' | 'cancelled';
 
@@ -184,6 +185,19 @@ export class OrderDetail implements OnInit{
     } catch (error) {
 
       console.log(error);
+
+      if (error instanceof HttpErrorResponse) {
+
+        const backendMessage = error.error?.errors?.payment?.[0];
+
+        this.paymentErrorMessage.set(
+          backendMessage ??
+          'Failed to start payment. Please try again.'
+        );
+
+        return;
+        
+      }
 
       this.paymentErrorMessage.set(
       'Failed to start payment. Please try again.'
