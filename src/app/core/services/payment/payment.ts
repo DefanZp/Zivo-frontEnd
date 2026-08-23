@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { ApiResponse } from '../../models/generic-interface/api-response.model';
 import { SnapToken } from '../../models/payment/snap-token.model';
+import { Payment as PaymentModel } from '../../models/payment/payment.model';
 
 @Injectable({
   providedIn: 'root',
@@ -71,4 +72,10 @@ export class Payment {
       onClose
     });
   }
-}
+
+  getPaymentByGatewayOrderId(gatewayOrderId: string) {
+    return this.http.get<ApiResponse<PaymentModel>>(
+      `${this.apiUrl}/payments/${gatewayOrderId}`
+    )
+  }
+} 
