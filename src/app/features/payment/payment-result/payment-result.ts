@@ -18,6 +18,8 @@ export class PaymentResult implements OnInit {
 
   getResultParams(): void {
     this.route.queryParams.subscribe(params => {
+
+      console.log('Payment result params:', params);
       this.orderId = params['order_id'] ?? '';
       this.transactionStatus = params['transaction_status'] ?? '';
     })
