@@ -5,9 +5,11 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Loading } from '../../../shared/components/loading/loading';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { EmptyState } from '../../../shared/components/empty-state/empty-state';
-import { StatusBadge } from '../../../shared/components/status-badge/status-badge';
+import { Payment as PaymentService } from '../../../core/services/payment/payment';
+import { firstValueFrom } from 'rxjs';
+import { LoadingButton } from '../../../shared/components/loading-button/loading-button';
 
-type OrderStatus = | 'pending' | 'processing' | 'shipped' | 'completed' | 'cancelled';
+type OrderStatus = | 'pending' | 'processing'  | 'completed' | 'cancelled';
 
 @Component({
   selector: 'app-order-detail',
@@ -17,6 +19,7 @@ type OrderStatus = | 'pending' | 'processing' | 'shipped' | 'completed' | 'cance
     EmptyState,
     DatePipe,
     RouterLink,
+    LoadingButton,
   ],
   templateUrl: './order-detail.html',
   styleUrl: './order-detail.css',
@@ -35,6 +38,12 @@ export class OrderDetail implements OnInit{
 
   // dapatkan order id 
   orderId = this.getOrderId();
+  
+  // payment section 
+  paymentService = inject(PaymentService);
+
+  // loading payment
+  paymentLoading = signal(false);
 
   private getOrderId(): number {
     return Number(
@@ -46,7 +55,6 @@ export class OrderDetail implements OnInit{
   statuses: OrderStatus[] = [
     'pending',
     'processing',
-    'shipped',
     'completed',
   ];
 
@@ -84,9 +92,6 @@ export class OrderDetail implements OnInit{
       case 'processing':
         return 'Processing';
 
-      case 'shipped':
-        return 'Shipped';
-
       case 'completed':
         return 'Completed';
 
@@ -114,6 +119,78 @@ export class OrderDetail implements OnInit{
           this.loading.set(false);
         }
       })
+  }
+
+  // fitur untuk user yang inginmembayar order yang unpaid
+  async payNow(): Promise<void> {
+
+    const payment = this.order()?.payment;
+
+    // pastikan payment tersedia
+    if (!payment) {
+      this.errorMessage.set('Payment information is not available.');
+      return;
+    }
+
+    // pastikan hanya payment unpaid yang bisa dibayar
+    if (payment.payment_status !== 'unpaid') {
+      return;
+    }
+
+    this.paymentLoading.set(true);
+    this.errorMessage.set('');
+
+    try {
+
+      // ambil snap token dari backend
+      const response = await firstValueFrom(
+        this.paymentService.getSnapToken(payment.id)
+      );
+
+      // pastikan snap js sudah dimuat
+      await this.paymentService.loadSnapScript();
+
+      // buka midtrans snap
+      this.paymentService.openPayment(
+          response.data.snap_token,
+
+          // Payment sudah success di sisi midtrans
+          () => {
+            this.paymentLoading.set(false);
+            this.loadOrder();
+          },
+
+          // Payment masih pending
+          () => {
+            this.paymentLoading.set(false);
+            this.loadOrder();
+          },
+
+          // Payment gagal
+          () => {
+            this.paymentLoading.set(false);
+            
+            this.errorMessage.set(
+              'Payment failed. Please try again.'
+            );
+          },
+
+          // User menutup pop up
+          () => {
+            this.paymentLoading.set(false);
+          }
+      )
+    } catch (error) {
+
+      console.log(error);
+
+      this.errorMessage.set(
+      'Failed to start payment. Please try again.'
+      );
+
+    } finally {
+      this.paymentLoading.set(false);
+    }
   }
 
   ngOnInit(): void {

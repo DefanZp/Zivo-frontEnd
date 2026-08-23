@@ -3,12 +3,14 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Payment } from '../../../core/services/payment/payment';
 import { firstValueFrom } from 'rxjs';
 import { Payment as PaymentModel } from '../../../core/models/payment/payment.model';
+import { Loading } from '../../../shared/components/loading/loading';
 
 
 @Component({
   selector: 'app-payment-result',
   imports: [
     RouterLink,
+    Loading,
   ],
   templateUrl: './payment-result.html',
   styleUrl: './payment-result.css',
