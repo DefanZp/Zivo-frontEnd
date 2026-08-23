@@ -44,6 +44,7 @@ export class OrderDetail implements OnInit{
 
   // loading payment
   paymentLoading = signal(false);
+  paymentErrorMessage = signal('');
 
   private getOrderId(): number {
     return Number(
@@ -128,7 +129,7 @@ export class OrderDetail implements OnInit{
 
     // pastikan payment tersedia
     if (!payment) {
-      this.errorMessage.set('Payment information is not available.');
+      this.paymentErrorMessage.set('Payment information is not available.');
       return;
     }
 
@@ -170,7 +171,7 @@ export class OrderDetail implements OnInit{
           () => {
             this.paymentLoading.set(false);
             
-            this.errorMessage.set(
+            this.paymentErrorMessage.set(
               'Payment failed. Please try again.'
             );
           },
@@ -184,7 +185,7 @@ export class OrderDetail implements OnInit{
 
       console.log(error);
 
-      this.errorMessage.set(
+      this.paymentErrorMessage.set(
       'Failed to start payment. Please try again.'
       );
 

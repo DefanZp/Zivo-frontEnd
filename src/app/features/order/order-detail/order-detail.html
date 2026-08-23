@@ -257,6 +257,13 @@
 
                                 @if (order()?.payment?.payment_status === 'unpaid') {
                                     <div class="pt-4 border-t border-zinc-100">
+
+                                        @if (paymentErrorMessage()) {
+                                            <p class="paragraph-12r text-red-600 mb-3">
+                                                {{ paymentErrorMessage() }}
+                                            </p>
+                                        }
+
                                         <app-loading-button
                                             [loading]="paymentLoading()"
                                             [text]="'Pay Now'"
