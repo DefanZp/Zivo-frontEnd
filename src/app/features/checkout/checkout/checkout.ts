@@ -131,6 +131,14 @@ export class Checkout implements OnInit{
       // Ambil payment ID dari order yang baru dibuat.
       const paymentId = response.data.payment.id;
 
+      // Order berhasil dibuat.
+      this.toastService.success(
+        'Order created successfully. Opening payment...'
+      );
+
+      // order sudah berhasil dibuat bersihkan cart
+      this.cartService.clearCart();
+
       // Buka pembayaran Midtrans.
       await this.openPayment(paymentId);
       
@@ -167,7 +175,6 @@ export class Checkout implements OnInit{
         () => {
           this.loading.set(false);
           this.toastService.success('Payment submitted. Your order is being processed.');
-          this.cartService.clearCart();
           this.router.navigate([
             'user/orders'
           ]);
@@ -177,7 +184,6 @@ export class Checkout implements OnInit{
         () => {
           this.loading.set(false);
           this.toastService.success('Payment is still pending.');
-          this.cartService.clearCart();
           this.router.navigate([
             'user/orders'
           ])
