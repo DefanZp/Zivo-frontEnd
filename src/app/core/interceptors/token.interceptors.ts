@@ -8,15 +8,18 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
     const token = authService.currentToken();
 
-    if (!token) {
-        return next(req);
+    // untuk mengatasi cors ngrok karena menggunakan laptop sebagai server
+    const headers: Record<string, string> = {
+        'ngrok-skip-browser-warning': 'true'
+    };
+
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
     }
 
-    const requestWithToken = req.clone({
-        setHeaders: {
-            Authorization: `Bearer ${token}`
-        }
-    })
+    const request = req.clone({
+        setHeaders: headers
+    });
 
-    return next(requestWithToken);
+    return next(request);
 }
