@@ -1,5 +1,5 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://subplot-half-pantomime.ngrok-free.dev/api',
+    apiUrl: 'https://api.zivoapp.cloud/api',
     midtransClientKey: 'Mid-client-PAc2AcatsLiZUXCn'
 };
